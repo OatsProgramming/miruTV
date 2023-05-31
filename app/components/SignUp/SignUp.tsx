@@ -16,7 +16,7 @@ export default function SignUp() {
         
         try {
             const res = await fetch('/api/user', {
-                method: 'DELETE',
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },

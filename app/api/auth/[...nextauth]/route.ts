@@ -6,7 +6,6 @@ import prismadb from '@/lib/prismadb'
 import { compare } from 'bcrypt';
 
 // export this so we can use later for getServerSession or whatnot
-// Apparently it will make its own form with it's own design?
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prismadb),
     session: {

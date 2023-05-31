@@ -17,3 +17,8 @@ type UserSession = {
     username: string,
     favIds: Anime[]
 }
+
+type UrlStore = {
+    url: string,
+    setUrl: (url: UrlStore['url']) => void,
+}
