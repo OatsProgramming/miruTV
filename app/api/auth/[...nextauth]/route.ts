@@ -51,14 +51,15 @@ export const authOptions: NextAuthOptions = {
 
                 return {
                     id: user.id,
-                    username: user.username
+                    username: user.username,
+                    favIds: user.favIds
                 };
             }
         })
     ],
     callbacks: {
         session: ({ session, token }) => {
-            console.log("Session Callback", { session, token });
+            // console.log("Session Callback", { session, token });
             return {
                 ...session,
                 user: {
@@ -68,7 +69,7 @@ export const authOptions: NextAuthOptions = {
             };
         },
         jwt: ({ token, user }) => {
-            console.log("JWT Callback", { token, user })
+            // console.log("JWT Callback", { token, user })
             if (user) {
                 return {
                     ...token,
