@@ -1,4 +1,5 @@
 import { compare } from "bcrypt"
+import prismadb from "./prismadb"
 
 export default async function validateUserRequest(req: Request) {
     try {
