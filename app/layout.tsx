@@ -1,5 +1,5 @@
 import { getServerSession } from 'next-auth'
-import { SignIn, SignOut } from './components/Buttons/Buttons'
+import { SignIn, SignOut } from './components/AuthBtns/AuthBtns'
 import './globals.css'
 import { authOptions } from './api/auth/[...nextauth]/route'
 import Link from 'next/link'

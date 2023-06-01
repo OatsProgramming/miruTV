@@ -22,3 +22,9 @@ type UrlStore = {
     url: string,
     setUrl: (url: UrlStore['url']) => void,
 }
+
+type Sesh = {
+    user: {
+        id: string
+    }
+}
