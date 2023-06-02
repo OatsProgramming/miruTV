@@ -1,0 +1,122 @@
+/* 
+    Prevent dialog element from breaking by setting display 
+    only on open
+*/
+.container[open] {
+    display: flex;
+    align-items: center;
+}
+
+.container {
+   margin: auto;
+   width: 80vw;
+   aspect-ratio: 4 / 3;
+   overflow: hidden;
+   gap: 1rem;
+   max-width: 720px;
+   border-radius: 20px;
+   border: 0;
+   background-color: rgb(21,21,21);
+}
+
+.container::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.details {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+}
+
+
+.form,
+.details {
+    width: 50%;
+    height: 100%;
+}
+
+.details i {
+    opacity: 0.5;
+}
+
+.textTwo > div:first-child {
+    margin-bottom: 2rem;
+}
+
+.form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* border: 1px solid yellow; */
+    gap: 1.5rem;
+}
+
+.form img {
+    width: 70%;
+    aspect-ratio: 1 / 1;
+}
+
+.textField {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.textField label {
+    position: absolute;
+    opacity: 0.5;
+    padding-left: 10px;
+    z-index: -1;
+    transition: translate 200ms ease;
+}
+
+.textField input {
+    background-color: transparent;
+    border: 0;
+    box-shadow: inset 0 0 10px 1px rgba(0, 0, 0, 0.5);
+    padding: 1rem;
+}
+.textField input:focus {
+    outline: none;
+}
+
+.textField input:focus+label,
+.textField input:not(:placeholder-shown)+label {
+    opacity: 1;
+    translate: 0 -1.5em;
+    z-index: 1;
+
+}
+
+
+@media screen and (max-width: 640px) {
+    .container {
+        flex-direction: column;
+        aspect-ratio: 4 / 5;
+    }
+
+    .form > img,
+    .details > span:first-child {
+        display: none;
+    }
+
+    .details {
+        text-align: center;
+    }
+
+    .textTwo > div:first-child {
+        font-size: x-large;
+    }
+
+    .textTwo > div:last-child {
+        font-size: small;
+    }
+
+    .form,
+    .details {
+        width: 100%;
+    }
+}

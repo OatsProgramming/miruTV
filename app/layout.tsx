@@ -3,14 +3,16 @@ import { SignIn, SignOut } from './components/AuthBtns/AuthBtns'
 import './globals.css'
 import { authOptions } from './api/auth/[...nextauth]/route'
 import Link from 'next/link'
-import { Nunito} from 'next/font/google'
+import { Nunito } from 'next/font/google'
+import SignUp from './components/SignUp/SignUp'
+
 
 export const metadata = {
   title: 'Miru TV',
   description: 'Just Anime. No pop ups. No VPN required.',
 }
 
-const nunito = Nunito({ 
+const nunito = Nunito({
   subsets: ['latin'],
   weight: '700'
 })
@@ -28,9 +30,17 @@ export default async function RootLayout({
           display: 'flex',
           gap: '1rem'
         }}>
-          <SignIn />
-          <SignOut />
-          <div>{JSON.stringify(session)}</div>
+          {session ? (
+            <>
+              <SignOut />
+              <div>{JSON.stringify(session)}</div>
+            </>
+          ) : (
+            <>
+              <SignIn />
+              <SignUp />
+            </>
+          )}
           <Link href='/'>HOME</Link>
           <Link href='/one'>ONE</Link>
           <Link href='/two'>TWO</Link>
