@@ -108,20 +108,23 @@ type AnimeSourcePlain = {
     "subtitle": boolean
 }
 
-type AnimeRecent = AnimeEpisode & {
-    sources: AnimeSourcePlain
-}
+// type AnimeRecent = AnimeEpisode & {
+//     sources: AnimeSourcePlain
+// }
 
+/**
+ * "id" here is episode id
+ */
 type AnimeRecent = {
     "id": string,
     "anime": AnimeXL,
     "number": number,
     "title": string,
-    "titleVariations": TitleVariationsSML
+    "titleVariations"?: TitleVariationsSML,
     "description": string,
     "image"?: string,
     "airedAt": string,
-    "sources": AnimeSourcPlain[]
+    "sources": AnimeSourcePlain[]
 }
 
 type AnimeEpisode = {
@@ -152,7 +155,10 @@ type EnimeSearch = Pick<EnimeRecent, 'meta'> & {
     data: AnimeXL
 }
 
-type EnimePopular = AnimeXL[]
+type EnimePopular = {
+    data: AnimeXL[],
+    meta: AnimeMetaData
+}
 
 type EnimeEpisode = AnimeRecent & {
     anime: AnimeSML,
