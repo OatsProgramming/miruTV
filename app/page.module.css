@@ -1,0 +1,8 @@
+.animeList {
+    display: flex;
+    border: 1px solid red;
+    height: 100vh;
+    /* flex-wrap: wrap; */
+    overflow-x: scroll;
+    gap: 1rem;
+}
