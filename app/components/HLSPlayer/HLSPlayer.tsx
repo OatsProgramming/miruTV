@@ -1,11 +1,12 @@
 'use client'
 
-import getSource from '@/lib/fetchers/getSource'
+import enimeFetcher from '@/lib/fetchers/enimeFetcher'
 import Player from '@oplayer/core'
 import type { PlayerPlugin } from '@oplayer/core'
 import ui from '@oplayer/ui'
 import type { UiConfig } from '@oplayer/ui'
 import { useEffect, useRef, useState } from 'react'
+
 
 export default function HLSPlayer({ sources, poster }: {
     sources: AnimeSourcePlain[],
@@ -26,8 +27,8 @@ export default function HLSPlayer({ sources, poster }: {
                     value: source.id
                 })),
                 onChange: ({ value }) => {
-                    getSource(value)
-                        .then(res => setSrc(res?.url ?? ''))
+                    enimeFetcher({ route: 'source', arg: value })
+                        .then((res: EnimeSourceHSL) => setSrc(res?.url ?? ''))
                         .catch(err => console.error(err))
                 }
             }
@@ -36,14 +37,15 @@ export default function HLSPlayer({ sources, poster }: {
 
     // Set initial src
     useEffect(() => {
-        getSource(sources[0].id)
-            .then(res => setSrc(res?.url ?? ''))
+        enimeFetcher({ route: 'source', arg: sources[0].id })
+            .then((res: EnimeSourceHSL) => setSrc(res?.url ?? ''))
             .catch(err => console.error(err))
     }, [])
 
     // Create hlsPlayer
     useEffect(() => {
         const div = divRef.current
+        if (!div) return
         import('@/lib/hslPlayer/hls')
             .then(mod => setHls(mod.default))
             .then(_ => {
@@ -59,6 +61,7 @@ export default function HLSPlayer({ sources, poster }: {
         const hlsPlayer = player.current
         if (!hlsPlayer || !src) return
         hlsPlayer.changeSource({ src })
+            .catch(err => console.error(err))
     }, [src])
 
     return (

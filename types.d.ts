@@ -178,3 +178,21 @@ type EnimeSourceHSL = {
     "website": string
 }
 // Enime API Types (END)
+
+type EnimeRoute = 
+{
+  route: 'popular' | 'recent'
+} | {
+  route: 'anime' | 'episode' | 'search' | 'source',
+  arg: string,
+} | {
+  route: 'mapping' | 'view',
+  arg1: string,
+  arg2: string,
+}
+
+type ParamsArr = {
+    params: {
+        slug: string[]
+    }
+}
