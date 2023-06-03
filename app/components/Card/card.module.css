@@ -1,11 +1,16 @@
 .card {
     display: flex;
     flex-direction: column;
-    width: 100px;
-    height: 300px;
+    width: clamp(100px, 50vw, 250px);
+    aspect-ratio: 4 / 5;
+    margin-bottom: 1rem;
+    border: 1px solid yellow;
 }
 
 .card > img {
     object-fit: contain;
     object-position: center;
+    border: 1px solid green;
+    aspect-ratio: 98 / 138;
 }
+
