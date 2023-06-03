@@ -1,17 +1,13 @@
 import styles from './page.module.css'
-import FavId from './components/FavId/FavId'
-import HLSPlayer from './components/HLSPlayer/HLSPlayer'
 import Card from './components/Card/Card'
-import recentsToy from '@/lib/toyData/recentsToy'
-import getPopular from '@/lib/fetchers/getPopular'
-import getRecents from '@/lib/fetchers/getRecents'
+import enimeFetcher from '@/lib/fetchers/enimeFetcher'
 
 export default async function Home() {
-  // const recents = await getRecents()
-  const recentRes = getRecents()
-  const popularRes = getPopular()
+  const recentRes = enimeFetcher({ route: 'recent'}) 
+  const popularRes = enimeFetcher({ route: 'popular'})
 
-  const [recents, popular] = await Promise.all([recentRes, popularRes])
+  const [recents, popular] = 
+    await Promise.all([recentRes, popularRes])
 
   const recentList = recents ? recents.data : []
   const popularList = popular ? popular.data : []

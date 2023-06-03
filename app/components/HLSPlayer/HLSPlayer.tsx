@@ -28,7 +28,7 @@ export default function HLSPlayer({ sources, poster }: {
                 })),
                 onChange: ({ value }) => {
                     enimeFetcher({ route: 'source', arg: value })
-                        .then((res: EnimeSourceHSL) => setSrc(res?.url ?? ''))
+                        .then(res => setSrc(res?.url ?? ''))
                         .catch(err => console.error(err))
                 }
             }
@@ -38,7 +38,7 @@ export default function HLSPlayer({ sources, poster }: {
     // Set initial src
     useEffect(() => {
         enimeFetcher({ route: 'source', arg: sources[0].id })
-            .then((res: EnimeSourceHSL) => setSrc(res?.url ?? ''))
+            .then(res => setSrc(res?.url ?? ''))
             .catch(err => console.error(err))
     }, [])
 

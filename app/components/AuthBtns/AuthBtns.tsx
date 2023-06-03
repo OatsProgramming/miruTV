@@ -13,7 +13,6 @@ export function SignIn() {
             .then(_ => setUrl(window.location.href))
             .catch(_ => setUrl(''))
     }
-    console.log(url)
     return (
         <button onClick={handleSignIn}>
             Sign in

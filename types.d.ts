@@ -191,6 +191,17 @@ type EnimeRoute =
   arg2: string,
 }
 
+type EnimeReturnTypes = {
+    popular: EnimePopular,
+    recent: EnimeRecent,
+    anime: EnimeAnime,
+    episode: EnimeEpisode,
+    search: EnimeSearch,
+    source: EnimeSourceHSL,
+    mapping: EnimeMapping,
+    view: EnimeView
+  }
+
 type ParamsArr = {
     params: {
         slug: string[]
