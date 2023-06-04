@@ -8,7 +8,7 @@ async function handleSubmit(e: FormEvent) {
     e.preventDefault()
     const form = e.target as HTMLFormElement
     const formData = new FormData(form)
-    const data = {
+    const data: UserRequest = {
         username: formData.get('username'),
         password: formData.get('password'),
     } as UserRequest
@@ -79,11 +79,11 @@ export default function SignUp() {
                         alt=''
                     />
                     <div className={styles['textField']}>
-                        <input type="text" name='username' placeholder="" />
+                        <input type="text" name='username' placeholder="" required/>
                         <label htmlFor="username">Username</label>
                     </div>
                     <div className={styles['textField']}>
-                        <input type="password" name='password' placeholder="" />
+                        <input type="password" name='password' placeholder="" required/>
                         <label htmlFor="password">Password</label>
                     </div>
                     <div className={styles['btns']}>

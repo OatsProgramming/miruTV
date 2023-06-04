@@ -5,8 +5,7 @@ export default async function Page({ params: { sourcesJSON } }: {
         sourcesJSON: string,
     }
 }) {
-    const sources = JSON.parse(decodeURIComponent(sourcesJSON))
-    
+    const sources: AnimeSourcePlain[] = JSON.parse(decodeURIComponent(sourcesJSON))
     return (
         <div>
             <HLSPlayer
