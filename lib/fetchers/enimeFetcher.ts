@@ -11,7 +11,10 @@ export default async function enimeFetcher<EnimeRouteT extends EnimeRoute>(
     const routeArr = Object.values(route)
     const joinedRoute = routeArr.join('/')
     // For some reason, fetch sometimes need the domain and sometimes it doesnt...?
-    const url = process.env.NEXTAUTH_URL + '/api/enime/' + joinedRoute
+    const url =
+      'http://localhost:3000'
+      + '/api/enime/'
+      + joinedRoute
 
     const res = await fetch(url)
 
