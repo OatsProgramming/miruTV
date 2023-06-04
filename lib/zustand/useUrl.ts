@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+import { persist, createJSONStorage } from 'zustand/middleware'
 
 /**
  * To ensure signing out works anywhere in the site. With NextAuth, user can't sign out
@@ -11,7 +11,9 @@ const useUrl = create<UrlStore>()(
         url: '',
         setUrl: (url) => set({ url })
     }), {
-        name: 'url-store'
+        name: 'url-store',
+        // Make sure store gets deleted as soon as client closes
+        storage: createJSONStorage(() => sessionStorage)
     })
 )
 
