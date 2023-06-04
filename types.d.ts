@@ -167,7 +167,11 @@ type EnimeEpisode = AnimeRecent & {
 
 type EnimeView = EnimeEpisode
 
-type EnimeAnime = Exclude<AnimeRecent, 'anime'>[]
+type EnimeAnime = AnimeXL & {
+    episodes: (Exclude<AnimeEpisode, 'animeId'> & {
+        sources: AnimeSourcePlain[]
+    })[]
+}
 
 type EnimeSourceHSL = {
     "id": string,
@@ -206,4 +210,16 @@ type ParamsArr = {
     params: {
         slug: string[]
     }
+}
+
+type InfoCard = {
+    animeId: string,
+    animeTitle: string,
+    coverImg: string,
+}
+
+type EpCardRequirments = {
+    title: string,
+    number: number,
+    sources: AnimeSourcePlain[]
 }

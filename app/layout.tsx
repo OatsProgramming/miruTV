@@ -42,8 +42,6 @@ export default async function RootLayout({
             </>
           )}
           <Link href='/'>HOME</Link>
-          <Link href='/one'>ONE</Link>
-          <Link href='/two'>TWO</Link>
         </div>
         {children}
       </body>

@@ -1,19 +1,25 @@
 import Link from 'next/link'
 import styles from './card.module.css'
+/**
+ * 
+ * If given epInfo, Card type change as a whole
+ * 
+ */
 
-export default function Card({ coverImg, animeTitle, epTitle, epNumber, sources, animeId }: {
-    coverImg: string,
-    animeTitle: string,
-    epTitle?: string,
-    epNumber?: number,
-    // recentList
-    sources?: AnimeSourcePlain[],
-    // popularList
-    animeId?: string,
+export default function Card({ info, epInfo, isLandScape }: {
+    info: InfoCard,
+    epInfo?: EpCardRequirments,
+    isLandScape?: true
 }) {
-    const sourcesJSON = encodeURIComponent(JSON.stringify(sources))
-    const link = sources ? `/watch/${sourcesJSON}` : `/`
+    const { animeId, animeTitle, coverImg } = info
+    let link = `/info/${animeId}`
 
+    if (epInfo) {
+        const { sources } = epInfo
+        const sourcesJSON = encodeURIComponent(JSON.stringify(sources))
+        link = `/watch/${animeId}/${animeTitle}/${sourcesJSON}`
+    }
+    
     return (
         <Link href={link}>
             <div className={styles['card']}>
@@ -21,8 +27,8 @@ export default function Card({ coverImg, animeTitle, epTitle, epNumber, sources,
                     loading='lazy'
                     src={coverImg}
                 />
-                {epNumber && (
-                    <h3>EP {epNumber}: {epTitle ?? 'N/A'}</h3>
+                {epInfo && (
+                    <h3>EP {epInfo.number}: {epInfo.title ?? 'N/A'}</h3>
                 )}
                 <h2>{animeTitle}</h2>
             </div>
