@@ -15,11 +15,12 @@ export async function generateMetadata({ params: { animeId, epNumber } }: {
     if (!anime) throw new Error("Anime not found")
 
     const episodes = anime.episodes
-    const curEp = episodes.find(ep => ep.number === Number(epNumber))
+    const curEp = episodes.find((_, idx) => (idx + 1) === Number(epNumber))
+    if (!curEp) throw new Error("Episode not found")
 
     return {
         title: `Watch now: ${anime.title.english} ${curEp?.title}`,
-        description: curEp?.description
+        description: curEp.description
     }
 }
 
@@ -49,17 +50,17 @@ export default async function Page({ params: { animeId, epNumber, sourcesJSON } 
                 <h2>{anime?.title.english}</h2>
                 <HLSPlayer
                     sources={sources}
-                    poster={episodes ? episodes[0].image : ''}
+                    poster={curEp.image}
                 />
             </div>
             <div className={styles['episodes']}>
                 {episodes && (
-                    episodes.map(ep => (
+                    episodes.map((ep, idx) => (
                         <div
                             key={ep.id}
                             className={`
                                 ${styles['card']}
-                                ${ep.number === Number(epNumber) && styles['selected']}
+                                ${(idx + 1) === Number(epNumber) && styles['selected']}
                             `}
                         >
                             <Card

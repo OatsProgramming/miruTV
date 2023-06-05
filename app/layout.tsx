@@ -29,12 +29,13 @@ export default async function RootLayout({
       <body className={nunito.className}>
         <div style={{
           display: 'flex',
-          gap: '1rem'
+          gap: '1rem',
+          flexWrap: 'wrap',
         }}>
           {session ? (
             <>
               <SignOut />
-              <div>{JSON.stringify(session)}</div>
+              <div>{JSON.stringify(session.user)}</div>
             </>
           ) : (
             <>
