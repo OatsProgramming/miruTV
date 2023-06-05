@@ -1,7 +1,7 @@
 'use client'
 import { PointerEvent, useRef } from 'react'
 import styles from './addComment.module.css'
-import useComments from '../useComments'
+import useComments from '../hooks/useComments'
 import type { Comment } from '@prisma/client'
 
 
