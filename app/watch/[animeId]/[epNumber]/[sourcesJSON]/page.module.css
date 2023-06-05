@@ -1,0 +1,45 @@
+.episodes {
+    display: flex;
+    overflow: scroll;
+    gap: 1rem;
+}
+
+.card {
+    opacity: 0.5;
+    transition: all 200ms ease;
+}
+
+.card:hover {
+    opacity: 1
+}
+
+.selected {
+    opacity: 1;
+}
+
+
+@media screen and (min-width: 720px) {
+    .container {
+        display: grid;
+        grid-template-areas: 
+            "content episodes"
+            "commentsSection episodes"
+        ;
+        gap: 1rem;
+    }
+
+    .commentsSection {
+        grid-area: commentsSection;
+    }
+
+    .content {
+        grid-area: content;
+    }
+
+    .episodes {
+        grid-area: episodes;
+        flex-direction: column-reverse;
+        height: 100vh;
+        padding: 1rem;
+    }
+}

@@ -15,14 +15,14 @@ export default function Card({ info, epInfo, isLandScape }: {
     let link = `/info/${animeId}`
 
     if (epInfo) {
-        const { sources } = epInfo
+        const { sources, number } = epInfo
         const sourcesJSON = encodeURIComponent(JSON.stringify(sources))
-        link = `/watch/${animeId}/${animeTitle}/${sourcesJSON}`
+        link = `/watch/${animeId}/${number}/${sourcesJSON}`
     }
     
     return (
         <Link href={link}>
-            <div className={styles['card']}>
+            <div className={`${styles['card']} ${isLandScape && styles['epCard']}`}>
                 <img
                     loading='lazy'
                     src={coverImg}
@@ -30,7 +30,7 @@ export default function Card({ info, epInfo, isLandScape }: {
                 {epInfo && (
                     <h3>EP {epInfo.number}: {epInfo.title ?? 'N/A'}</h3>
                 )}
-                <h2>{animeTitle}</h2>
+                {!isLandScape && <h2>{animeTitle}</h2>}
             </div>
         </Link>
     )

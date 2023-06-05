@@ -29,7 +29,7 @@ export default function HLSPlayer({ sources, poster }: {
                     value: source.id
                 })),
                 onChange: ({ value }) => {
-                    enimeFetcher({ route: 'source', arg: value })
+                    enimeFetcherToy({ route: 'source', arg: value })
                         .then(res => setSrc(res?.url ?? ''))
                         .catch(err => console.error(err))
                 }
@@ -39,7 +39,7 @@ export default function HLSPlayer({ sources, poster }: {
 
     // Set initial src && lazy load hls
     useEffect(() => {
-        enimeFetcher({ route: 'source', arg: sources[0].id })
+        enimeFetcherToy({ route: 'source', arg: sources[0].id })
             .then(res => setSrc(res?.url ?? ''))
             .catch(err => console.error(err))
         import('@/lib/hslPlayer/hls')
@@ -55,7 +55,7 @@ export default function HLSPlayer({ sources, poster }: {
         if (!player) {
             // Also avoid infinite loop
             setPlayer(_ =>
-                Player.make(div, { source: { src } })
+                Player.make(div, { source: { src, poster } })
                     .use([ui(uiOptions), hls])
                     .create()
             )

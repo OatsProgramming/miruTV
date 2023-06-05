@@ -4,13 +4,23 @@
     width: clamp(100px, 50vw, 250px);
     aspect-ratio: 4 / 5;
     margin-bottom: 1rem;
-    border: 1px solid yellow;
 }
 
 .card > img {
     object-fit: contain;
     object-position: center;
-    border: 1px solid green;
     aspect-ratio: 98 / 138;
+}
+
+.epCard {
+    border: 2px solid black;
+    aspect-ratio: 2 / 1;
+    padding: 1rem;
+    background-color: #151515;
+    border-radius: 10px;
+}
+
+.epCard > img {
+    aspect-ratio: 640 / 360;
 }
 
