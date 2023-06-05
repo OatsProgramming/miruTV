@@ -36,6 +36,9 @@ export const authOptions: NextAuthOptions = {
                 const user = await prismadb.user.findUnique({
                     where: {
                         username: credentials.username
+                    },
+                    include: {
+                        favIds: true
                     }
                 })
 
@@ -64,6 +67,7 @@ export const authOptions: NextAuthOptions = {
                 user: {
                     ...session.user,
                     id: token.id,
+                    favId: token.favIds
                 },
             };
         },

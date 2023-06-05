@@ -11,8 +11,10 @@ export async function POST(req: Request) {
             data: {
                 username,
                 hashedPassword,
-                favIds: []
-            }
+                favIds: {
+                    create: []
+                }
+            },
         })
 
         return new Response(JSON.stringify({ username, password }), { status: 200 })
