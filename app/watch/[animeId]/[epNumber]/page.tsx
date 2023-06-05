@@ -3,7 +3,7 @@ import HLSPlayer from "@/app/components/HLSPlayer/HLSPlayer";
 import enimeFetcher from "@/lib/fetchers/enimeFetcher";
 import enimeFetcherToy from "@/lib/toyData/enimeFetcherToy";
 import styles from './page.module.css'
-import CommmentsSection from "@/app/components/commentsSection/CommentsSection";
+import CommentsSection from "@/app/components/commentsSection/CommentsSection";
 
 export async function generateMetadata({ params: { animeId, epNumber } }: {
     params: {
@@ -17,7 +17,7 @@ export async function generateMetadata({ params: { animeId, epNumber } }: {
     // Can just get it by index since it's already sorted
     const episodes = anime.episodes
     const epIdx = Number(epNumber) - 1
-    const curEp: AnimeEpisode | undefined = episodes[epIdx]
+    const curEp: AnimeEpisode = episodes[epIdx]
     // This should never happen btw if using the ui
     if (!curEp) throw new Error(`Episode ${epIdx} of ${anime.title.english} cannot be found.`)
 
@@ -37,12 +37,13 @@ export default async function Page({ params: { animeId, epNumber } }: {
     if (!anime) throw new Error("Anime not found")
 
     // Can just get it by index since it's already sorted
+    // Note to self: for some reason epNumber goes null sometimes while loading. reason unknown
     const episodes = anime.episodes
     const epIdx = Number(epNumber) - 1
     const curEp = episodes[epIdx]
     // This should never happen btw if using the ui
     if (!curEp) throw new Error(`Episode ${epIdx} of ${anime.title.english} cannot be found.`)
-    
+
     return (
         <div className={styles['container']}>
             <div className={styles['content']}>
@@ -80,7 +81,7 @@ export default async function Page({ params: { animeId, epNumber } }: {
                     ))
                 )}
             </div>
-            <CommmentsSection epId={curEp.id} />
+            <CommentsSection epId={curEp.id} />
         </div>
     )
 }

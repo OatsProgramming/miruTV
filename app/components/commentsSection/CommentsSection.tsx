@@ -3,7 +3,7 @@
 import styles from './commentsSection.module.css'
 import AddComment from './addComment/AddComment'
 import useComments from './hooks/useComments'
-import CommentsSkeleton from './CommentsSkeleton.tsx/CommentsSkeleton'
+import CommentsSkeleton from './CommentsSkeleton/CommentsSkeleton'
 
 export default function CommmentsSection({ epId }: {
     epId: string
@@ -20,14 +20,12 @@ export default function CommmentsSection({ epId }: {
             <div className={styles['comments']}>
                 {comments && comments.length > 0 ? (
                     comments.map(comment =>
-                        <>
-                            <div
-                                className={styles['comment']}
-                                key={comment.id}
-                            >
-                                {comment.body}
-                            </div>
-                        </>
+                        <div
+                            key={comment.id}
+                            className={styles['comment']}
+                        >
+                            {comment.body}
+                        </div>
                     )
                 ) : (
                     <div className={styles['comment']}>
