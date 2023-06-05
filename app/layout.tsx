@@ -5,6 +5,7 @@ import { authOptions } from './api/auth/[...nextauth]/route'
 import Link from 'next/link'
 import { Nunito } from 'next/font/google'
 import SignUp from './components/SignUp/SignUp'
+import FavId from './components/FavId/FavId'
 
 
 export const metadata = {
@@ -42,6 +43,7 @@ export default async function RootLayout({
             </>
           )}
           <Link href='/'>HOME</Link>
+          <FavId />
         </div>
         {children}
       </body>

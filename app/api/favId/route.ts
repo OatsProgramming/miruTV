@@ -1,59 +1,61 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/route";
 import prismadb from "@/lib/prismadb";
+import validateRequest from "./validateRequest";
+import handleError from "@/lib/handleError";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../auth/[...nextauth]/route";
 
-export async function PATCH(req: Request) {
-    try {
-        // Check if user signed in
-        const session = await getServerSession(authOptions) as Sesh
-        if (!session) return new Response("Please sign in.", { status: 401 })
+export async function GET(req: Request) {
+    try { 
+        const session = await getServerSession(authOptions)
+        if (!session) return new Response("User not signed in", { status: 401 })
 
-        const newFavId = await req.json()
-
-        // Append newFavId
-        await prismadb.user.update({
+        // Better to go thru user rather than favIds and match favIds with userId
+        // Most likely to have less users saved than favIds
+        const user = await prismadb.user.findFirst({ 
             where: { id: session.user.id },
-            data: {
-                favIds: {
-                    push: newFavId
-                }
+            include: {
+                favIds: true
             }
-        })
-
-        return new Response(JSON.stringify(newFavId), { status: 200 })
-
-    } catch (error) {
-        const err = error as Error
-        return new Response(err.message, { status: 500 })
-    }
-}
-
-export async function DELETE(req: Request) {
-    try {
-        // Check if user signed in
-        const session = await getServerSession(authOptions) as Sesh
-        if (!session) return new Response("Please sign in.", { status: 401 })
-
-        const removeId = await req.json()
-
-        // Find the user to overwrite favIds
-        const user = await prismadb.user.findUnique({
-            where: { id: session.user.id }
         })
 
         if (!user) return new Response("User not found", { status: 404 })
 
-        const newFavIds = user.favIds.filter((id) => id !== removeId)
+        return new Response(JSON.stringify(user.favIds), { status: 200 })
+        
+    } catch (err) {
+        return handleError(err)
+    }
+}
 
-        // Update favIds
+export async function POST(req: Request) {
+    try {
+        const res = await validateRequest(req)
+        if (res instanceof Response) return res
+
+        const { favId, userId } = res
+
         await prismadb.user.update({
-            where: { id: session.user.id },
+            // Specify the user
+            where: { id: userId },
             data: {
-                favIds: newFavIds
-            }
+                favIds: {
+                    upsert: {
+                        // Update if it exists
+                        where: { id: favId },
+                        update: {
+                            lastVisit: new Date().toISOString()
+                        },
+                        // Create if it doesnt
+                        create: {
+                            id: favId,
+                            lastVisit: new Date().toISOString()
+                        },
+                    }
+                }
+            },
         })
 
-        return new Response(JSON.stringify(removeId), { status: 200 })
+        return new Response(favId, { status: 200 })
 
     } catch (error) {
         const err = error as Error
@@ -61,3 +63,30 @@ export async function DELETE(req: Request) {
     }
 }
 
+
+
+export async function DELETE(req: Request) {
+    try {
+        const res = await validateRequest(req) 
+        if (res instanceof Response) return res
+
+        const { favId, userId } = res
+        
+        await prismadb.user.update({
+            // Specify the user
+            where: { id: userId },
+            data: {
+                // Only target the specified favId
+                favIds: {
+                    delete: { id: favId }
+                }
+            }
+        })
+        
+        return new Response(favId, { status: 200 })
+
+    } catch (error) {
+        const err = error as Error
+        return new Response(err.message, { status: 500 })
+    }
+}
