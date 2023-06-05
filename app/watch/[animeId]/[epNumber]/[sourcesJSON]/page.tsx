@@ -36,12 +36,16 @@ export default async function Page({ params: { animeId, epNumber, sourcesJSON } 
     if (!anime) throw new Error("Anime not found")
 
     const episodes = anime.episodes
-    const curEp = episodes.find(ep => ep.number === Number(epNumber))
+
+    // Use the index; it'll be quicker (create a binary search fn later: some animes have too many episodes)
+    // Add one to index since it always start at 0
+    const curEp = episodes.find((_, idx) => (idx + 1) === Number(epNumber))
+    if (!curEp) throw new Error("Current episode not found")
 
     return (
         <div className={styles['container']}>
             <div className={styles['content']}>
-                <h1>{curEp?.title}</h1>
+                <h1>{curEp.title}</h1>
                 <h2>{anime?.title.english}</h2>
                 <HLSPlayer
                     sources={sources}
@@ -75,7 +79,7 @@ export default async function Page({ params: { animeId, epNumber, sourcesJSON } 
                     ))
                 )}
             </div>
-            <CommmentsSection />
+            <CommmentsSection epId={curEp.id}/>
         </div>
     )
 }

@@ -223,3 +223,5 @@ type EpCardRequirments = {
     number: number,
     sources: AnimeSourcePlain[]
 }
+
+type Method = 'GET' | 'POST' | 'PATCH' | 'DELETE'
