@@ -53,21 +53,19 @@ export const authOptions: NextAuthOptions = {
 
                 return {
                     id: user.id,
-                    username: user.username,
-                    favIds: user.favIds
+                    name: user.username,
                 };
             }
         })
     ],
     callbacks: {
         session: ({ session, token }) => {
-            // console.log("Session Callback", { session, token });
             return {
                 ...session,
                 user: {
                     ...session.user,
-                    id: token.id,
-                    favId: token.favIds
+                    id: token.id ,
+                    name: token.name,
                 },
             };
         },
@@ -77,6 +75,7 @@ export const authOptions: NextAuthOptions = {
                 return {
                     ...token,
                     id: user.id,
+                    name: user.name,
                 }
             }
             return token
