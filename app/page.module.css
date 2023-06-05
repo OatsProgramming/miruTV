@@ -1,8 +1,13 @@
+.container {
+    display: grid;
+    gap: 1rem;
+}
+
 .animeList {
     display: flex;
-    border: 1px solid red;
-    height: 100vh;
+    /* border: 1px solid red; */
+    height: 100%;
     /* flex-wrap: wrap; */
     overflow-x: scroll;
-    gap: 1rem;
+    gap: 2.5rem;
 }
