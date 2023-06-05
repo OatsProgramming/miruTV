@@ -21,6 +21,7 @@
 
 
 .btns {
+    margin-top: 0.5rem;
     justify-content: right;
     display: none;
     opacity: 1;

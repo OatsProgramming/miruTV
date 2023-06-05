@@ -42,7 +42,7 @@ export default function HLSPlayer({ sources, poster }: {
         enimeFetcherToy({ route: 'source', arg: sources[0].id })
             .then(res => setSrc(res?.url ?? ''))
             .catch(err => console.error(err))
-        import('@/lib/hslPlayer/hls')
+        import('@/lib/hlsPlayer/hls')
             .then(mod => setHls(mod.default))
     }, [])
 

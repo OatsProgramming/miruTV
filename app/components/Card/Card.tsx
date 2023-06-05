@@ -15,9 +15,8 @@ export default function Card({ info, epInfo, isLandScape }: {
     let link = `/info/${animeId}`
 
     if (epInfo) {
-        const { sources, number } = epInfo
-        const sourcesJSON = encodeURIComponent(JSON.stringify(sources))
-        link = `/watch/${animeId}/${number}/${sourcesJSON}`
+        const { number } = epInfo
+        link = `/watch/${animeId}/${number}`
     }
     
     return (

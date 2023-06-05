@@ -14,42 +14,42 @@ export async function generateMetadata({ params: { animeId, epNumber } }: {
     const anime = await enimeFetcherToy({ route: 'anime', arg: animeId })
     if (!anime) throw new Error("Anime not found")
 
+    // Can just get it by index since it's already sorted
     const episodes = anime.episodes
-    const curEp = episodes.find((_, idx) => (idx + 1) === Number(epNumber))
-    if (!curEp) throw new Error("Episode not found")
+    const epIdx = Number(epNumber) - 1
+    const curEp: AnimeEpisode | undefined = episodes[epIdx]
+    // This should never happen btw if using the ui
+    if (!curEp) throw new Error(`Episode ${epIdx} of ${anime.title.english} cannot be found.`)
 
     return {
-        title: `Watch now: ${anime.title.english} ${curEp?.title}`,
+        title: `Watch now: ${anime.title.english} ${curEp.title}`,
         description: curEp.description
     }
 }
 
-export default async function Page({ params: { animeId, epNumber, sourcesJSON } }: {
+export default async function Page({ params: { animeId, epNumber } }: {
     params: {
         animeId: string,
         epNumber: string,
-        sourcesJSON: string,
     }
 }) {
-    const sources: AnimeSourcePlain[] = JSON.parse(decodeURIComponent(sourcesJSON))
-
     const anime = await enimeFetcherToy({ route: 'anime', arg: animeId })
     if (!anime) throw new Error("Anime not found")
 
+    // Can just get it by index since it's already sorted
     const episodes = anime.episodes
-
-    // Use the index; it'll be quicker (create a binary search fn later: some animes have too many episodes)
-    // Add one to index since it always start at 0
-    const curEp = episodes.find((_, idx) => (idx + 1) === Number(epNumber))
-    if (!curEp) throw new Error("Current episode not found")
-
+    const epIdx = Number(epNumber) - 1
+    const curEp = episodes[epIdx]
+    // This should never happen btw if using the ui
+    if (!curEp) throw new Error(`Episode ${epIdx} of ${anime.title.english} cannot be found.`)
+    
     return (
         <div className={styles['container']}>
             <div className={styles['content']}>
                 <h1>{curEp.title}</h1>
-                <h2>{anime?.title.english}</h2>
+                <h2>{anime.title.english}</h2>
                 <HLSPlayer
-                    sources={sources}
+                    sources={curEp.sources}
                     poster={curEp.image}
                 />
             </div>
@@ -80,7 +80,7 @@ export default async function Page({ params: { animeId, epNumber, sourcesJSON } 
                     ))
                 )}
             </div>
-            <CommmentsSection epId={curEp.id}/>
+            <CommmentsSection epId={curEp.id} />
         </div>
     )
 }
