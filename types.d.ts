@@ -152,7 +152,7 @@ type EnimeMapping = AnimeXL & {
 }
 
 type EnimeSearch = Pick<EnimeRecent, 'meta'> & {
-    data: AnimeXL
+    data: AnimeXL[]
 }
 
 type EnimePopular = {
