@@ -1,4 +1,9 @@
+.container {
+    display: grid;
+}
+
 .addComment {
+    box-sizing: content-box;
     border: 1px solid rgba(0, 0, 0, 0.64);
     width: 95%;
     height: 1rem;
@@ -6,11 +11,11 @@
     white-space: pre-wrap;
     resize: none;
     transition: all 200ms ease;
-    padding: 1rem;
     justify-self: center;
     border-radius: 10px;
     z-index: 2;
     position: relative;
+    padding: 1rem;
 }
 
 .addComment:focus,

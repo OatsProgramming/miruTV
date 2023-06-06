@@ -52,7 +52,7 @@ export default function AddComment({ epId, comments }: {
     }
 
     return (
-        <div>
+        <div className={styles['container']}>
             <textarea
                 ref={textareaRef}
                 className={styles['addComment']}
