@@ -17,6 +17,8 @@
 
 .container[open] {
     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -26,8 +28,7 @@
    max-width: 720px;
    background-color: rgb(21,21,21);
    padding: 2rem 0;
-   aspect-ratio: 4 / 5;
-   flex-direction: column;
+   padding: 2rem;
 }
 
 .searchBar {
@@ -41,17 +42,23 @@
     outline: none;
 }
 
+.searchResults {
+    display: flex;
+    overflow: scroll;
+    width: 100%;
+    gap: 2rem;
+    align-items: center;
+}
+
 .container button {
-    position: absolute;
-    bottom: 1rem;
-    font-family: inherit;
     width: 2rem;
-    background-color: transparent;
     border: 0;
     opacity: 0.5;
     transition: all 200ms ease;
+    background-color: transparent;
 }
 
 .container button:hover {
     opacity: 1;
 }
+

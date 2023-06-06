@@ -6,10 +6,11 @@ import type { CSSProperties } from 'react'
  * If given epInfo, Card type change as a whole
  * 
  */
-export default function Card({ info, epInfo, isLandScape }: {
+export default function Card({ info, epInfo, isLandScape, style }: {
     info: InfoCard,
     epInfo?: EpCardRequirments,
-    isLandScape?: true
+    isLandScape?: true, 
+    style?: CSSProperties
 }) {
     const { animeId, animeTitle, coverImg } = info
 
@@ -30,9 +31,10 @@ export default function Card({ info, epInfo, isLandScape }: {
                     ${isLandScape && styles['epCard']}`
                 }
                 style={{
-                    '--img': `url(${coverImg})`
+                    '--img': `url(${coverImg})`,
+                    ...style
                 } as CSSProperties}>
-                <div className={styles['text']}>
+                <div className={styles['text']} >
                     {epInfo && (
                         <h3>EP {epInfo.number}: {epTitle}</h3>
                     )}

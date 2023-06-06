@@ -1,10 +1,12 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { ChangeEvent } from 'react'
 import styles from './searchDialog.module.css'
 import toggleDialog from '@/lib/toggleDialog'
 import enimeFetcher from '@/lib/fetchers/enimeFetcher'
+import Card from '../../Card/Card'
+import enimeFetcherToy from '@/lib/toyData/enimeFetcherToy'
 
 
 export default function SearchDialog() {
@@ -17,7 +19,7 @@ export default function SearchDialog() {
         // Make sure that it doesnt send too many request accidentally
         // Wait till user is finished typing
         timerRef.current = setTimeout(() => {
-            enimeFetcher({ route: 'search', arg: query})
+            enimeFetcherToy({ route: 'search', arg: query })
                 .then(res => setSearchResults(res))
                 .catch(err => console.error(err))
         }, 1500)
@@ -26,13 +28,17 @@ export default function SearchDialog() {
     async function handleSearch(e: ChangeEvent) {
         const input = e.target as HTMLInputElement
         const query = input.value
-        if (!query) return
+        if (!query) return setSearchResults(undefined) 
 
         // If user is still typing, stop the fetch request
         const timerId = timerRef.current
         if (timerId) clearTimeout(timerId)
         getResults(query)
     }
+
+    useEffect(() => {
+
+    }, [])
 
     return (
         <>
@@ -51,18 +57,23 @@ export default function SearchDialog() {
                     placeholder='Attack on Titans...'
                     onChange={handleSearch}
                 />
-                <div>
-                    {animes.length > 0 ? animes.map(anime => (
-                        <div key={anime.id}>
-                            <div>
-                                {anime.title.english}
-                            </div>
+                <div className={styles['searchResults']}>
+                    {animes.length > 0 && animes.map(anime => (
+                        <div onPointerDown={(e) => toggleDialog(e, dialogRef)}>
+                            <Card
+                                key={anime.id}
+                                info={{
+                                    animeId: anime.id,
+                                    animeTitle: anime.title.english,
+                                    coverImg: anime.coverImage
+                                }}
+                                style={{
+                                    width: 200,
+                                    fontSize: 'x-small'
+                                }}
+                            />
                         </div>
-                    )) : (
-                        <div>
-                            Seems empty...
-                        </div>
-                    )}
+                    ))}
                 </div>
                 <button onPointerDown={(e) => toggleDialog(e, dialogRef)}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="currentColor" viewBox="0 0 16 16">
