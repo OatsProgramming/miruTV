@@ -1,34 +1,20 @@
-/* 
-    Prevent dialog element from breaking by setting display 
-    only on open
-*/
-.container[open] {
-    display: flex;
-    align-items: center;
-}
-
-.container {
-   margin: auto;
-   width: 80vw;
-   aspect-ratio: 4 / 3;
-   overflow: hidden;
-   gap: 1rem;
-   max-width: 720px;
-   border-radius: 20px;
-   border: 0;
-   background-color: rgb(21,21,21);
-}
-
-.container::backdrop {
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
 .details {
     display: flex;
-    justify-content: space-around;
     flex-direction: column;
+    padding: 2rem;
+    justify-content: space-around;
+    gap: 2rem;
 }
 
+.textOne {
+    display: grid;
+    gap: 2rem;
+    place-items: center;
+}
+
+.textOne > h1 {
+    justify-self: left;
+}
 
 .form,
 .details {
@@ -50,12 +36,11 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    /* border: 1px solid yellow; */
     gap: 1.5rem;
 }
 
 .form img {
-    width: 70%;
+    width: 50%;
     aspect-ratio: 1 / 1;
 }
 
@@ -90,16 +75,9 @@
     opacity: 1;
     translate: 0 -1.5em;
     z-index: 1;
-
 }
 
-
-@media screen and (max-width: 640px) {
-    .container {
-        flex-direction: column;
-        aspect-ratio: 4 / 5;
-    }
-
+@media screen and (max-width: 720px) {
     .form > img,
     .details > span:first-child {
         display: none;
@@ -107,6 +85,7 @@
 
     .details {
         text-align: center;
+        justify-content: space-around;
     }
 
     .textTwo > div:first-child {

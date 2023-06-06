@@ -2,6 +2,7 @@ import styles from './page.module.css'
 import Card from './components/Card/Card'
 import enimeFetcher from '@/lib/fetchers/enimeFetcher'
 import enimeFetcherToy from '@/lib/toyData/enimeFetcherToy'
+// import AnimeSect from './components/AnimeSect/AnimeSect'
 
 export default async function Home() {
   const recentRes = enimeFetcherToy({ route: 'recent' })
