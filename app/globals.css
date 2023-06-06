@@ -1,7 +1,13 @@
+/*
+  Note to self: set dialogs' margin to auto
+  otherwise it will break
+*/
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  /* For some reason some texts arent inheriting */
+  font-family: inherit;
 }
 
 html {
@@ -25,4 +31,29 @@ a:visited {
 
 a:active {
   opacity: 0.5;
+}
+
+
+/* Set up individual dialog[open] for their use cases */
+/* 
+    Dialog has: 
+    margin: auto
+    padding: 1rem (?)
+    display: none (when closed)
+            something??? (open)
+            -> dont set display directly to dialog
+            -> set it by dialog[open] to prevent it breaking
+*/
+dialog {
+  margin: auto;
+  overflow: hidden;
+  border-radius: 20px;
+  border: 0;
+  background-color: rgb(21,21,21);
+  padding: 2rem 0;
+}
+
+dialog::backdrop {
+   background-color: rgba(0, 0, 0, 0.5);
+   backdrop-filter: blur(1.5px);
 }

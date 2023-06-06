@@ -8,22 +8,13 @@
 }
 
 .container {
-   margin: auto;
    width: 80vw;
    overflow: hidden;
    gap: 1rem;
    max-width: 720px;
-   border-radius: 20px;
-   border: 0;
-   background-color: rgb(21,21,21);
    position: relative;
    height: max-content;
    padding: 2rem 0;
-}
-
-.container::backdrop {
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(1.5px);
 }
 
 .btn {
@@ -35,8 +26,6 @@
     cursor: pointer;
     gap: 0.5rem;
 }
-
-
 
 @media screen and (max-width: 640px) {
     .container {

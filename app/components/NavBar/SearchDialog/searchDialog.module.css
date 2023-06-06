@@ -1,3 +1,57 @@
-.dialog {
-    backdrop-filter: blur(4px);
+.btn {
+    /* border: 10px solid red; */
+    width: 5rem;
+    background-color: #242424;
+    padding: 0.25rem 0.5rem;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.circle {
+    width: 1px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+}
+
+.container[open] {
+    display: flex;
+    align-items: center;
+}
+
+.container {
+   width: 80vw;
+   gap: 1rem;
+   max-width: 720px;
+   background-color: rgb(21,21,21);
+   padding: 2rem 0;
+   aspect-ratio: 4 / 5;
+   flex-direction: column;
+}
+
+.searchBar {
+    border: 0;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    width: 80%;
+}
+
+.searchBar:focus-within {
+    outline: none;
+}
+
+.container button {
+    position: absolute;
+    bottom: 1rem;
+    font-family: inherit;
+    width: 2rem;
+    background-color: transparent;
+    border: 0;
+    opacity: 0.5;
+    transition: all 200ms ease;
+}
+
+.container button:hover {
+    opacity: 1;
 }
