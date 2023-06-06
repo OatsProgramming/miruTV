@@ -9,11 +9,7 @@ const SignOut = dynamic(() =>
     import("../AuthBtns/SignOut")
 )
 
-const SignIn = dynamic(() =>
-    import("../AuthBtns/SignIn")
-)
-
-const Login = dynamic(() =>
+const SigninDialog = dynamic(() =>
     import("../SigninDialog/SigninDialog")
 )
 
@@ -24,12 +20,11 @@ export default async function NavBar() {
             {session ? (
                 <>
                     <SignOut />
-                    <div>{JSON.stringify(session.user)}</div>
+                    <div>{JSON.stringify(session.user.name)}</div>
                 </>
             ) : (
                 <>
-                    <SignIn />
-                    <Login />
+                    <SigninDialog />
                 </>
             )}
             <Link href='/'>HOME</Link>

@@ -1,9 +1,11 @@
+import toggleDialog from '@/lib/toggleDialog';
 import handleSubmit from './handleSubmit';
 import styles from './signinForm.module.css'
-import { PointerEvent, useState } from "react";
+import type { RefObject } from "react";
+import { useState } from 'react'
 
-export default function SignUpForm({ toggleDialog }: {
-    toggleDialog: (e: PointerEvent) => void,
+export default function SignUpForm({ dialogRef }: {
+    dialogRef: RefObject<HTMLDialogElement>
 }) {
     const [isNew, setIsNew] = useState(true)
     return (
@@ -43,7 +45,7 @@ export default function SignUpForm({ toggleDialog }: {
                     </div>
                 )}
                 <div className={styles['btns']}>
-                    <button onPointerDown={toggleDialog}>
+                    <button onPointerDown={(e) => toggleDialog(e, dialogRef)}>
                         Cancel
                     </button>
                     <button>
