@@ -4,19 +4,22 @@ import Link from "next/link"
 import FavId from "../FavId/FavId"
 import dynamic from "next/dynamic"
 import styles from './navBar.module.css'
+import SearchDialog from "./SearchDialog/SearchDialog"
 
 const SignOut = dynamic(() =>
     import("../AuthBtns/SignOut")
 )
 
 const SigninDialog = dynamic(() =>
-    import("../SigninDialog/SigninDialog")
+    import("./SigninDialog/SigninDialog")
 )
 
 export default async function NavBar() {
     const session = await getServerSession(authOptions)
     return (
-        <div>
+        <nav className={styles['nav']}>
+            <SearchDialog />
+            <Link href='/'>HOME</Link>
             {session ? (
                 <>
                     <SignOut />
@@ -27,8 +30,6 @@ export default async function NavBar() {
                     <SigninDialog />
                 </>
             )}
-            <Link href='/'>HOME</Link>
-            <FavId />
-        </div>
+        </nav>
     )
 }

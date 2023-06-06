@@ -1,3 +1,9 @@
-.signIn {
-    border: 1px solid red;
+.nav {
+    display: flex;
+    /* border: 1px solid red; */
+    justify-content: space-around;
+    background-color: #151515;
+    align-items: center;
+    width: 100vw;
+    padding: 1rem;
 }
