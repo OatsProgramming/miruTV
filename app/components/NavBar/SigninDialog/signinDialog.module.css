@@ -26,11 +26,16 @@
     backdrop-filter: blur(1.5px);
 }
 
-.toggle {
-    position: absolute;
-    bottom: 2rem;
-    left: 2rem;
+.btn {
+    display: flex;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+    gap: 0.5rem;
 }
+
 
 
 @media screen and (max-width: 640px) {

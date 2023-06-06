@@ -49,11 +49,11 @@ export default function SignUpForm({ dialogRef }: {
                         Cancel
                     </button>
                     <button>
-                        Create User
+                        {isNew ? 'Create Account' : 'Sign In'}
                     </button>
                 </div>
                 <button onPointerDown={() => setIsNew(!isNew)}>
-                    Have an acccount?
+                    {isNew ? 'Have an acccount?' : 'New here?'}
                 </button>
             </form>
         </>
