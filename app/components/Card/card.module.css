@@ -21,7 +21,9 @@
     backdrop-filter: blur(4px) ;
     height: min-content;
     color: white;
-    padding: 0 1rem;
+    padding: 0.5rem;
+    display: grid;
+    gap: 1rem;
 }
 
 .text h3,
