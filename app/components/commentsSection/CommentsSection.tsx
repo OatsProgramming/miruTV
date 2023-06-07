@@ -18,7 +18,7 @@ export default function CommmentsSection({ epId }: {
         <section id='commentsSection' className={styles['commentsSection']}>
             <AddComment epId={epId} comments={comments} />
             <div className={styles['comments']}>
-                {comments && comments.length > 0 ? (
+                {(comments && comments.length > 0) ? (
                     comments.map(comment =>
                         <div
                             key={comment.id}

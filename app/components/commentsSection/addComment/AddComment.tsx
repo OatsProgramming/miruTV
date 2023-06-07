@@ -3,7 +3,9 @@ import { PointerEvent, useRef } from 'react'
 import styles from './addComment.module.css'
 import useComments from '../hooks/useComments'
 import type { Comment } from '@prisma/client'
-
+import mutatingFetcher from '@/lib/fetchers/mutatingFetcher'
+import notify, { toastOptions } from '@/lib/toast/toast'
+import { ToastContainer } from 'react-toastify'
 
 export default function AddComment({ epId, comments }: {
     epId: string,
@@ -23,30 +25,14 @@ export default function AddComment({ epId, comments }: {
         // Determine action type
         const action = btn.id
         if (action === 'send') {
-            try {
-                const res = await fetch('/api/comments', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'applications/json'
-                    },
-                    body: JSON.stringify({
-                        epId,
-                        body: textarea.value
-                    })
-                })
-                //  On error
-                if (!res.ok) {
-                    const result = await res.text()
-                    console.log(result)
-                    return
-                }
-                const result = await res.json()
-
-                // "Revalidate" data on client side
-                mutate([...comments, result])
-            } catch (err) {
-                console.error(err)
-            }
+            const data = { epId, body: textarea.value }
+            mutatingFetcher('/api/comments', 'POST', data)
+                // update client side data
+                .then(result => result ? 
+                    mutate([...comments, result.data]) :
+                    notify({ type: 'error', message: 'Sign in to comment'})
+                )
+                .catch(err => console.error(err))
         }
         textarea.value = ''
     }
@@ -73,6 +59,7 @@ export default function AddComment({ epId, comments }: {
                     </svg>
                 </button>
             </div>
+            <ToastContainer {...toastOptions}/>
         </div>
     )
 }
