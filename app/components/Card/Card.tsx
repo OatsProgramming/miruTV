@@ -22,7 +22,7 @@ export default function Card({ info, epInfo, isLandScape, style }: {
 
         epTitle = epInfo.title ?? '???'
     }
-
+    
     return (
         <Link href={link}>
             <div 
@@ -34,7 +34,12 @@ export default function Card({ info, epInfo, isLandScape, style }: {
                     '--img': `url(${coverImg})`,
                     ...style
                 } as CSSProperties}>
-                <div className={styles['text']} >
+                <div 
+                    className={styles['text']} 
+                    style={{
+                        display: animeTitle ? '' : 'none'
+                    }}
+                >
                     {epInfo && (
                         <h3>EP {epInfo.number}: {epTitle}</h3>
                     )}

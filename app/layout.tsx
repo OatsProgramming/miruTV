@@ -23,9 +23,9 @@ export default function RootLayout({
       <body className={nunito.className}>
         {/* @ts-expect-error */}
         <NavBar />
-        <div style={{ padding: '1rem'}}>
+        
           {children}
-        </div>
+       
       </body>
     </html>
   )
