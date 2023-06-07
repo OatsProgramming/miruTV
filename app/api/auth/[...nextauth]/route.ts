@@ -36,9 +36,6 @@ export const authOptions: NextAuthOptions = {
                 const user = await prismadb.user.findUnique({
                     where: {
                         username: credentials.username
-                    },
-                    include: {
-                        favIds: true
                     }
                 })
 
@@ -54,6 +51,7 @@ export const authOptions: NextAuthOptions = {
                 return {
                     id: user.id,
                     name: user.username,
+                    favIds: user.favIds
                 };
             }
         })
@@ -66,18 +64,28 @@ export const authOptions: NextAuthOptions = {
                     ...session.user,
                     id: token.id ,
                     name: token.name,
+                    favIds: token.favIds
                 },
             };
         },
-        jwt: ({ token, user }) => {
-            // console.log("JWT Callback", { token, user })
+        jwt: ({ token, user, trigger, session }) => {
+            if (trigger === 'update') {
+                // Validate the data
+                if (session.favIds) {
+                    token.favIds = session.favIds
+                }
+            }
+            // Exec on sign in
             if (user) {
+                console.log(user.favIds)
                 return {
                     ...token,
                     id: user.id,
                     name: user.name,
+                    favIds: user.favIds 
                 }
             }
+            // Exec on reg
             return token
         }
     }

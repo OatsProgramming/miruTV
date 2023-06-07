@@ -17,13 +17,14 @@ export async function generateMetadata({ params: { animeId, epNumber } }: {
     // Can just get it by index since it's already sorted
     const episodes = anime.episodes
     const epIdx = Number(epNumber) - 1
-    const curEp: AnimeEpisode = episodes[epIdx]
+    // Just have it as possibly undefined here (someone might mess w/ the url)
+    const curEp: AnimeEpisode | undefined = episodes[epIdx]
     // This should never happen btw if using the ui
-    if (!curEp) throw new Error(`Episode ${epIdx} of ${anime.title.english} cannot be found.`)
+    // if (!curEp) throw new Error(`Episode ${epIdx} of ${anime.title.english} cannot be found.`)
 
     return {
-        title: `Watch now: ${anime.title.english} ${curEp.title}`,
-        description: curEp.description
+        title: `Watch now: ${anime.title.english} ${curEp?.title}`,
+        description: curEp?.description
     }
 }
 

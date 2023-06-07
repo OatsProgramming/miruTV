@@ -1,7 +1,6 @@
-type Anime = {
-    id: string,
-    name: string,
-    isSeen: boolean,
+type FavId = {
+    animeId: string,
+    lastVisit: string
 }
 
 type UserRequest = {
@@ -11,11 +10,6 @@ type UserRequest = {
         username?: string,
         password?: string
     }
-}
-
-type UserSession = {
-    username: string,
-    favIds: Anime[]
 }
 
 type UrlStore = {

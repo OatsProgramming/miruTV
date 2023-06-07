@@ -2,6 +2,7 @@ import './globals.css'
 import { Nunito } from 'next/font/google'
 import NavBar from './components/NavBar/NavBar'
 import 'react-toastify/dist/ReactToastify.css'
+import SessionProviderComp from './SessionProvider'
 
 export const metadata = {
   title: 'Miru TV',
@@ -23,7 +24,9 @@ export default function RootLayout({
       <body className={nunito.className}>
         {/* @ts-expect-error */}
         <NavBar />
-        {children}
+        <SessionProviderComp>
+          {children}
+        </SessionProviderComp>
         {/* Toast doesnt show unless set at the designated areas... */}
         {/* Even tho it was recommended to set it at the highest */}
         {/* <ToastContainer {...toastOptions} /> */}

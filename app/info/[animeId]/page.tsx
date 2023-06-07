@@ -2,14 +2,19 @@ import { notFound } from "next/navigation"
 import enimeFetcherToy from "@/lib/toyData/enimeFetcherToy"
 import styles from './page.module.css'
 import Card from "@/app/components/Card/Card"
+import FavId from "@/app/components/FavId/FavId"
+import { getServerSession } from "next-auth/next"
+import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 
 export default async function Page({ params: { animeId } }: {
     params: {
         animeId: string
     }
 }) {
+    const sessionPromise = getServerSession(authOptions)
+    const animePromise = enimeFetcherToy({ route: 'anime', arg: animeId })
 
-    const anime = await enimeFetcherToy({ route: 'anime', arg: animeId })
+    const [session, anime] = await Promise.all([sessionPromise, animePromise])
     if (!anime) notFound()
 
     const episodes = anime.episodes
@@ -34,9 +39,7 @@ export default async function Page({ params: { animeId } }: {
                 <div>
                     {anime.description}
                 </div>
-                <div>
-                    
-                </div>
+                <FavId animeId={animeId} favIds={session?.user.favIds}/>
             </section>
             <section className={styles['episodes']}>
                 {episodes.map(ep => (

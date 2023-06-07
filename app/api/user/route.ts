@@ -11,9 +11,7 @@ export async function POST(req: Request) {
             data: {
                 username,
                 hashedPassword,
-                favIds: {
-                    create: []
-                }
+                favIds: []
             },
         })
 

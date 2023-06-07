@@ -46,18 +46,10 @@ model User {
   id             String    @id @default(auto()) @map("_id") @db.ObjectId
   username       String?   @unique
   hashedPassword String
-  favIds         FavId[]
+  favIds         Json[]
   accounts       Account[]
   sessions       Session[]
   comments       Comment[]
-}
-
-model FavId {
-  id        String   @id @map("_id")
-  lastVisit DateTime
-
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @db.ObjectId
 }
 
 model Comment {
