@@ -47,8 +47,8 @@ export default async function Page({ params: { animeId, epNumber } }: {
     return (
         <div className={styles['container']}>
             <div className={styles['content']}>
-                <h1>{curEp.title}</h1>
-                <h2>{anime.title.english}</h2>
+                <h1>EP {epNumber}: {curEp.title}</h1>
+                <h3>{anime.title.english}</h3>
                 <HLSPlayer
                     sources={curEp.sources}
                     poster={curEp.image}
