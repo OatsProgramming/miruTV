@@ -6,4 +6,7 @@
     align-items: center;
     width: 100vw;
     padding: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 9999;
 }
