@@ -10,7 +10,7 @@ export const metadata = {
 
 const nunito = Nunito({
   subsets: ['latin'],
-  weight: '700'
+  weight: ['700', '500', '300', '200']
 })
 
 export default function RootLayout({
@@ -23,9 +23,10 @@ export default function RootLayout({
       <body className={nunito.className}>
         {/* @ts-expect-error */}
         <NavBar />
-        
-          {children}
-       
+        {children}
+        {/* Toast doesnt show unless set at the designated areas... */}
+        {/* Even tho it was recommended to set it at the highest */}
+        {/* <ToastContainer {...toastOptions} /> */}
       </body>
     </html>
   )

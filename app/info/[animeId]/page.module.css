@@ -38,6 +38,12 @@
     column-gap: 1rem;
 }
 
+@media (min-width: 1024px) {
+    .container {
+        padding: 5rem;
+    }
+}
+
 @media screen and (max-width: 800px) {
     .container {
         grid-template-areas: 

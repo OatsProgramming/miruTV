@@ -34,6 +34,9 @@ export default async function Page({ params: { animeId } }: {
                 <div>
                     {anime.description}
                 </div>
+                <div>
+                    
+                </div>
             </section>
             <section className={styles['episodes']}>
                 {episodes.map(ep => (
