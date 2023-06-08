@@ -4,6 +4,8 @@ import enimeFetcher from "@/lib/fetchers/enimeFetcher";
 import enimeFetcherToy from "@/lib/toyData/enimeFetcherToy";
 import styles from './page.module.css'
 import CommentsSection from "@/app/components/commentsSection/CommentsSection";
+import { notFound } from "next/navigation";
+import Link from "next/link";
 
 export async function generateMetadata({ params: { animeId, epNumber } }: {
     params: {
@@ -43,13 +45,15 @@ export default async function Page({ params: { animeId, epNumber } }: {
     const epIdx = Number(epNumber) - 1
     const curEp = episodes[epIdx]
     // This should never happen btw if using the ui
-    if (!curEp) throw new Error(`Episode ${epIdx} of ${anime.title.english} cannot be found.`)
+    if (!curEp) notFound()
 
     return (
         <div className={styles['container']}>
             <div className={styles['content']}>
                 <h1>EP {epNumber}: {curEp.title}</h1>
-                <h3>{anime.title.english}</h3>
+                <Link href={`/info/${anime.id}`}>
+                    <h3>{anime.title.english}</h3>
+                </Link>
                 <HLSPlayer
                     sources={curEp.sources}
                     poster={curEp.image}
