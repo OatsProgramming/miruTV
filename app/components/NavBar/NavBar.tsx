@@ -20,7 +20,7 @@ export default async function NavBar() {
         <nav className={styles['nav']}>
             <SearchDialog />
             <Link href='/'>HOME</Link>
-            <UserDialog username={session?.user.name ?? undefined} favIds={session?.user.favIds} />
+            <UserDialog session={session ?? undefined} />
         </nav>
     )
 }

@@ -1,71 +1,30 @@
 import SignOut from "@/app/components/AuthBtns/SignOut"
-import Card from "@/app/components/Card/Card"
 import toggleDialog from "@/lib/toggleDialog"
-import favIdsToy from "@/lib/toyData/favIdsToy"
 import isEqual from "lodash/isEqual"
 import { memo } from "react"
-import type { PointerEvent, RefObject } from 'react'
+import type { RefObject } from 'react'
 import styles from './userForm.module.css'
-import enimeFetcher from "@/lib/fetchers/enimeFetcher"
-import thisUrl from "@/lib/thisUrl"
+import type { Session } from "next-auth"
+import FavSect from "@/app/components/AnimeSect/FavSect"
 
-async function fetcher(favIds: FavId[]) {
-    if (favIds.length === 0) return
-    const responsesPromises: Promise<Response>[] = []
-    for (let i = 0; i < favIds.length; i++) {
-        responsesPromises.push(
-            // fetch(`${thisUrl}/api/enime/anime/${favIds[i].animeId}`)
-            fetch(`${thisUrl}/api/test`)
-        )
-    }
-
-    const responses = await Promise.allSettled(responsesPromises)
-    const resultPromises: Promise<any>[] = []
-
-    for (const response of responses) {
-        if (response.status === 'fulfilled') {
-            resultPromises.push(response.value.json())
-        }
-        else {
-            console.log(response.reason)
-        }
-    }
-
-    return Promise.all(resultPromises) as Promise<EnimeAnime[]>
-}
-
-async function userForm({ username, favIds, dialogRef }: {
-    username: string,
-    favIds: FavId[],
+function userForm({ session, dialogRef }: {
+    session: Session
     dialogRef: RefObject<HTMLDialogElement>
 }) {
-    const results = await fetcher(favIds) ?? []
 
     return (
         <div className={styles['container']}>
             <div className={styles['text']}>
                 <h1>
                     Sup, <span className={styles['username']}>
-                        {username}
+                        {session.user.name}
                     </span>.
                 </h1>
                 <p>We got your favs saved for you:</p>
             </div>
             <div className={styles['animes']}>
-                {results.length > 0 && results.map((anime, idx) => (
-                    <Card
-                        key={idx}
-                        info={{
-                            animeId: anime.id,
-                            animeTitle: anime.title.english,
-                            coverImg: anime.coverImage
-                        }}
-                        style={{
-                            width: '150px',
-                            fontSize: 'small'
-                        }}
-                    />
-                ))}
+                {/* @ts-expect-error */}
+                <FavSect session={session}/>
             </div>
             <div className={styles['btnContainer']}>
                 <button onPointerDown={(e) => toggleDialog(e, dialogRef)}>
@@ -83,7 +42,6 @@ async function userForm({ username, favIds, dialogRef }: {
     )
 }
 
-// @ts-expect-error
 const UserForm = memo(userForm, (prev, next) => {
     return isEqual(prev, next)
 })
