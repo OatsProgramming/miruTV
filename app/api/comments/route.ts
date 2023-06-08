@@ -19,65 +19,40 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-    try {
-        const res = await validateRequest(req, 'POST')
-        if (res instanceof Response) return res
+    const res = await validateRequest(req)
+    if (res instanceof Response) return res
 
-        const { epId, body, createdBy, userId } = res
-
-        const comment = await prismadb.comment.create({
-            data: {
-                epId,
-                body,
-                userId,
-                createdBy,
-                updatedAt: new Date().toISOString(),
-                createdAt: new Date().toISOString(),
-            }
-        })
-        
-        return new Response(JSON.stringify(comment), { status: 200 })
-
-    } catch (err) {
-        return handleError(err)
+    switch(res.method) {
+        case 'DELETE': {
+            await prismadb.comment.delete({
+                where: { id: res.commentId }
+            })
+            break;
+        }
+        case 'PATCH': {
+            await prismadb.comment.update({
+                where: { id: res.commentId },
+                data: {
+                    body: res.body,
+                    updatedAt: new Date().toISOString(),
+                }
+            })
+            break;
+        }
+        case 'POST': {
+            const { body, createdBy, epId, userId } = res
+            await prismadb.comment.create({
+                data: {
+                    epId,
+                    body,
+                    userId,
+                    createdBy,
+                    updatedAt: new Date().toISOString(),
+                    createdAt: new Date().toISOString(),
+                }
+            })
+        }
     }
 }
 
-export async function PATCH(req: Request) {
-    try {
-        const res = await validateRequest(req, 'PATCH')
-        if (res instanceof Response) return res
-
-        const { commentId, commentBody } = res
-
-        const comment = await prismadb.comment.update({
-            where: { id: commentId },
-            data: { 
-                body: commentBody, 
-                updatedAt: new Date().toISOString() 
-            }
-        })
-
-        return new Response(JSON.stringify(comment), { status: 200 })
-    } catch (err) {
-        return handleError(err)
-    }
-}
-
-export async function DELETE(req: Request) {
-    try {
-        const res = await validateRequest(req, 'DELETE')
-        if (res instanceof Response) return res
-
-        const { commentId } = res
-        
-        const comment = await prismadb.comment.delete({
-            where: { id: commentId }
-        })
-
-        return new Response(JSON.stringify(comment), { status: 200 })
-    } catch (err) {
-        return handleError(err)
-    }
-}
 

@@ -1,18 +1,16 @@
 'use client'
 import { PointerEvent, useRef } from 'react'
 import styles from './addComment.module.css'
-import useComments from '../hooks/useComments'
-import type { Comment } from '@prisma/client'
 import mutatingFetcher from '@/lib/fetchers/mutatingFetcher'
 import notify, { toastOptions } from '@/lib/toast/toast'
 import { ToastContainer } from 'react-toastify'
+import { useSWRConfig } from 'swr'
 
-export default function AddComment({ epId, comments }: {
+export default function AddComment({ epId }: {
     epId: string,
-    comments: Comment[]
 }) {
     const maxChar = 1000
-    const { mutate } = useComments(epId)
+    const { mutate } = useSWRConfig()
     const textareaRef = useRef<HTMLTextAreaElement>(null)
 
     async function handleComment(e: PointerEvent) {
@@ -27,12 +25,12 @@ export default function AddComment({ epId, comments }: {
         if (action === 'send') {
             const data = { epId, body: textarea.value }
             mutatingFetcher('/api/comments', 'POST', data)
-                // update client side data
-                .then(result => result ? 
-                    mutate([...comments, result.data]) :
-                    notify({ type: 'error', message: 'Sign in to comment'})
+                // Revalidate SWRs that has this 'key' (regular mutate causes session to act weird for some reason)
+                .then(res => res.message ? 
+                    notify({ type: 'error', message: "Sign in to comment" }) :
+                    mutate(`/api/comments?epId=${epId}`)
                 )
-                .catch(err => console.error(err))
+                .catch(err => console.log(err))
         }
         textarea.value = ''
     }

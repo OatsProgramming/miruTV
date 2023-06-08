@@ -1,9 +1,13 @@
 import { PrismaClient } from "@prisma/client";
 
-// The reason for assigning the PrismaClient instance to a global variable is 
-// to ensure that only one instance of the PrismaClient is created during the lifetime of the application
-const prismadb = global.prismadb ?? new PrismaClient()
+// Make sure only one instance exists throughout sesh
+let prismadb: PrismaClient;
 
-if (process.env.NODE_ENV === 'production') global.prismadb = prismadb
+if (!global.prismadb) {
+  global.prismadb = new PrismaClient({
+    log: ["info"],
+  });
+}
+prismadb = global.prismadb;
 
-export default prismadb
+export default prismadb;
