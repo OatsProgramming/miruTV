@@ -1,68 +1,76 @@
 import prismadb from "@/lib/prismadb"
-import validateUserRequest from "@/lib/validateUserRequest"
-import { hash } from "bcrypt"
+import { hash, compare } from "bcrypt"
+import validateRequest from "./validateRequest"
+import { getServerSession } from "next-auth/next"
+import { authOptions } from "../auth/[...nextauth]/route"
 
 export async function POST(req: Request) {
-    try {
-        const { username, password } = await req.json() as UserRequest
-        const hashedPassword = await hash(password, 12)
+    const res = await validateRequest(req)
+    if (res instanceof Response) return res
 
-        await prismadb.user.create({
-            data: {
-                username,
-                hashedPassword,
-                favIds: []
-            },
-        })
+    const { username, password, method } = res
 
-        return new Response(JSON.stringify({ username, password }), { status: 200 })
+    switch(method) {
+        case 'DELETE':
+        case 'PATCH': {
+            // Check if user is signed in before making changes
+            const session = await getServerSession(authOptions)
+            if (!session) return new Response("Sign in to make changes.", { status: 401 })
 
-    } catch (error) {
-        const err = error as Error
-        return new Response(err.message, { status: 500 })
-    }
-}
+            // Compare by session id instead of user name for added safety
+            const user = await prismadb.user.findUnique({
+                where: { id: session.user.id }
+            })
 
-export async function PATCH(req: Request) {
-    try {
-        const user = await validateUserRequest(req)
-        if (user instanceof Response) return user
+            if (!user) return new Response("User not found", { status: 404 })
 
-        // hash the pw if creating a new one
-        let hashedPassword: string | undefined;
-        if (user.newInfo?.password) {
-            hashedPassword = await hash(user.newInfo.password, 12)
-        }
-
-        await prismadb.user.update({
-            where: {
-                username: user.username
-            },
-            data: {
-                username: user.newInfo?.username,
-                hashedPassword: hashedPassword 
+            // Check pw
+            else if (!await compare(password, user.hashedPassword)) {
+                return new Response("Password mismatch.", { status: 401 })
             }
-        })
 
-        return new Response(JSON.stringify(user), { status: 200 })
-    } catch (error) {
-        const err = error as Error
-        return new Response(err.message, { status: 500 })
+            // Now get to actual business
+            if (method === 'DELETE') {
+                await prismadb.user.delete({ 
+                    where: { id: session.user.id }
+                })
+                break;
+            }
+
+            else if (method === 'PATCH') {
+                const { username, password } = res.newInfo
+
+                let hashedPassword;
+                if (password) hashedPassword = await hash(password, 12)
+
+                await prismadb.user.update({
+                    where: { id: session.user.id },
+                    data: {
+                        username: username ?? user.username,
+                        hashedPassword: hashedPassword ?? user.hashedPassword
+                    }
+                })
+                break;
+            }
+            break;
+        }
+        case 'POST' : {
+            const hashedPassword = await hash(password, 12)
+
+            await prismadb.user.create({
+                data: {
+                    username,
+                    hashedPassword,
+                    favIds: []
+                }
+            })
+            break;
+        }
+        default: {
+            throw new Error("This shouldn't happen. Invalid method given at route handler.")
+        }
     }
-}
+    
+    return new Response(JSON.stringify(res), { status: 200 })
 
-export async function DELETE(req: Request) {
-    try {
-        const user = await validateUserRequest(req)
-        if (user instanceof Response) return user
-
-        await prismadb.user.delete({
-            where: { username: user.username }
-        })
-
-        return new Response(JSON.stringify(user), { status: 200 })
-    } catch (error) {
-        const err = error as Error
-        return new Response(err.message, { status: 500 })
-    }
 }

@@ -29,7 +29,7 @@ export default async function handleSubmit(e: FormEvent, isNew: boolean) {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify({ data, method: 'POST' })
             })
 
 
@@ -45,7 +45,7 @@ export default async function handleSubmit(e: FormEvent, isNew: boolean) {
                 // Notify user what went wrong
                 return notify({
                     type: 'error',
-                    message: message
+                    message
                 })
             }
 
@@ -70,7 +70,6 @@ export default async function handleSubmit(e: FormEvent, isNew: boolean) {
         username: data.username,
         password: data.password
     })
-        .then(_ => console.log('asd'))
         .catch((err: Error) => {
             console.error(err)
             notify({
