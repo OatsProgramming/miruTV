@@ -1,3 +1,3 @@
-const thisUrl = process.env.NEXTAUTH_URL
+const thisUrl = process.env.BASE_URL
 
 export default thisUrl

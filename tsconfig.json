@@ -36,7 +36,7 @@
     ".next/types/**/*.ts",
     "app/components/commentsSection/addComment",
     "app/components/commentsSection/CommentsSkeleton",
-    "app/components/NavBar/SigninDialog/SigninForm"
+    "app/components/NavBar/UserDialog/SigninForm"
   ],
   "exclude": [
     "node_modules"
