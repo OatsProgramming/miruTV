@@ -1,14 +1,21 @@
-// Mostly made this just for me & my need for type safety
-type ReturnType = {
-    PATCH: {
-        method: 'PATCH',
-    } & Required<UserRequest> & Required<UserRequest['newInfo']>
-} & Record<'DELETE' | 'POST', { 
-    method: 'DELETE' | 'POST'
-} & Pick<UserRequest, 'username' | 'password'>>
+type Essential = {
+    username: string,
+    password: string,
+}
+
+type PATCH = Essential & {
+    method: 'PATCH',
+    newInfo: UserRequest['newInfo']
+}
+
+type POST = Essential & {
+    method: 'POST' | 'DELETE'
+}
+
+type DELETE = POST
 
 // DONT FORGET TO RETURN METHOD IN EACH ONE
-export default async function validateRequest(req: Request) {
+export default async function validateRequest<T extends PATCH | POST | DELETE>(req: Request) {
     try {
         const { data, method } = await req.json() as RequestBody<UserRequest>
         switch(method) {
@@ -23,7 +30,7 @@ export default async function validateRequest(req: Request) {
                         { status: 422 }
                     )
                 }
-                return { username, password, method } as ReturnType['DELETE']
+                break;
             }
             case "PATCH": {
                 const { username, password, newInfo } = data
@@ -36,12 +43,17 @@ export default async function validateRequest(req: Request) {
                         { status: 422 }
                     )
                 }
-                return { username, password, newInfo, method } as ReturnType['PATCH']
+                break;
             }
             default: {
                 throw new Error("Invalid Method")
             }
         }
+
+        return {
+            ...data,
+            method
+        } as T
 
 
     } catch (error) {

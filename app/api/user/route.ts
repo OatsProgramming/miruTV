@@ -38,15 +38,16 @@ export async function POST(req: Request) {
             }
 
             else if (method === 'PATCH') {
-                const { username, password } = res.newInfo
-
+                
                 let hashedPassword;
-                if (password) hashedPassword = await hash(password, 12)
+                if (res.newInfo?.password) {
+                    hashedPassword = await hash(password, 12)
+                }
 
                 await prismadb.user.update({
                     where: { id: session.user.id },
                     data: {
-                        username: username ?? user.username,
+                        username: res.newInfo?.username ?? user.username,
                         hashedPassword: hashedPassword ?? user.hashedPassword
                     }
                 })
