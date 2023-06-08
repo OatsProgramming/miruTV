@@ -2,17 +2,18 @@ import handleError from "@/lib/handleError"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "../auth/[...nextauth]/route"
 
-type ReturnType = Record<'PATCH' | 'POST', { animeId: string, userId: string }> & {  
-    DELETE: { newFavIds: FavId[], userId: string }
+type ReturnType = Record<'PATCH' | 'POST', { favId: FavId, userId: string, method: 'POST' | 'PATCH' }> & {  
+    DELETE: { newFavIds: FavId[], userId: string, method: 'DELETE' }
 }
 
-export default async function validateRequest<T extends Exclude<Method, 'GET'>>(req: Request, method: T) {
+// DONT FORGET TO RETURN METHOD IN EACH ONE
+export default async function validateRequest(req: Request) {
     try {
         // Check if user signed in
         const session = await getServerSession(authOptions)
         if (!session) return new Response("Please sign in.", { status: 401 })
 
-        const data = await req.json()
+        const { data, method } = await req.json() as RequestBody<FavIdsRequest>
         switch(method) {
             case 'DELETE': {
                 // Must filter list on client side to be quicker
@@ -20,13 +21,21 @@ export default async function validateRequest<T extends Exclude<Method, 'GET'>>(
                 if (!newFavIds) {
                     return new Response("Missing new Fav IDS", { status: 422 })
                 }
-                return { newFavIds, userId: session.user.id } as ReturnType[T]
+                return { 
+                    newFavIds, 
+                    method,
+                    userId: session.user.id, 
+                } as ReturnType['DELETE']
             }
             case 'PATCH':
             case 'POST': {
-                const { animeId } = data
-                if (!animeId) return new Response("Missing Anime ID", { status: 422 })
-                return { animeId, userId: session.user.id } as ReturnType[T]
+                const { favId } = data
+                if (!favId) return new Response("Missing Fav ID Object", { status: 422 })
+                return { 
+                    favId,
+                    method,
+                    userId: session.user.id, 
+                } as ReturnType['POST']
             } 
             default: {
                 throw new Error("Method unknown")

@@ -1,18 +1,19 @@
 /**
  * Handles 'mutating' HTTP methods. 
  * Returns result (useful for updating client side data (SWR)).
+ * (Using ^13.4: adding method to body)
  * @param method 
  * @param data 
  * @returns 
  */
 
-export default async function mutatingFetcher(url: string, method: Exclude<Method, 'GET'>, data: { [key: string]: any }) {
+export default async function mutatingFetcher<T>(url: string, method: Exclude<Method, 'GET'>, data: T) {
     const res = await fetch(url, {
-        method: method,
+        method: 'POST',
         headers: {
             'Content-Type': 'applications/json'
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify({ method, data })
     })
     if (!res.ok) {
         const result = await res.text()

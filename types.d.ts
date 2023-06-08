@@ -3,6 +3,12 @@ type FavId = {
     lastVisit: string
 }
 
+// Request Related (START)
+type FavIdsRequest = {
+    favId?: FavId,
+    newFavIds?: FavId[]
+}
+
 type UserRequest = {
     username: string,
     password: string,
@@ -11,6 +17,19 @@ type UserRequest = {
         password?: string
     }
 }
+
+type CommentRequest = {
+    commentId?: string,
+    body?: string,
+    epId?: string,
+}
+
+type RequestBody<T> = {
+    data: T,
+    method: Exclude<Method, 'GET'>
+}
+
+// Request Related (END)
 
 type UrlStore = {
     url: string,

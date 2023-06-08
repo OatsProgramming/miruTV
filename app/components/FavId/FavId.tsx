@@ -12,7 +12,7 @@ export default function FavId({ animeId, favIds }: {
     if (!favIds) return <></>
 
     // Does not revalidate page; Dont use swr for this one
-    const { data, update } = useSession()
+    const { update } = useSession()
     const inFav = favIds.find(fav => fav.animeId === animeId)
     // Only interested if it is in list on INITIAL
     // After, just let it toggle like normal
@@ -23,16 +23,22 @@ export default function FavId({ animeId, favIds }: {
         let args;
         let newFavIds: FavId[];
         if (isFav) {
+            console.log(favIds)
             newFavIds = favIds!.filter(fav => fav.animeId !== animeId)
             action = 'DELETE'
             args = { newFavIds }
         } else {
-            newFavIds = [...favIds!, { animeId, lastVisit: Date.now().toLocaleString() }]
+            console.log(favIds)
+            const favId = { animeId, lastVisit: new Date().toISOString() }
+
+            newFavIds = [...favIds!, favId]
             action = 'POST'
-            args = { animeId }
+            args = { favId }
         }
         // Update db
-        mutatingFetcher('/api/favIds', action, args)
+        mutatingFetcher<FavIdsRequest>('/api/favIds', action, args)
+            .then(res => console.log(res))
+            .catch(err => console.log(err))
         // Update session (since it doesnt do that automatically)
         // This way it doesnt have to constantly refetch data from db
         update({ favIds: newFavIds })
