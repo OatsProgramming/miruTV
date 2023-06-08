@@ -4,7 +4,7 @@ import styles from './signinForm.module.css'
 import type { RefObject } from "react";
 import { useState } from 'react'
 
-export default function SignUpForm({ dialogRef }: {
+export default function SigninForm({ dialogRef }: {
     dialogRef: RefObject<HTMLDialogElement>
 }) {
     const [isNew, setIsNew] = useState(true)

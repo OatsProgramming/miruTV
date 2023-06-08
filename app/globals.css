@@ -32,7 +32,6 @@ a:active {
   opacity: 0.5;
 }
 
-
 /* Set up individual dialog[open] for their use cases */
 /* 
     Dialog has: 
@@ -48,11 +47,24 @@ dialog {
   overflow: hidden;
   border-radius: 20px;
   border: 0;
-  background-color: rgb(21,21,21);
+  background-color: rgb(21, 21, 21);
   padding: 2rem 0;
 }
 
 dialog::backdrop {
-   background-color: rgba(0, 0, 0, 0.5);
-   backdrop-filter: blur(1.5px);
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(1.5px);
+}
+
+/* Sacrifice tabindex visibility */
+dialog *:focus-visible {
+  outline: none;
+}
+
+button {
+  padding: 0.25rem 0.75rem;
+  background-color: #212121;
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
 }

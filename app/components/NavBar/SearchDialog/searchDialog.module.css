@@ -38,10 +38,6 @@
     width: 80%;
 }
 
-.searchBar:focus-within {
-    outline: none;
-}
-
 .searchResults {
     display: flex;
     overflow: scroll;
@@ -51,11 +47,8 @@
 }
 
 .container button {
-    width: 2rem;
-    border: 0;
     opacity: 0.5;
     transition: all 200ms ease;
-    background-color: transparent;
 }
 
 .container button:hover {

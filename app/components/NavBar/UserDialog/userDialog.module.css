@@ -1,0 +1,34 @@
+/* 
+    Prevent dialog element from breaking by setting display 
+    only on open
+*/
+.container[open] {
+    display: flex;
+    align-items: center;
+}
+
+.container {
+   width: 80vw;
+   overflow: hidden;
+   gap: 1rem;
+   max-width: 720px;
+   position: relative;
+   height: max-content;
+   padding: 2rem 0;
+}
+
+.btn {
+    display: flex;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+    gap: 0.5rem;
+}
+
+@media screen and (max-width: 640px) {
+    .container {
+        flex-direction: column;
+    }
+}
