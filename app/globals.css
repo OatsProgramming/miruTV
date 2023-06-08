@@ -10,6 +10,13 @@
   font-family: inherit;
 }
 
+:root {
+  --primary: #151515;
+  --secondary: #b873d9;
+  --lightPrimary: #212121;
+  --darkSecondary: #b873d9;
+}
+
 html {
   color-scheme: dark;
 }
@@ -47,7 +54,7 @@ dialog {
   overflow: hidden;
   border-radius: 20px;
   border: 0;
-  background-color: rgb(21, 21, 21);
+  background-color: var(--primary);
   padding: 2rem 0;
 }
 
@@ -63,7 +70,7 @@ dialog *:focus-visible {
 
 button {
   padding: 0.25rem 0.75rem;
-  background-color: #212121;
+  background-color: var(--lightPrimary);
   border: 0;
   border-radius: 10px;
   cursor: pointer;
