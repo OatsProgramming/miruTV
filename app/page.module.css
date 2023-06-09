@@ -1,14 +1,25 @@
 .container {
     display: grid;
-    gap: 1rem;
+    gap: 2.5rem;
     padding: 1rem;
+}
+
+.container section {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.container h1 {
+    margin-bottom: 1rem;
+    font-size: xx-large;
+    width: 100%;
 }
 
 .animeList {
     display: flex;
-    /* border: 1px solid red; */
     height: 100%;
-    /* flex-wrap: wrap; */
     overflow-x: scroll;
     gap: 2.5rem;
 }

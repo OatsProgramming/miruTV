@@ -2,8 +2,8 @@
 
 import Link from 'next/link'
 import styles from './card.module.css'
-import { CSSProperties, PointerEvent, RefObject, useRef } from 'react'
-import { useEffect } from 'react'
+import type { CSSProperties } from 'react'
+import { useEffect, useRef } from 'react'
 import { getDialogContext } from '../DialogProvider.tsx/DialogProvider'
 import toggleDialog from '@/lib/toggleDialog'
 
@@ -19,31 +19,11 @@ export default function Card({ info, epInfo, isLandScape, style }: {
     style?: CSSProperties,
 }) {
     const dialogRef = getDialogContext()
-    const divRef = useRef<HTMLDivElement>()
+    
     const { animeId, animeTitle, coverImg } = info
 
-    let epTitle;
-    let link = `/info/${animeId}`
-    if (epInfo) {
-        const { number } = epInfo
-        link = `/watch/${animeId}/${number}`
-
-        epTitle = epInfo.title ?? '???'
-    }
-
-    useEffect(() => {
-        function onResize() {
-            if (!window) return
-
-            console.log(window.innerHeight)
-            console.log(window.innerWidth)
-        }
-
-        window.addEventListener('resize', onResize)
-        return () => {
-            window.removeEventListener('resize', onResize)
-        }
-    }, [])
+    const epTitle = epInfo?.title ?? '???'
+    const link = epInfo ? `/watch/${animeId}/${epInfo.number}` : `/info/${animeId}`
 
     return (
         <Link href={link}>
@@ -51,8 +31,9 @@ export default function Card({ info, epInfo, isLandScape, style }: {
                 onPointerDown={(e) => dialogRef && setTimeout(() => toggleDialog(e, dialogRef), 300)}
                 className={`
                     ${styles['card']} 
-                    ${isLandScape && styles['epCard']}`
-                }
+                    ${isLandScape && styles['epCard']}
+                    ${dialogRef && styles['dialogCard']}
+                `}
                 style={{
                     '--img': `url(${coverImg})`,
                     ...style

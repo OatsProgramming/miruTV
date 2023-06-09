@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: column;
     width: clamp(50px, 50vw, 250px);
-    /* border: 5px solid yellow; */
     aspect-ratio: 98 / 138;
     background-image: var(--img);
     background-position: center;
@@ -16,7 +15,6 @@
     background-color: hsla(0, 0%, 8%, 0.75);
     border-bottom-left-radius: inherit;
     border-bottom-right-radius: inherit;
-    /* filter: drop-shadow(0px -26px 10px hsla(0, 0%, 8%, 0.75)); */
     backdrop-filter: blur(4px) ;
     height: min-content;
     color: white;
@@ -34,13 +32,7 @@
 
 
 .epCard {
-    /* border: 2px solid black; */
-    /* width: 80%;
-    max-width: 200px; */
     aspect-ratio: 3 / 2;
-    /* padding: 1rem; */
-    /* background-color: #151515;
-    border-radius: 10px; */
     margin: 1rem 0;
     background-blend-mode: soft-light;
     box-shadow: inset 0px 0px 5px 5px rgba(24, 24, 24, 0.5);
@@ -50,9 +42,26 @@
     font-size: small;
 }
 
+.dialogCard {
+    width: 200px
+}
+
+
 @media screen and (max-width: 720px) {
     .card {
         font-size: small;
+        width: 170px;
+    }
+
+    .text {
+       gap: 0.25rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .dialogCard {
+        width: 130px;
+        font-size: xx-small;
     }
 }
 
