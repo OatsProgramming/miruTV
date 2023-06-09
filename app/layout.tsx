@@ -4,6 +4,8 @@ import NavBar from './components/NavBar/NavBar'
 import 'react-toastify/dist/ReactToastify.css'
 import SessionProviderComp from './SessionProvider'
 import Footer from './components/Footer/Footer'
+import '@splidejs/react-splide/css';
+import Hero from './components/Hero/Hero'
 
 export const metadata = {
   title: 'Miru TV',

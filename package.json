@@ -14,6 +14,7 @@
     "@oplayer/hls": "^1.2.22",
     "@oplayer/ui": "^1.2.26",
     "@prisma/client": "^4.13.0",
+    "@splidejs/react-splide": "^0.7.12",
     "@types/node": "18.16.2",
     "@types/react": "18.2.0",
     "@types/react-dom": "18.2.1",
