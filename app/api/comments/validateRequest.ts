@@ -66,11 +66,11 @@ export default async function validateRequest<T extends PATCH | POST | DELETE>(r
         }
         if (message) return new Response(message, { status: 422 })
         return { 
-            ...res.data as T,
+            ...res.data,
             method: res.method,
             userId: session.user.id, 
             createdBy: session.user.name 
-        } 
+        } as T
 
     } catch (err) {
         return handleError(err)

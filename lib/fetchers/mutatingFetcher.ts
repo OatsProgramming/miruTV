@@ -1,3 +1,9 @@
+type SuccessRes<T> = {
+    data: T & {
+        method: Exclude<Method, 'GET'>
+    }
+}
+
 /**
  * Handles 'mutating' HTTP methods. 
  * Returns result (useful for updating client side data (SWR)).
@@ -21,5 +27,5 @@ export default async function mutatingFetcher<T>(url: string, method: Exclude<Me
         return { message: result }
     }
     const result = await res.json()
-    return { data: result }
+    return { data: result } as SuccessRes<T>
 }

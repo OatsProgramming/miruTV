@@ -22,36 +22,41 @@ export async function POST(req: Request) {
     const res = await validateRequest(req)
     if (res instanceof Response) return res
 
-    switch(res.method) {
-        case 'DELETE': {
-            await prismadb.comment.delete({
-                where: { id: res.commentId }
-            })
-            break;
+    try {
+        switch(res.method) {
+            case 'DELETE': {
+                await prismadb.comment.delete({
+                    where: { id: res.commentId }
+                })
+                break;
+            }
+            case 'PATCH': {
+                await prismadb.comment.update({
+                    where: { id: res.commentId },
+                    data: {
+                        body: res.body,
+                        updatedAt: new Date().toISOString(),
+                    }
+                })
+                break;
+            }
+            case 'POST': {
+                const { body, createdBy, epId, userId } = res
+                await prismadb.comment.create({
+                    data: {
+                        epId,
+                        body,
+                        userId,
+                        createdBy,
+                        updatedAt: new Date().toISOString(),
+                        createdAt: new Date().toISOString(),
+                    }
+                })
+            }
         }
-        case 'PATCH': {
-            await prismadb.comment.update({
-                where: { id: res.commentId },
-                data: {
-                    body: res.body,
-                    updatedAt: new Date().toISOString(),
-                }
-            })
-            break;
-        }
-        case 'POST': {
-            const { body, createdBy, epId, userId } = res
-            await prismadb.comment.create({
-                data: {
-                    epId,
-                    body,
-                    userId,
-                    createdBy,
-                    updatedAt: new Date().toISOString(),
-                    createdAt: new Date().toISOString(),
-                }
-            })
-        }
+        return new Response(JSON.stringify(res), { status: 200 })
+    } catch (err) {
+        return handleError(err)
     }
 }
 
