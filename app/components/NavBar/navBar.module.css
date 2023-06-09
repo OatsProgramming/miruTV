@@ -8,5 +8,16 @@
     padding: 1rem;
     position: sticky;
     top: 0;
-    z-index: 9999;
+    z-index: 99999;
+}
+
+.nav > a {
+    font-size: larger;
+    font-weight: 900;
+}
+
+@media (max-width: 640px) {
+    .nav > a {
+        font-size: medium;
+    }
 }

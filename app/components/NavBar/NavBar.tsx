@@ -6,10 +6,6 @@ import dynamic from "next/dynamic"
 import styles from './navBar.module.css'
 import SearchDialog from "./SearchDialog/SearchDialog"
 
-const SignOut = dynamic(() =>
-    import("../AuthBtns/SignOut")
-)
-
 const UserDialog = dynamic(() =>
     import("./UserDialog/UserDialog")
 )

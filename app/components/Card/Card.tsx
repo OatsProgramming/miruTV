@@ -1,6 +1,12 @@
+'use client'
+
 import Link from 'next/link'
 import styles from './card.module.css'
-import type { CSSProperties } from 'react'
+import { CSSProperties, PointerEvent, RefObject, useRef } from 'react'
+import { useEffect } from 'react'
+import { getDialogContext } from '../DialogProvider.tsx/DialogProvider'
+import toggleDialog from '@/lib/toggleDialog'
+
 /**
  * 
  * If given epInfo, Card type change as a whole
@@ -9,9 +15,11 @@ import type { CSSProperties } from 'react'
 export default function Card({ info, epInfo, isLandScape, style }: {
     info: InfoCard,
     epInfo?: EpCardRequirments,
-    isLandScape?: true, 
-    style?: CSSProperties
+    isLandScape?: true,
+    style?: CSSProperties,
 }) {
+    const dialogRef = getDialogContext()
+    const divRef = useRef<HTMLDivElement>()
     const { animeId, animeTitle, coverImg } = info
 
     let epTitle;
@@ -22,10 +30,25 @@ export default function Card({ info, epInfo, isLandScape, style }: {
 
         epTitle = epInfo.title ?? '???'
     }
-    
+
+    useEffect(() => {
+        function onResize() {
+            if (!window) return
+
+            console.log(window.innerHeight)
+            console.log(window.innerWidth)
+        }
+
+        window.addEventListener('resize', onResize)
+        return () => {
+            window.removeEventListener('resize', onResize)
+        }
+    }, [])
+
     return (
         <Link href={link}>
-            <div 
+            <div
+                onPointerDown={(e) => dialogRef && setTimeout(() => toggleDialog(e, dialogRef), 300)}
                 className={`
                     ${styles['card']} 
                     ${isLandScape && styles['epCard']}`
@@ -34,8 +57,8 @@ export default function Card({ info, epInfo, isLandScape, style }: {
                     '--img': `url(${coverImg})`,
                     ...style
                 } as CSSProperties}>
-                <div 
-                    className={styles['text']} 
+                <div
+                    className={styles['text']}
                     style={{
                         display: animeTitle ? '' : 'none'
                     }}

@@ -4,7 +4,7 @@ import enimeFetcher from '@/lib/fetchers/enimeFetcher'
 import enimeFetcherToy from '@/lib/toyData/enimeFetcherToy'
 import { getServerSession } from 'next-auth'
 import { authOptions } from './api/auth/[...nextauth]/route'
-import FavSect from './components/AnimeSect/FavSect'
+import FavSect from './components/FavSect/FavSect'
 
 export default async function Home() {
   const sessionRes = getServerSession(authOptions)
@@ -59,7 +59,7 @@ export default async function Home() {
           <h1>We Got Your Saves:</h1>
           <section className={styles['animeList']}>
             {/* @ts-expect-error */}
-            <FavSect session={session}/>
+            <FavSect session={session} />
           </section>
         </>
       )}

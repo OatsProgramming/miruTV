@@ -25,10 +25,16 @@
     background-color: transparent;
     cursor: pointer;
     gap: 0.5rem;
+    font-size: large;
+    font-weight: 500;
 }
 
 @media screen and (max-width: 640px) {
     .container {
         flex-direction: column;
+    }
+
+    .btn {
+        font-size: medium;
     }
 }

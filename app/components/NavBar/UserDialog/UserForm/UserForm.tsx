@@ -1,13 +1,11 @@
 import SignOut from "@/app/components/AuthBtns/SignOut"
 import toggleDialog from "@/lib/toggleDialog"
-import isEqual from "lodash/isEqual"
-import { memo } from "react"
 import type { RefObject } from 'react'
 import styles from './userForm.module.css'
 import type { Session } from "next-auth"
-import FavSect from "@/app/components/AnimeSect/FavSect"
+import FavSect from "@/app/components/FavSect/FavSect"
 
-function userForm({ session, dialogRef }: {
+export default function UserForm({ session, dialogRef }: {
     session: Session
     dialogRef: RefObject<HTMLDialogElement>
 }) {
@@ -24,7 +22,7 @@ function userForm({ session, dialogRef }: {
             </div>
             <div className={styles['animes']}>
                 {/* @ts-expect-error */}
-                <FavSect session={session}/>
+                <FavSect session={session} />
             </div>
             <div className={styles['btnContainer']}>
                 <button onPointerDown={(e) => toggleDialog(e, dialogRef)}>
@@ -33,7 +31,7 @@ function userForm({ session, dialogRef }: {
                     </svg>
                     <div>Edit</div>
                 </button>
-                <SignOut dialogRef={dialogRef}/>
+                <SignOut dialogRef={dialogRef} />
                 <button onPointerDown={(e) => toggleDialog(e, dialogRef)}>
                     <div>Close</div>
                 </button>
@@ -41,9 +39,3 @@ function userForm({ session, dialogRef }: {
         </div>
     )
 }
-
-const UserForm = memo(userForm, (prev, next) => {
-    return isEqual(prev, next)
-})
-
-export default UserForm
