@@ -3,7 +3,7 @@ import HLSPlayer from "@/app/components/HLSPlayer/HLSPlayer";
 import enimeFetcher from "@/lib/fetchers/enimeFetcher";
 import enimeFetcherToy from "@/lib/toyData/enimeFetcherToy";
 import styles from './page.module.css'
-import CommentsSection from "@/app/components/commentsSection/CommentsSection";
+import CommentsSection from "@/app/components/CommentsSection/CommentsSection";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
@@ -46,7 +46,8 @@ export default async function Page({ params: { animeId, epNumber } }: {
     const curEp = episodes[epIdx]
     // This should never happen btw if using the ui
     if (!curEp) notFound()
-
+    
+    return <CommentsSection epId={curEp.id} />
     return (
         <div className={styles['container']}>
             <div className={styles['content']}>

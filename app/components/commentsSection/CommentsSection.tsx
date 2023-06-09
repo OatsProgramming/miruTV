@@ -1,9 +1,10 @@
 'use client'
 
-import styles from './commentsSection.module.css'
-import AddComment from './addComment/AddComment'
-import useComments from './hooks/useComments'
 import CommentsSkeleton from './CommentsSkeleton/CommentsSkeleton'
+import AddComment from './addComment/AddComment'
+import styles from './commentsSection.module.css'
+import useComments from './hooks/useComments'
+import Comment from './Comment/Comment'
 
 export default function CommmentsSection({ epId }: {
     epId: string
@@ -20,12 +21,7 @@ export default function CommmentsSection({ epId }: {
             <div className={styles['comments']}>
                 {(comments && comments.length > 0) ? (
                     comments.map(comment =>
-                        <div
-                            key={comment.id}
-                            className={styles['comment']}
-                        >
-                            {comment.body}
-                        </div>
+                        <Comment comment={comment}/>
                     )
                 ) : (
                     <div className={styles['comment']}>

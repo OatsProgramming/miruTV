@@ -4,31 +4,32 @@ import styles from './addComment.module.css'
 import mutatingFetcher from '@/lib/fetchers/mutatingFetcher'
 import notify, { toastOptions } from '@/lib/toast/toast'
 import { ToastContainer } from 'react-toastify'
-import { useSWRConfig } from 'swr'
+import useComments from '../hooks/useComments'
+
+export const commentMaxChar = 1000
 
 export default function AddComment({ epId }: {
     epId: string,
 }) {
-    const maxChar = 1000
-    const { mutate } = useSWRConfig()
+    const { refreshComments } = useComments(epId)
     const textareaRef = useRef<HTMLTextAreaElement>(null)
 
     async function handleComment(e: PointerEvent) {
         const textarea = textareaRef.current
         if (!textarea) return
-        else if (!textarea.value) return
+        const text = textarea.value.trim()
+        if (!text) return
 
         // Theres an svg in the way; use currentTarget
         const btn = e.currentTarget as HTMLButtonElement
         // Determine action type
         const action = btn.id
         if (action === 'send') {
-            const data = { epId, body: textarea.value }
+            const data = { epId, body: text }
             mutatingFetcher('/api/comments', 'POST', data)
-                // Revalidate SWRs that has this 'key' (regular mutate causes session to act weird for some reason)
-                .then(res => res.message ? 
-                    notify({ type: 'error', message: "Sign in to comment" }) :
-                    mutate(`/api/comments?epId=${epId}`)
+                .then(res => 'message' in res 
+                    ? notify({ type: 'error', message: "Sign in to comment" })
+                    : refreshComments()
                 )
                 .catch(err => console.log(err))
         }
@@ -41,9 +42,8 @@ export default function AddComment({ epId }: {
                 ref={textareaRef}
                 className={styles['addComment']}
                 placeholder="Join the conversation..."
-                maxLength={maxChar}
-                autoComplete="on"
-                autoCorrect="on"
+                maxLength={commentMaxChar}
+                spellCheck
             />
             <div className={styles['btns']}>
                 <button id='clear' onPointerDown={handleComment}>
