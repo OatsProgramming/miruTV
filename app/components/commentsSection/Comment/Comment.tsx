@@ -2,25 +2,27 @@
 
 import { useSession } from "next-auth/react"
 import styles from './comment.module.css'
-import { useEffect, useRef, useState } from "react"
+import { memo, useCallback, useEffect, useRef, useState } from "react"
 import mutatingFetcher from "@/lib/fetchers/mutatingFetcher"
 import type { Comment } from '@prisma/client'
 import type { PointerEvent } from "react"
 import { commentMaxChar } from "../addComment/AddComment"
 import notify from "@/lib/toast/toast"
 import useComments from "../hooks/useComments"
+import isEqual from "lodash/isEqual"
 
-export default function Comment({ comment }: {
+function commentComp({ comment }: {
     comment: Comment
 }) {
     const { data } = useSession()
+    const [commentBody, setCommentBody] = useState(comment.body)
     const [isEditing, setIsEditing] = useState(false)
     const menuBtnRef = useRef<HTMLDivElement>(null)
     const dialogRef = useRef<HTMLDialogElement>(null)
     const textareaRef = useRef<HTMLTextAreaElement>(null)
     const { refreshComments } = useComments(comment.epId)
 
-    function mutateComment(e: PointerEvent) {
+    const mutateComment = useCallback((e: PointerEvent) => {
         const el = e.target as HTMLButtonElement
         const action = el.dataset.httpMethod as Exclude<Method, 'GET' | 'POST'>
         let req: CommentRequest = {
@@ -48,24 +50,23 @@ export default function Comment({ comment }: {
         // Clean up
         dialogRef.current?.close()
         isEditing && setIsEditing(false)
-    }
+    }, [dialogRef.current, isEditing])
 
-    function handleCancel() {
-        const textarea = textareaRef.current
-        if (!textarea) return
-        textarea.value = ''
+    const handleCancel = useCallback(() => {
+        if (comment.body !== commentBody) setCommentBody(comment.body)
         setIsEditing(false)
-    }
+    }, [])
 
-    function handleMutate(e: PointerEvent) {
+    // useCallback no bueno here
+    const handleMutate = (e: PointerEvent) => {
         dialogRef.current?.close()
         mutateComment(e)
     }
 
-    function handleEdit() {
+    const handleEdit = useCallback(() => {
         setIsEditing(true)
         dialogRef.current?.close()
-    }
+    }, [dialogRef.current])
 
     // For comment menu
     useEffect(() => {
@@ -106,7 +107,6 @@ export default function Comment({ comment }: {
         }
     }, [])
 
-
     // Note to self: Do this at the end
     let optionBtns = (
         <>
@@ -137,10 +137,13 @@ export default function Comment({ comment }: {
                     <>
                         <textarea
                             ref={textareaRef}
+                            value={commentBody}
+                            onChange={(e) => setCommentBody(e.target.value)}
                             className={styles['editComment']}
                             placeholder={comment.body}
                             maxLength={commentMaxChar}
                             spellCheck
+                            onLoad={() => console.log('asd')}
                         />
                         <button data-http-method="PATCH" onPointerDown={handleMutate}>
                             Save
@@ -169,3 +172,10 @@ export default function Comment({ comment }: {
         </div >
     )
 }
+
+const CommentComp = memo(commentComp, (prev, next) => {
+    return isEqual(prev.comment, next.comment)
+})
+
+export default CommentComp
+
