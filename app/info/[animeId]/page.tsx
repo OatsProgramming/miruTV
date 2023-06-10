@@ -5,6 +5,21 @@ import Card from "@/app/components/Card/Card"
 import FavId from "@/app/components/FavId/FavId"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import enimeFetcher from "@/lib/fetchers/enimeFetcher"
+
+export async function generateMetadata({ params: { animeId } }: {
+    params: {
+        animeId: string,
+    }
+}) {
+    const anime = await enimeFetcherToy({ route: 'anime', arg: animeId })
+    if (!anime) notFound()
+
+    return {
+       title: anime.title.english,
+       description: anime.description
+    }
+} 
 
 export default async function Page({ params: { animeId } }: {
     params: {
