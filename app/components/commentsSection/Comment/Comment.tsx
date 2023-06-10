@@ -55,7 +55,7 @@ function commentComp({ comment }: {
     const handleCancel = useCallback(() => {
         if (comment.body !== commentBody) setCommentBody(comment.body)
         setIsEditing(false)
-    }, [])
+    }, [commentBody])
 
     // useCallback no bueno here
     const handleMutate = (e: PointerEvent) => {
@@ -65,6 +65,11 @@ function commentComp({ comment }: {
 
     const handleEdit = useCallback(() => {
         setIsEditing(true)
+        dialogRef.current?.close()
+    }, [dialogRef.current])
+
+    const handleReport = useCallback(() => {
+        notify({ type: 'warning', message: 'This feature is yet to be added.'})
         dialogRef.current?.close()
     }, [dialogRef.current])
 
@@ -110,7 +115,9 @@ function commentComp({ comment }: {
     // Note to self: Do this at the end
     let optionBtns = (
         <>
-            <button>Report</button>
+            <button onPointerDown={handleReport}>
+                Report
+            </button>
         </>
     )
 
@@ -134,7 +141,7 @@ function commentComp({ comment }: {
         <div className={styles['container']}>
             <div className={styles['comment']}>
                 {isEditing ? (
-                    <>
+                    <div className={styles['onEdit']}>
                         <textarea
                             ref={textareaRef}
                             value={commentBody}
@@ -145,30 +152,32 @@ function commentComp({ comment }: {
                             spellCheck
                             onLoad={() => console.log('asd')}
                         />
-                        <button data-http-method="PATCH" onPointerDown={handleMutate}>
-                            Save
-                        </button>
-                        <button onPointerDown={handleCancel}>
-                            Cancel
-                        </button>
-                    </>
+                        <div className={styles['btnContainer']}>
+                            <button data-http-method="PATCH" onPointerDown={handleMutate}>
+                                Save
+                            </button>
+                            <button onPointerDown={handleCancel}>
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
                 ) : (
                     <>
                         <div className={styles['text']}>
                             <div>{comment.createdBy}</div>
                             <p>{comment.body}</p>
                         </div>
-                        <div ref={menuBtnRef} className={styles['btn']} onPointerDown={() => dialogRef.current?.show()}>
+                        <div ref={menuBtnRef} className={styles['icon']} onPointerDown={() => dialogRef.current?.show()}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                 <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
                             </svg>
+                            <dialog ref={dialogRef} className={styles['menu']}>
+                                {optionBtns}
+                            </dialog>
                         </div>
                     </>
                 )}
             </div>
-            <dialog ref={dialogRef} className={styles['menu']}>
-                {optionBtns}
-            </dialog>
         </div >
     )
 }
