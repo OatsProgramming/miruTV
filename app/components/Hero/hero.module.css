@@ -44,7 +44,7 @@
 }
 
 
-@media (min-width: 1024px) {
+@media (min-width: 720px) {
     .text { 
         padding: 3rem;
         text-align: left;
