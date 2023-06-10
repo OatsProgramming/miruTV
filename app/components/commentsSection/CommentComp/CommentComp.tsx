@@ -10,6 +10,7 @@ import { commentMaxChar } from "../addComment/AddComment"
 import notify from "@/lib/toast/toast"
 import useComments from "../hooks/useComments"
 import isEqual from "lodash/isEqual"
+import formatDistance from 'date-fns/formatDistance'
 
 function commentComp({ comment }: {
     comment: Comment
@@ -21,6 +22,14 @@ function commentComp({ comment }: {
     const dialogRef = useRef<HTMLDialogElement>(null)
     const textareaRef = useRef<HTMLTextAreaElement>(null)
     const { refreshComments } = useComments(comment.epId)
+
+    const createdAt = new Date(comment.createdAt)
+    const updatedAt = new Date(comment.updatedAt)
+    const today = Date.now()
+
+    const isUpdated = +createdAt === +updatedAt
+
+    const timeDiff = formatDistance(updatedAt, today, { addSuffix: true })
 
     const mutateComment = useCallback((e: PointerEvent) => {
         const el = e.target as HTMLButtonElement
@@ -150,7 +159,6 @@ function commentComp({ comment }: {
                             placeholder={comment.body}
                             maxLength={commentMaxChar}
                             spellCheck
-                            onLoad={() => console.log('asd')}
                         />
                         <div className={styles['btnContainer']}>
                             <button data-http-method="PATCH" onPointerDown={handleMutate}>
@@ -164,7 +172,11 @@ function commentComp({ comment }: {
                 ) : (
                     <>
                         <div className={styles['text']}>
-                            <div>{comment.createdBy}</div>
+                            <div>
+                                <span>{comment.createdBy}</span>
+                                <span>::</span>
+                                <span>{isUpdated && 'updated '}{timeDiff}</span>
+                            </div>
                             <p>{comment.body}</p>
                         </div>
                         <div ref={menuBtnRef} className={styles['icon']} onPointerDown={() => dialogRef.current?.show()}>

@@ -19,6 +19,7 @@
     "@types/react": "18.2.0",
     "@types/react-dom": "18.2.1",
     "bcrypt": "^5.1.0",
+    "date-fns": "^2.30.0",
     "hls.js": "^1.4.4",
     "lodash": "^4.17.21",
     "next": "^13.4.4",

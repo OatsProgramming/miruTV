@@ -4,7 +4,7 @@ import CommentsSkeleton from './CommentsSkeleton/CommentsSkeleton'
 import AddComment from './addComment/AddComment'
 import styles from './commentsSection.module.css'
 import useComments from './hooks/useComments'
-import Comment from './Comment/Comment'
+import CommentComp from './CommentComp/CommentComp'
 
 export default function CommmentsSection({ epId }: {
     epId: string
@@ -21,7 +21,7 @@ export default function CommmentsSection({ epId }: {
             <div className={styles['comments']}>
                 {(comments && comments.length > 0) ? (
                     comments.map(comment =>
-                        <Comment comment={comment}/>
+                        <CommentComp comment={comment}/>
                     )
                 ) : (
                     <div className={styles['comment']}>
