@@ -1,0 +1,27 @@
+.text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.text div {
+    opacity: 0.65;
+    font-weight: lighter;
+    display: flex;
+    gap: 1ch;
+}
+
+.icon {
+    position: relative;
+}
+
+.menu[open] {
+    display: grid;
+    background-color: var(--primary);
+    gap: 1rem;
+    padding: 1rem;
+    position: absolute;
+    top: -15px;
+    left: -70px;
+}

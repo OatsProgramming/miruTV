@@ -3,8 +3,8 @@ import { PointerEvent, useRef } from 'react'
 import styles from './addComment.module.css'
 import mutatingFetcher from '@/lib/fetchers/mutatingFetcher'
 import notify, { toastOptions } from '@/lib/toast/toast'
-import { ToastContainer } from 'react-toastify'
 import useComments from '../hooks/useComments'
+import { ToastContainer } from 'react-toastify'
 
 export const commentMaxChar = 1000
 
@@ -57,7 +57,8 @@ export default function AddComment({ epId }: {
                     </svg>
                 </button>
             </div>
-            <ToastContainer {...toastOptions}/>
+            <ToastContainer {...toastOptions} />
         </div>
     )
 }
+
