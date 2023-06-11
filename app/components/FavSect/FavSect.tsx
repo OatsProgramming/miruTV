@@ -1,7 +1,7 @@
 import type { Session } from 'next-auth'
 import Card from '../Card/Card'
 import fetchFavs from '@/lib/fetchers/fetchFavs'
-import type { CSSProperties, PointerEvent, RefObject } from 'react'
+import type { CSSProperties } from 'react'
 
 /**
  * As of rn, this is for the home pg when user is signed in.

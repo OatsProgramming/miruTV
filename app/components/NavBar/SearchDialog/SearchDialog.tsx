@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import type { ChangeEvent } from 'react'
 import styles from './searchDialog.module.css'
 import toggleDialog from '@/lib/toggleDialog'
