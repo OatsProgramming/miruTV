@@ -1,10 +1,11 @@
 'use client'
+
 import useSWR, { useSWRConfig } from 'swr'
 import type { Comment } from '@prisma/client'
 import fetcher from '@/lib/fetchers/fetcher'
 
-export default function useComments(epId: string) {
-    const { data, error, isLoading } = useSWR(`/api/comments?epId=${epId}`, fetcher)
+export default function useReplies(commentId: string) {
+    const { data, error, isLoading } = useSWR(`/api/comments?repliedTo=${commentId}`, fetcher)
     // Regular mutate causes session to act weird for some reason
     const { mutate } = useSWRConfig()
 
@@ -12,6 +13,6 @@ export default function useComments(epId: string) {
         comments: data as Comment[],
         error,
         isLoading,
-        refresh: () => mutate(`/api/comments?epId=${epId}`)
+        refresh: () => mutate(`/api/comments?repliedTo=${commentId}`)
     }
 }

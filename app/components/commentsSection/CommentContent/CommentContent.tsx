@@ -5,11 +5,15 @@ import formatDistance from 'date-fns/formatDistance'
 import notify from '@/lib/toast/toast'
 import { useSession } from 'next-auth/react'
 
-export default function CommentContent({ dialogRef, setIsEditing, mutateComment }: {
-    dialogRef: RefObject<HTMLDialogElement>,
-    setIsEditing: (arg: boolean) => void,
-    mutateComment: (newBody?: string) => void
-}) {
+type CommentContentParam = {
+    inComments?: {
+        dialogRef: RefObject<HTMLDialogElement>,
+        setIsEditing: (arg: boolean) => void,
+        mutateComment: (newBody?: string) => void
+    }
+}
+
+export default function CommentContent({ inComments }: CommentContentParam) {
     const { data } = useSession()
     const menuBtnRef = useRef<HTMLDivElement>(null)
 
@@ -22,7 +26,20 @@ export default function CommentContent({ dialogRef, setIsEditing, mutateComment 
     const isUpdated = +createdAt === +updatedAt
     const timeDiff = formatDistance(updatedAt, today, { addSuffix: true })
 
-    const handleEdit =() => {
+    if (!inComments) return (
+        <div className={styles['text']}>
+            <div>
+                <span>{comment.createdBy}</span>
+                <span>::</span>
+                <span>{isUpdated && 'updated '}{timeDiff}</span>
+            </div>
+            <p>{comment.body}</p>
+        </div>
+    )
+
+    const { dialogRef, setIsEditing, mutateComment } = inComments
+
+    const handleEdit = () => {
         setIsEditing(true)
         dialogRef.current?.close()
     }

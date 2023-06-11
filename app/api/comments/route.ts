@@ -6,13 +6,27 @@ export async function GET(req: Request) {
     try {
         const { searchParams } = new URL(req.url)
         const epId = searchParams.get('epId')
-        if (!epId) return new Response("Episode ID not given (Comments Route)", { status: 422 })
+        const repliedTo = searchParams.get('repliedTo')
+        if (!epId && !repliedTo) {
+            return new Response(
+                `For Comments, you must either give: comment ID (repliedTo) or episode ID. None of those were given.`,
+                { status: 422 }
+            )
+        }
 
-        const comments = await prismadb.comment.findMany({
-            where: { epId }
-        })
+        let toReturn;
+        if (epId) {
+            toReturn = await prismadb.comment.findMany({
+                where: { epId }
+            })
+        }
+        else {
+            toReturn = await prismadb.comment.findMany({
+                where: { repliedTo }
+            })
+        }
 
-        return new Response(JSON.stringify(comments), { status: 200 })
+        return new Response(JSON.stringify(toReturn), { status: 200 })
     } catch (err) {
         return handleError(err)
     }
@@ -23,7 +37,7 @@ export async function POST(req: Request) {
     if (res instanceof Response) return res
 
     try {
-        switch(res.method) {
+        switch (res.method) {
             case 'DELETE': {
                 await prismadb.comment.delete({
                     where: { id: res.commentId }
@@ -41,17 +55,18 @@ export async function POST(req: Request) {
                 break;
             }
             case 'POST': {
-                const { body, createdBy, epId, userId } = res
+                const copy = { ...res }
+                delete copy.method
                 await prismadb.comment.create({
+                    // Despite checking everything, still gives type error
+                    // @ts-expect-error
                     data: {
-                        epId,
-                        body,
-                        userId,
-                        createdBy,
+                        ...copy,
                         updatedAt: new Date().toISOString(),
                         createdAt: new Date().toISOString(),
                     }
                 })
+
             }
         }
         return new Response(JSON.stringify(res), { status: 200 })

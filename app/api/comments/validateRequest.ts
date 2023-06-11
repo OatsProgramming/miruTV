@@ -18,10 +18,15 @@ type DELETE = Essential & {
     commentId: string,
 }
 
+// delete wont work unless the property is optional
 type POST = Essential & {
-    method: 'POST'
+    method?: 'POST'
     epId: string,
     body: string,
+} | {
+    method?: 'POST',
+    repliedTo: string,
+    body: string
 }
 
 export default async function validateRequest<T extends PATCH | POST | DELETE>(req: Request) {
@@ -35,12 +40,12 @@ export default async function validateRequest<T extends PATCH | POST | DELETE>(r
         // Essential ( compare w/ sesh user id to prevent unwanted tempering )
         switch(res.method) {
             case 'POST': {
-                const { epId, body } = res.data 
-                if (!epId || !body) {
+                const { epId, body, repliedTo } = res.data 
+                if ((!epId && !repliedTo) || !body) {
                     message = 
                     `Is missing...
-                        Episode ID?     ${!epId}
-                        Comment Body?   ${!body}
+                        Either Ep ID or Comment ID (for repliedTo)?     ${!epId && !repliedTo}
+                        Comment Body?                                   ${!body}
                         (Method: ${res.method})
                     `
                 }  

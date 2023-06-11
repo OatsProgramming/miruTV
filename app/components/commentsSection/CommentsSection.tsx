@@ -2,14 +2,11 @@ import AddComment from './addComment/AddComment'
 import styles from './commentsSection.module.css'
 import CommentsComp from './CommentsComp/CommentsComp'
 
-export default async function commentsSection({ epId }: {
-    epId: string
-}) {
-
+export default async function CommentsSection({ param }: CommentsSectionParam) {    
     return (
         <section id='commentsSection' className={styles['commentsSection']}>
-            <AddComment epId={epId} />
-            <CommentsComp epId={epId} />
+            <AddComment param={param}/>
+            <CommentsComp param={param}/>
         </section>
     )
 }

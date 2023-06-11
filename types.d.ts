@@ -22,6 +22,7 @@ type CommentRequest = {
     commentId?: string,
     body?: string,
     epId?: string,
+    repliedTo?: string
 }
 
 type RequestBody<T> = {
@@ -219,6 +220,12 @@ type EnimeReturnTypes = {
     view: EnimeView
   }
 
+type Param = {
+    params: {
+        [key: string]: string
+    }
+}
+
 type ParamsArr = {
     params: {
         slug: string[]
@@ -257,4 +264,8 @@ type NotifyParams = {
 
 type NotifyReturnType = Record<ToastType, string | number> & {
     promise: Promise<Response>
+}
+
+type CommentsSectionParam = {
+    param: { epId: string } | { commentId: string }
 }

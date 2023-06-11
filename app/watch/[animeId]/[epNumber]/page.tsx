@@ -46,8 +46,9 @@ export default async function Page({ params: { animeId, epNumber } }: {
     const curEp = episodes[epIdx]
     // This should never happen btw if using the ui
     if (!curEp) notFound()
-    
-    return <CommentsSection epId={curEp.id} />
+
+    // @ts-ignore
+    return <CommentsSection param={{ epId: curEp.id }} />
     return (
         <div className={styles['container']}>
             <div className={styles['content']}>
@@ -87,6 +88,7 @@ export default async function Page({ params: { animeId, epNumber } }: {
                     ))
                 )}
             </div>
+            {/* @ts-expect-error */}
             <CommentsSection epId={curEp.id} />
         </div>
     )

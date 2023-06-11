@@ -1,18 +1,20 @@
 'use client'
+
 import { PointerEvent, useRef } from 'react'
 import styles from './addComment.module.css'
 import mutatingFetcher from '@/lib/fetchers/mutatingFetcher'
 import notify, { toastOptions } from '@/lib/toast/toast'
-import useComments from '../hooks/useComments'
 import { ToastContainer } from 'react-toastify'
+import useReplies from '../hooks/useReplies'
+import useComments from '../hooks/useComments'
 
 export const commentMaxChar = 1000
 
-export default function AddComment({ epId }: {
-    epId: string,
-}) {
-    const { refreshComments } = useComments(epId)
+export default function AddComment({ param }: CommentsSectionParam) {
     const textareaRef = useRef<HTMLTextAreaElement>(null)
+    const { refresh } = 'commentId' in param 
+        ? useReplies(param.commentId)
+        : useComments(param.epId)
 
     async function handleComment(e: PointerEvent) {
         const textarea = textareaRef.current
@@ -25,11 +27,17 @@ export default function AddComment({ epId }: {
         // Determine action type
         const action = btn.id
         if (action === 'send') {
-            const data = { epId, body: text }
+            const data: CommentRequest = { body: text }
+
+            // Determine where the comment is being posted
+            'commentId' in param
+                ? data.repliedTo = param.commentId
+                : data.epId = param.epId
+
             mutatingFetcher('/api/comments', 'POST', data)
                 .then(res => 'message' in res 
                     ? notify({ type: 'error', message: "Sign in to comment" })
-                    : refreshComments()
+                    : refresh()
                 )
                 .catch(err => console.log(err))
         }
@@ -37,7 +45,10 @@ export default function AddComment({ epId }: {
     }
 
     return (
-        <div className={styles['container']}>
+        <div className={`
+            ${styles['container']}
+            ${'commentId' in param && styles['inReplies']}
+        `}>
             <textarea
                 ref={textareaRef}
                 className={styles['addComment']}
