@@ -26,7 +26,7 @@ export async function generateMetadata({ params: { animeId, epNumber } }: {
 
     return {
         title: `Watch now: ${anime.title.english} ${curEp?.title}`,
-        description: curEp?.description
+        description: curEp?.descriptiongi
     }
 }
 
@@ -47,8 +47,7 @@ export default async function Page({ params: { animeId, epNumber } }: {
     // This should never happen btw if using the ui
     if (!curEp) notFound()
 
-    // @ts-ignore
-    return <CommentsSection param={{ epId: curEp.id }} />
+    // return <CommentsSection epId={curEp.id} />
     return (
         <div className={styles['container']}>
             <div className={styles['content']}>
@@ -88,7 +87,6 @@ export default async function Page({ params: { animeId, epNumber } }: {
                     ))
                 )}
             </div>
-            {/* @ts-expect-error */}
             <CommentsSection epId={curEp.id} />
         </div>
     )

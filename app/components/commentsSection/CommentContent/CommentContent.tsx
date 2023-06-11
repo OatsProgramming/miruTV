@@ -4,21 +4,30 @@ import styles from './commentContent.module.css'
 import formatDistance from 'date-fns/formatDistance'
 import notify from '@/lib/toast/toast'
 import { useSession } from 'next-auth/react'
+import type { Comment } from '@prisma/client'
 
 type CommentContentParam = {
-    inComments?: {
+    inComments: {
         dialogRef: RefObject<HTMLDialogElement>,
         setIsEditing: (arg: boolean) => void,
         mutateComment: (newBody?: string) => void
     }
+} | {
+    /**
+     * as Original Poster
+     */
+    asOP: Comment
 }
 
-export default function CommentContent({ inComments }: CommentContentParam) {
+export default function CommentContent(param: CommentContentParam) {
     const { data } = useSession()
     const menuBtnRef = useRef<HTMLDivElement>(null)
 
-    const comment = getCommentContext()
-    if (!comment) throw new Error("Give Comment Context")
+    const comment = 'asOP' in param 
+        ? param.asOP
+        : getCommentContext()
+    
+    if (!comment) throw new Error("Comment is null (Comment content)")
 
     const createdAt = new Date(comment.createdAt)
     const updatedAt = new Date(comment.updatedAt)
@@ -26,7 +35,7 @@ export default function CommentContent({ inComments }: CommentContentParam) {
     const isUpdated = +createdAt === +updatedAt
     const timeDiff = formatDistance(updatedAt, today, { addSuffix: true })
 
-    if (!inComments) return (
+    if (!('inComments' in param)) return (
         <div className={styles['text']}>
             <div>
                 <span>{comment.createdBy}</span>
@@ -37,7 +46,7 @@ export default function CommentContent({ inComments }: CommentContentParam) {
         </div>
     )
 
-    const { dialogRef, setIsEditing, mutateComment } = inComments
+    const { dialogRef, setIsEditing, mutateComment } = param.inComments
 
     const handleEdit = () => {
         setIsEditing(true)

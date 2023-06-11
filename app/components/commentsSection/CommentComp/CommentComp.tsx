@@ -7,6 +7,7 @@ import notify from "@/lib/toast/toast"
 import dynamic from "next/dynamic"
 import { getCommentContext } from '../CommentProvider/CommentProvider'
 import isEqual from 'lodash/isEqual'
+import useCurrentComment from '../hooks/useCurrentComment'
 
 const EditComment = dynamic(() =>
     import('../EditComment/EditComment')
@@ -19,12 +20,14 @@ const CommentContent = dynamic(() =>
 function commentComp({ refresh }: {
     refresh: () => Promise<any>
 }) {
+    const { setCurrentComment } = useCurrentComment()
     const [isEditing, setIsEditing] = useState(false)
     const dialogRef = useRef<HTMLDialogElement>(null)
     const textareaRef = useRef<HTMLTextAreaElement>(null)
 
-    const comment = getCommentContext()
-    if (!comment) throw new Error('Comment is null')
+    // Caution: could cause infinite reply threads. Not sure if thats user friendly
+    const comment = getCommentContext() ?? useCurrentComment().currentComment
+    if (!comment) throw new Error('Both current and context comments are null (CommentComp)')
 
     const mutateComment = (newBody?: string) => {
         let action: Method = 'DELETE'
@@ -52,9 +55,10 @@ function commentComp({ refresh }: {
         dialogRef.current?.close()
         isEditing && setIsEditing(false)
     }
+    console.log(comment.body)
     return (
         <div className={styles['container']}>
-            <div className={styles['comment']}>
+            <div className='comment'>
                 {isEditing ? (
                     <EditComment
                         textareaRef={textareaRef}
@@ -71,6 +75,9 @@ function commentComp({ refresh }: {
                     />
                 )}
             </div>
+            <button onPointerDown={() => setCurrentComment(comment)}>
+                Go to Replies
+            </button>
         </div >
     )
 }

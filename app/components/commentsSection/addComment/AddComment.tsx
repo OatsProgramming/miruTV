@@ -7,14 +7,18 @@ import notify, { toastOptions } from '@/lib/toast/toast'
 import { ToastContainer } from 'react-toastify'
 import useReplies from '../hooks/useReplies'
 import useComments from '../hooks/useComments'
+import useCurrentComment from '../hooks/useCurrentComment'
 
 export const commentMaxChar = 1000
 
-export default function AddComment({ param }: CommentsSectionParam) {
+export default function AddComment({ epId }: {
+    epId: string
+}) {
     const textareaRef = useRef<HTMLTextAreaElement>(null)
-    const { refresh } = 'commentId' in param 
-        ? useReplies(param.commentId)
-        : useComments(param.epId)
+    const { currentComment } = useCurrentComment()
+    const { refresh } = currentComment
+        ? useReplies(currentComment.id)
+        : useComments(epId)
 
     async function handleComment(e: PointerEvent) {
         const textarea = textareaRef.current
@@ -30,9 +34,9 @@ export default function AddComment({ param }: CommentsSectionParam) {
             const data: CommentRequest = { body: text }
 
             // Determine where the comment is being posted
-            'commentId' in param
-                ? data.repliedTo = param.commentId
-                : data.epId = param.epId
+            currentComment
+                ? data.repliedTo = currentComment.id
+                : data.epId = epId
 
             mutatingFetcher('/api/comments', 'POST', data)
                 .then(res => 'message' in res 
@@ -47,7 +51,7 @@ export default function AddComment({ param }: CommentsSectionParam) {
     return (
         <div className={`
             ${styles['container']}
-            ${'commentId' in param && styles['inReplies']}
+            ${currentComment && styles['inReplies']}
         `}>
             <textarea
                 ref={textareaRef}
