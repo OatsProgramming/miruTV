@@ -27,8 +27,8 @@ export default function RootLayout({
         <SessionProviderComp>
           {/* @ts-expect-error */}
           <NavBar />
-          {/* {children} */}
-        {/* <Footer /> */}
+          {children}
+          <Footer />
         </SessionProviderComp>
         {/* Toast doesnt show unless set at the designated areas... */}
         {/* Even tho it was recommended to set it at the highest */}

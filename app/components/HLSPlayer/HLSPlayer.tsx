@@ -8,6 +8,7 @@ import type { UiConfig } from '@oplayer/ui'
 import { useEffect, useRef, useState } from 'react'
 import styles from './hlsPlayer.module.css'
 import extractDomainName from '@/lib/extractWebName'
+import { notFound } from 'next/navigation'
 
 export default function HLSPlayer({ sources, poster }: {
     sources: EnimeView['sources'],
@@ -52,7 +53,6 @@ export default function HLSPlayer({ sources, poster }: {
 
         // Make sure that it doesnt create more than one player
         if (!player) {
-            // console.log('asd')
             // Also avoid infinite loop
             setPlayer(_ =>
                 Player.make(div, { source: { src, poster } })
@@ -62,19 +62,17 @@ export default function HLSPlayer({ sources, poster }: {
         }
     }, [divRef.current, hls, player])
 
+    // Fetch src onChange
     useEffect(() => {
-        // console.log('asd')
         enimeFetcher({ route: 'source', arg: sources[srcIdx].id })
-            .then(res => res && setSrc(res.url))
+            .then(res => res ? setSrc(res.url) : notFound())
             .catch(err => console.log(err))
     }, [srcIdx])
 
     useEffect(() => {
         // Only care after player has loaded (dont add it as a dependency)
         if (!player) return
-        // console.log('asd')
         player.changeSource({ src })
-            // .then(_ => console.log('asd'))
             .catch(err => console.log(err))
     }, [src])
 
