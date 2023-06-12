@@ -24,12 +24,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={nunito.className}>
-        {/* @ts-expect-error */}
-        <NavBar />
         <SessionProviderComp>
-          {children}
+          {/* @ts-expect-error */}
+          <NavBar />
+          {/* {children} */}
+        {/* <Footer /> */}
         </SessionProviderComp>
-        <Footer />
         {/* Toast doesnt show unless set at the designated areas... */}
         {/* Even tho it was recommended to set it at the highest */}
         {/* <ToastContainer {...toastOptions} /> */}

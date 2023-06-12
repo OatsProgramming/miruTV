@@ -4,13 +4,14 @@ import validateRequest from "./validateRequest"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "../auth/[...nextauth]/route"
 import handleError from "@/lib/handleError"
+import isEqual from 'lodash/isEqual'
 
 export async function POST(req: Request) {
     const res = await validateRequest(req)
     if (res instanceof Response) return res
 
     const { username, password, method } = res
-
+    console.log(res)
     try {
         switch (method) {
             case 'DELETE':
@@ -20,21 +21,49 @@ export async function POST(req: Request) {
                 if (!session) return new Response("Sign in to make changes.", { status: 401 })
 
                 // Compare by session id instead of user name for added safety
-                const user = await prismadb.user.findUnique({
+                const currentUserPromise =  prismadb.user.findUnique({
                     where: { id: session.user.id }
                 })
 
-                if (!user) return new Response("User not found", { status: 404 })
+                const targetUserPromise = prismadb.user.findUnique({
+                    where: { username }
+                })
+                console.log('asd')
 
+                const [currentUser, targetUser] = await Promise.all([currentUserPromise, targetUserPromise])
+                console.log('asd')
+
+                if (!currentUser || !targetUser) {
+                    console.log('asd')
+                    return new Response(
+                        `The following could not be found in the database:
+                        Current User?       ${!currentUser}
+                        Target User?        ${!targetUser}`,
+                        { status: 404 }
+                    )
+                }
+
+                else if (!isEqual(currentUser, targetUser)) {
+                    console.log('asd')
+
+                    return new Response(
+                        `If planning to make changes to ${username}, please sign in as ${username}`,
+                        { status: 401 }
+                    )
+                }
+                
                 // Check pw
-                else if (!await compare(password, user.hashedPassword)) {
+                else if (!await compare(password, targetUser.hashedPassword)) {
+                    console.log('asd')
+
                     return new Response("Password mismatch.", { status: 401 })
                 }
 
                 // Now get to actual business
                 if (method === 'DELETE') {
+                    console.log(targetUser.id)
                     await prismadb.user.delete({
-                        where: { id: session.user.id }
+                        where: { id: targetUser.id }
                     })
                     break;
                 }
@@ -47,10 +76,10 @@ export async function POST(req: Request) {
                     }
 
                     await prismadb.user.update({
-                        where: { id: session.user.id },
+                        where: { id: targetUser.id },
                         data: {
-                            username: res.newInfo?.username ?? user.username,
-                            hashedPassword: hashedPassword ?? user.hashedPassword
+                            username: res.newInfo?.username ?? targetUser.username,
+                            hashedPassword: hashedPassword ?? targetUser.hashedPassword
                         }
                     })
                     break;

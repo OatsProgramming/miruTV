@@ -1,13 +1,15 @@
 import toggleDialog from '@/lib/toggleDialog';
-import handleSubmit from './handleSubmit';
 import styles from './signinForm.module.css'
-import type { RefObject } from "react";
+import type { RefObject, FormEvent } from "react";
 import { useState } from 'react'
+import signInUser from './signInUser'
+import { useRouter } from 'next/navigation'
 
 export default function SigninForm({ dialogRef }: {
     dialogRef: RefObject<HTMLDialogElement>
 }) {
-    const [isNew, setIsNew] = useState(true)
+    const [isNew, setIsNew] = useState(false)
+
     return (
         <>
             <div className={styles['details']}>
@@ -24,7 +26,7 @@ export default function SigninForm({ dialogRef }: {
                     <div><i>For privacy, please don't use your email as a username. But hey, I'm not your dad.</i></div>
                 </span>
             </div>
-            <form onSubmit={(e) => handleSubmit(e, isNew)} className={styles['form']}>
+            <form onSubmit={(e) => signInUser(e, isNew)} className={styles['form']}>
                 <img
                     loading='lazy'
                     src='https://i.imgur.com/8afeTcs.png'

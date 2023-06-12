@@ -23,7 +23,7 @@ export default async function mutatingFetcher<T>(url: string, method: Exclude<Me
     })
     if (!res.ok) {
         const result = await res.text()
-        console.error(result)
+        console.log(result)
         return { message: result }
     }
     const result = await res.json()

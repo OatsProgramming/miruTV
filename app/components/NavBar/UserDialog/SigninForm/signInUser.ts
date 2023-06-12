@@ -1,19 +1,19 @@
+import mutatingFetcher from "@/lib/fetchers/mutatingFetcher"
 import notify from "@/lib/toast/toast"
 import { signIn } from "next-auth/react"
 import type { FormEvent } from "react"
 
-export default async function handleSubmit(e: FormEvent, isNew: boolean) {
+export default async function signInUser(e: FormEvent, isNew: boolean) {
     e.preventDefault()
     const form = e.target as HTMLFormElement
     const formData = new FormData(form)
-    const data: UserRequest = {
+    const data = {
         username: formData.get('username'),
         password: formData.get('password'),
     } as UserRequest
 
-    // For new users
     if (isNew) {
-        // Make sure they typed the desired pw right
+        // POST
         const confirmPassword = formData.get('confirm')
         if (data.password !== confirmPassword) {
             return notify({
@@ -24,32 +24,19 @@ export default async function handleSubmit(e: FormEvent, isNew: boolean) {
 
         try {
             // Create user
-            const res = await fetch('/api/user', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ data, method: 'POST' })
-            })
+            const res = await mutatingFetcher('/api/user', 'POST', data)
 
-
-            if (!res.ok) {
-                const result = await res.text()
-                console.error(result)
-                
-                let message = "Server Error"
-                if (result.includes("Unique constraint")){
-                    message = "User already exists"
+            if ('message' in res) {
+                let message = 'Server Error'
+                if (res.message.includes('Unique constraint')) {
+                    message = 'User already exists'
                 }
-                
-                // Notify user what went wrong
                 return notify({
                     type: 'error',
                     message
                 })
             }
 
-            // Let user know creation is complete
             notify({
                 type: 'success',
                 message: 'User created'
@@ -59,22 +46,25 @@ export default async function handleSubmit(e: FormEvent, isNew: boolean) {
             return
         }
     }
-
+    
     // Let user know sign in executing
     notify({
         type: 'info',
         message: 'Signing in...'
     })
 
-    signIn('credentials', {
+    const res = await signIn('credentials', {
+        redirect: false,
         username: data.username,
         password: data.password
     })
-        .catch((err: Error) => {
-            console.error(err)
-            notify({
-                type: 'error',
-                message: "Failed to sign in"
-            })
-        })
+
+    // res.ok will always be true for next-auth
+    if (res?.error) {
+        console.log(res.error)
+        notify({ type: 'error', message: 'Incorrect username / password'})
+    }
+
+    // Manually reload if successful
+    else window.location.reload()
 }
