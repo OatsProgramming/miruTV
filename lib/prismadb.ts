@@ -1,13 +1,13 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client'
 
-// Make sure only one instance exists throughout sesh
-let prismadb: PrismaClient;
-
-if (!global.prismadb) {
-  global.prismadb = new PrismaClient({
-    log: ["info"],
-  });
+const globalPrisma = global as unknown as {
+  prisma: PrismaClient | undefined
 }
-prismadb = global.prismadb;
 
-export default prismadb;
+const prismadb =
+  globalPrisma.prisma ??
+  new PrismaClient()
+
+if (process.env.NODE_ENV !== 'production') globalPrisma.prisma = prismadb
+
+export default prismadb
