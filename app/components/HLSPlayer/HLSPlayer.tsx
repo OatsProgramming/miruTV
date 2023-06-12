@@ -1,7 +1,6 @@
 'use client'
 
 import enimeFetcher from '@/lib/fetchers/enimeFetcher'
-import enimeFetcherToy from '@/lib/toyData/enimeFetcherToy'
 import Player from '@oplayer/core'
 import type { PlayerPlugin } from '@oplayer/core'
 import ui from '@oplayer/ui'
@@ -29,7 +28,7 @@ export default function HLSPlayer({ sources, poster }: {
                     value: source.id
                 })),
                 onChange: ({ value }) => {
-                    enimeFetcherToy({ route: 'source', arg: value })
+                    enimeFetcher({ route: 'source', arg: value })
                         .then(res => setSrc(res?.url ?? ''))
                         .catch(err => console.error(err))
                 }
@@ -39,7 +38,7 @@ export default function HLSPlayer({ sources, poster }: {
 
     // Set initial src && lazy load hls
     useEffect(() => {
-        enimeFetcherToy({ route: 'source', arg: sources[0].id })
+        enimeFetcher({ route: 'source', arg: sources[0].id })
             .then(res => setSrc(res?.url ?? ''))
             .catch(err => console.error(err))
         import('@/lib/hlsPlayer/hls')

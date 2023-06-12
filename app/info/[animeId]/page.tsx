@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation"
-import enimeFetcherToy from "@/lib/toyData/enimeFetcherToy"
 import styles from './page.module.css'
 import Card from "@/app/components/Card/Card"
 import FavId from "@/app/components/FavId/FavId"
@@ -12,7 +11,7 @@ export async function generateMetadata({ params: { animeId } }: {
         animeId: string,
     }
 }) {
-    const anime = await enimeFetcherToy({ route: 'anime', arg: animeId })
+    const anime = await enimeFetcher({ route: 'anime', arg: animeId })
     if (!anime) notFound()
 
     return {
@@ -27,7 +26,7 @@ export default async function Page({ params: { animeId } }: {
     }
 }) {
     const sessionPromise = getServerSession(authOptions)
-    const animePromise = enimeFetcherToy({ route: 'anime', arg: animeId })
+    const animePromise = enimeFetcher({ route: 'anime', arg: animeId })
 
     const [session, anime] = await Promise.all([sessionPromise, animePromise])
     if (!anime) notFound()

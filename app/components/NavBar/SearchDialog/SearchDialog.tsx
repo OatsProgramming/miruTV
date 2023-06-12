@@ -6,8 +6,6 @@ import styles from './searchDialog.module.css'
 import toggleDialog from '@/lib/toggleDialog'
 import enimeFetcher from '@/lib/fetchers/enimeFetcher'
 import Card from '../../Card/Card'
-import enimeFetcherToy from '@/lib/toyData/enimeFetcherToy'
-
 
 export default function SearchDialog() {
     const dialogRef = useRef<HTMLDialogElement>(null)
@@ -19,7 +17,7 @@ export default function SearchDialog() {
         // Make sure that it doesnt send too many request accidentally
         // Wait till user is finished typing
         timerRef.current = setTimeout(() => {
-            enimeFetcherToy({ route: 'search', arg: query })
+            enimeFetcher({ route: 'search', arg: query })
                 .then(res => setSearchResults(res))
                 .catch(err => console.error(err))
         }, 1500)

@@ -1,7 +1,6 @@
 import Card from "@/app/components/Card/Card";
 import HLSPlayer from "@/app/components/HLSPlayer/HLSPlayer";
 import enimeFetcher from "@/lib/fetchers/enimeFetcher";
-import enimeFetcherToy from "@/lib/toyData/enimeFetcherToy";
 import styles from './page.module.css'
 import CommentsSection from "@/app/components/CommentsSection/CommentsSection";
 import { notFound } from "next/navigation";
@@ -13,7 +12,7 @@ export async function generateMetadata({ params: { animeId, epNumber } }: {
         epNumber: string,
     }
 }) {
-    const anime = await enimeFetcherToy({ route: 'anime', arg: animeId })
+    const anime = await enimeFetcher({ route: 'anime', arg: animeId })
     if (!anime) throw new Error("Anime not found")
 
     // Can just get it by index since it's already sorted
@@ -26,7 +25,7 @@ export async function generateMetadata({ params: { animeId, epNumber } }: {
 
     return {
         title: `Watch now: ${anime.title.english} ${curEp?.title}`,
-        description: curEp?.descriptiongi
+        description: curEp?.description
     }
 }
 
@@ -36,7 +35,7 @@ export default async function Page({ params: { animeId, epNumber } }: {
         epNumber: string,
     }
 }) {
-    const anime = await enimeFetcherToy({ route: 'anime', arg: animeId })
+    const anime = await enimeFetcher({ route: 'anime', arg: animeId })
     if (!anime) throw new Error("Anime not found")
 
     // Can just get it by index since it's already sorted

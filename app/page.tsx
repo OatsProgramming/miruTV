@@ -1,16 +1,15 @@
 import styles from './page.module.css'
 import Card from './components/Card/Card'
 import enimeFetcher from '@/lib/fetchers/enimeFetcher'
-import enimeFetcherToy from '@/lib/toyData/enimeFetcherToy'
-import { getServerSession } from 'next-auth'
+import { getServerSession } from 'next-auth/next'
 import { authOptions } from './api/auth/[...nextauth]/route'
 import FavSect from './components/FavSect/FavSect'
 import Hero from './components/Hero/Hero'
 
 export default async function Home() {
   const sessionRes = getServerSession(authOptions)
-  const recentRes = enimeFetcherToy({ route: 'recent' })
-  const popularRes = enimeFetcherToy({ route: 'popular' })
+  const recentRes = enimeFetcher({ route: 'recent' })
+  const popularRes = enimeFetcher({ route: 'popular' })
 
   const [recents, popular, session] =
     await Promise.all([recentRes, popularRes, sessionRes])
