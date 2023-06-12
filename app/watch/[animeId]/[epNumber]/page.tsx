@@ -39,6 +39,7 @@ export default async function Page({ params: { animeId, epNumber } }: {
     //     sources={episode.sources}
     //     poster={episode.image}
     // />
+    // return <CommentsSection epId={episode.id} />
     return (
         <div className={styles['container']}>
             <div className={styles['content']}>

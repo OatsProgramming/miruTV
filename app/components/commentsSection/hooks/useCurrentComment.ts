@@ -32,7 +32,14 @@ const useCurrentComment = create<CurrentCommentStore>()((set, get) => ({
         })
     },
     // Pop works perfectly here (no need to make a new array and update prevComments)
-    goBackOne: () => set(state => ({ currentComment: state.prevComments.pop() })),
+    goBackOne: () => {
+        set(state => {
+            state.prevComments.pop()
+            return {
+                currentComment: state.prevComments.at(-1)
+            }
+        }) 
+    },
     goBackMain: () => set({ currentComment: null, prevComments: [] })
 }))
 
