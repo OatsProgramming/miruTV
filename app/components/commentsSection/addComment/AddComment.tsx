@@ -51,7 +51,7 @@ export default function AddComment({ epId }: {
     return (
         <div className={`
             ${styles['container']}
-            ${currentComment && styles['inReplies']}
+            
         `}>
             <textarea
                 ref={textareaRef}

@@ -1,6 +1,6 @@
 import notify from "@/lib/toast/toast"
 import { signIn } from "next-auth/react"
-import { FormEvent } from "react"
+import type { FormEvent } from "react"
 
 export default async function handleSubmit(e: FormEvent, isNew: boolean) {
     e.preventDefault()

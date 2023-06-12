@@ -55,7 +55,7 @@ function commentComp({ refresh }: {
         dialogRef.current?.close()
         isEditing && setIsEditing(false)
     }
-    console.log(comment.body)
+    
     return (
         <div className={styles['container']}>
             <div className='comment'>

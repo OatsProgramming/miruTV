@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import styles from './card.module.css'
 import type { CSSProperties } from 'react'
-import { useEffect, useRef } from 'react'
 import { getDialogContext } from '../DialogProvider.tsx/DialogProvider'
 import toggleDialog from '@/lib/toggleDialog'
 
@@ -18,6 +17,7 @@ export default function Card({ info, epInfo, isLandScape, style }: {
     isLandScape?: true,
     style?: CSSProperties,
 }) {
+    // When card is in a dialog (UserDialog)
     const dialogRef = getDialogContext()
     
     const { animeId, animeTitle, coverImg } = info
