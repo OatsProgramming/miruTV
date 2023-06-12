@@ -230,7 +230,7 @@ const viewToy: EnimeView = {
         "url": "https://gogoanime.hu"
       },
       {
-        "id": "cli951p6s00045vpk0u6o5z6e",
+        "id": "test",
         "target": "/watch/i-got-a-cheat-skill-in-another-world-and-became-unrivaled-in-the-real-world-too-18343?ep=101634",
         "priority": 2,
         "url": "https://zoro.to"

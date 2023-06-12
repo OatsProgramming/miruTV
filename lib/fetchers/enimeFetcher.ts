@@ -4,7 +4,7 @@ import mappingToy from "@/lib/toyData/mappingToy";
 import popularToy from "@/lib/toyData/popular";
 import recentsToy from "@/lib/toyData/recentsToy";
 import searchToy from "@/lib/toyData/searchToy";
-import sourceToy from "@/lib/toyData/sourceToy";
+import { sourceToy, sourceToy2 } from "@/lib/toyData/sourceToy";
 import viewToy from "../toyData/viewToy";
 import thisUrl from "../thisUrl";
 
@@ -32,8 +32,12 @@ export default async function enimeFetcher<EnimeRouteT extends EnimeRoute>(
     case 'recent': return recentsToy;
     // @ts-ignore
     case 'search': return searchToy;
-    // @ts-ignore
-    case 'source': return sourceToy;
+    case 'source': {
+      // @ts-ignore
+      if (route.arg === 'test') return sourceToy2
+      // @ts-ignore
+      else return sourceToy
+    }
     // @ts-ignore
     case 'view': return viewToy;
     // @ts-ignore

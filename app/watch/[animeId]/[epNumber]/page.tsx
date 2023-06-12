@@ -6,22 +6,22 @@ import CommentsSection from "@/app/components/CommentsSection/CommentsSection";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
-export async function generateMetadata({ params: { animeId, epNumber } }: {
-    params: {
-        animeId: string,
-        epNumber: string,
-    }
-}) {
-    const episode = await enimeFetcher({ route: 'view', arg1: animeId, arg2: epNumber })
-    if (!episode) notFound()
+// export async function generateMetadata({ params: { animeId, epNumber } }: {
+//     params: {
+//         animeId: string,
+//         epNumber: string,
+//     }
+// }) {
+//     const episode = await enimeFetcher({ route: 'view', arg1: animeId, arg2: epNumber })
+//     if (!episode) notFound()
 
-    const { anime } = episode
+//     const { anime } = episode
 
-    return {
-        title: `Watch now: ${anime.title.english} ${episode.title}`,
-        description: episode.description
-    }
-}
+//     return {
+//         title: `Watch now: ${anime.title.english} ${episode.title}`,
+//         description: episode.description
+//     }
+// }
 
 export default async function Page({ params: { animeId, epNumber } }: {
     params: {
@@ -35,7 +35,10 @@ export default async function Page({ params: { animeId, epNumber } }: {
     const { anime } = episode
     const { episodes } = anime
 
-    // return <CommentsSection epId={curEp.id} />
+    // return <HLSPlayer
+    //     sources={episode.sources}
+    //     poster={episode.image}
+    // />
     return (
         <div className={styles['container']}>
             <div className={styles['content']}>
