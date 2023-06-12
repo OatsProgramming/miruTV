@@ -12,20 +12,14 @@ export async function generateMetadata({ params: { animeId, epNumber } }: {
         epNumber: string,
     }
 }) {
-    const anime = await enimeFetcher({ route: 'anime', arg: animeId })
-    if (!anime) throw new Error("Anime not found")
+    const episode = await enimeFetcher({ route: 'view', arg1: animeId, arg2: epNumber })
+    if (!episode) notFound()
 
-    // Can just get it by index since it's already sorted
-    const episodes = anime.episodes
-    const epIdx = Number(epNumber) - 1
-    // Just have it as possibly undefined here (someone might mess w/ the url)
-    const curEp: AnimeEpisode | undefined = episodes[epIdx]
-    // This should never happen btw if using the ui
-    // if (!curEp) throw new Error(`Episode ${epIdx} of ${anime.title.english} cannot be found.`)
+    const { anime } = episode
 
     return {
-        title: `Watch now: ${anime.title.english} ${curEp?.title}`,
-        description: curEp?.description
+        title: `Watch now: ${anime.title.english} ${episode.title}`,
+        description: episode.description
     }
 }
 
@@ -35,32 +29,27 @@ export default async function Page({ params: { animeId, epNumber } }: {
         epNumber: string,
     }
 }) {
-    const anime = await enimeFetcher({ route: 'anime', arg: animeId })
-    if (!anime) throw new Error("Anime not found")
+    const episode = await enimeFetcher({ route: 'view', arg1: animeId, arg2: epNumber })
+    if (!episode) notFound()
 
-    // Can just get it by index since it's already sorted
-    // Note to self: for some reason epNumber goes null sometimes while loading. reason unknown
-    const episodes = anime.episodes
-    const epIdx = Number(epNumber) - 1
-    const curEp = episodes[epIdx]
-    // This should never happen btw if using the ui
-    if (!curEp) notFound()
+    const { anime } = episode
+    const { episodes } = anime
 
     // return <CommentsSection epId={curEp.id} />
     return (
         <div className={styles['container']}>
             <div className={styles['content']}>
-                <h1>EP {epNumber}: {curEp.title}</h1>
+                <h1>EP {epNumber}: {episode.title}</h1>
                 <Link href={`/info/${anime.id}`}>
                     <h3>{anime.title.english}</h3>
                 </Link>
                 <HLSPlayer
-                    sources={curEp.sources}
-                    poster={curEp.image}
+                    sources={episode.sources}
+                    poster={episode.image}
                 />
             </div>
             <div className={styles['episodes']}>
-                {episodes && (
+                {episodes.length > 0 && (
                     episodes.map((ep, idx) => (
                         <div
                             key={ep.id}
@@ -78,7 +67,6 @@ export default async function Page({ params: { animeId, epNumber } }: {
                                 epInfo={{
                                     title: ep.title,
                                     number: ep.number,
-                                    sources: ep.sources
                                 }}
                                 isLandScape
                             />
@@ -86,7 +74,7 @@ export default async function Page({ params: { animeId, epNumber } }: {
                     ))
                 )}
             </div>
-            <CommentsSection epId={curEp.id} />
+            <CommentsSection epId={episode.id} />
         </div>
     )
 }

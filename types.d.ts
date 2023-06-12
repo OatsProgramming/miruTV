@@ -207,7 +207,7 @@ type EnimeView = {
     title: string;
     titleVariations: TitleVariationsSML;
     description: string;
-    image: string | null;
+    image?: string;
     airedAt: string;
     createdAt: string;
     anime: AnimeSML;
@@ -279,7 +279,6 @@ type InfoCard = {
 type EpCardRequirments = {
     title: string,
     number: number,
-    sources: AnimeSourcePlain[]
 }
 
 type Method = 'GET' | 'POST' | 'PATCH' | 'DELETE'

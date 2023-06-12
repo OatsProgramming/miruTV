@@ -7,11 +7,12 @@ import ui from '@oplayer/ui'
 import type { UiConfig } from '@oplayer/ui'
 import { useEffect, useRef, useState } from 'react'
 import styles from './hlsPlayer.module.css'
-
+import extractDomainName from '@/lib/extractWebName'
+import sourceToy from '@/lib/toyData/sourceToy'
 
 export default function HLSPlayer({ sources, poster }: {
-    sources: AnimeSourcePlain[],
-    poster?: string
+    sources: EnimeView['sources'],
+    poster?: string,
 }) {
     const divRef = useRef<HTMLDivElement>(null)
     const [src, setSrc] = useState('')
@@ -23,7 +24,7 @@ export default function HLSPlayer({ sources, poster }: {
             {
                 name: 'Source',
                 children: sources.map((source, idx) => ({
-                    name: source.website,
+                    name: extractDomainName(source.url) ?? 'Unknown',
                     default: idx === 0,
                     value: source.id
                 })),
@@ -58,7 +59,8 @@ export default function HLSPlayer({ sources, poster }: {
                     .use([ui(uiOptions), hls])
                     .create()
             )
-        } else {
+        } 
+        else {
             player.changeSource({ src })
                 .catch(err => console.error(err))
         }

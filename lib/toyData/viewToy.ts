@@ -7,6 +7,7 @@ const viewToy: EnimeView = {
       "english": "The Princess and the Assassin"
     },
     "description": "Lexia has been attacked, a crime punishable by execution. But Yuuya knows the would-be assassin and he can’t help wondering what could have caused them to do such a thing. The answer is shocking...as is the arrival of a new family member for Yuuya.",
+    // @ts-expect-error
     "image": null,
     "airedAt": "2023-06-02T00:00:00.000Z",
     "createdAt": "2023-05-29T15:00:42.524Z",

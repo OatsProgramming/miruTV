@@ -21,7 +21,7 @@ export default async function FavSect({ session, style }: {
                         key={idx}
                         info={{
                             animeId: fav.id,
-                            animeTitle: fav.title.english,
+                            animeTitle: fav.title.english ?? 'N/A',
                             coverImg: fav.coverImage,
                         }}
                         style={style}
