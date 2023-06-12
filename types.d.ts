@@ -48,13 +48,14 @@ type Sesh = {
 
 // Gen
 type TitleVariationsSML = {
-    native: string,
-    english: string,
+    native?: string,
+    english?: string,
 }
 
 type TitleVariantionsXL = TitleVariationsSML & {
-    "userPreferred": string
-    "romaji": string,
+    "userPreferred"?: string
+    "romaji"?: string,
+    japanese?: string
 }
 
 type Mappings = {
@@ -101,8 +102,20 @@ type AnimeXL = {
     "genre": string[]
 }
 
-type AnimeSML = Pick<AnimeXL, 'id' | 'slug' | 'title' | 'genre' | 'mappings' | 'bannerImage' | 'coverImage'> & {
-    episodes: AnimeEpisode[]
+type AnimeSML = {
+    id: string;
+    slug: string;
+    title: {
+        native: string;
+        romaji: string;
+        english: string;
+        userPreferred: string;
+    };
+    episodes: AnimeEpisode[];
+    genre: string[];
+    mappings: Mappings;
+    bannerImage: string;
+    coverImage: string;
 }
 
 type AnimeMetaData = {
@@ -122,6 +135,11 @@ type AnimeSourcePlain = {
     "subtitle": boolean
 }
 
+type AnimeSourcePlainSML = {
+    id: string,
+    target: string,
+}
+
 // type AnimeRecent = AnimeEpisode & {
 //     sources: AnimeSourcePlain
 // }
@@ -136,22 +154,26 @@ type AnimeRecent = {
     "title": string,
     "titleVariations"?: TitleVariationsSML,
     "description": string,
-    "image"?: string,
+    "image": string | null,
     "airedAt": string,
     "sources": AnimeSourcePlain[]
 }
 
-type AnimeEpisode = {
-    id: string,
-    animeId: string,
-    number: number,
-    title: string,
-    titleVariations: TitleVariationsSML,
-    description: string,
-    image?: string,
-    airedAt: string,
-    createdAt: string,
-}
+type AnimeEpisode = ({
+    id: string;
+    animeId: string;
+    number: number;
+    title: string;
+    image: string | null;
+    introStart: any;
+    introEnd: any;
+    filler: any;
+    createdAt: string;
+    updatedAt: string;
+    airedAt: string;
+    titleVariations: TitleVariantionsXL,
+    description: string;
+})
 
 // API
 type EnimeRecent = {
@@ -179,11 +201,27 @@ type EnimeEpisode = AnimeRecent & {
     createdAt: string
 }
 
-type EnimeView = EnimeEpisode
+type EnimeView = {
+    id: string;
+    number: number;
+    title: string;
+    titleVariations: TitleVariationsSML;
+    description: string;
+    image: string | null;
+    airedAt: string;
+    createdAt: string;
+    anime: AnimeSML;
+    sources: {
+        "id": string,
+        "target": string,
+        "priority": number,
+        "url": string
+      }[]
+}
 
 type EnimeAnime = AnimeXL & {
     episodes: (Exclude<AnimeEpisode, 'animeId'> & {
-        sources: AnimeSourcePlain[]
+        sources: AnimeSourcePlainSML[]
     })[]
 }
 

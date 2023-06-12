@@ -5,6 +5,8 @@ import popularToy from "@/lib/toyData/popular";
 import recentsToy from "@/lib/toyData/recentsToy";
 import searchToy from "@/lib/toyData/searchToy";
 import sourceToy from "@/lib/toyData/sourceToy";
+import viewToy from "../toyData/viewToy";
+import thisUrl from "../thisUrl";
 
 /**
  * EnimeRouteT is basically just EnimeRoute. Just need it for EnimeReturnTypes mapping
@@ -33,17 +35,17 @@ export default async function enimeFetcher<EnimeRouteT extends EnimeRoute>(
     // @ts-ignore
     case 'source': return sourceToy;
     // @ts-ignore
-    case 'view': return episodeToy;
+    case 'view': return viewToy;
     // @ts-ignore
     default: return
   }
-  
+
   // try {
   //   const routeArr = Object.values(route)
   //   const joinedRoute = routeArr.join('/')
   //   // For some reason, fetch sometimes need the domain and sometimes it doesnt...?
   //   const url =
-  //     'http://localhost:3000'
+  //     thisUrl
   //     + '/api/enime/'
   //     + joinedRoute
 
