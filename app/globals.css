@@ -81,7 +81,7 @@ button:hover {
   scale: 0.97;
 }
 
-button:focus {
+button:active {
   scale: 0.9;
 }
 
