@@ -4,7 +4,7 @@ export default function NotFound() {
     return (
         <section className='notFound'>
             <img
-                src='https://i.imgur.com/G5vxPHh.png'
+                src='https://i.imgur.com/Oulc9ip.png'
                 alt=''
             />
             <h1>404</h1>

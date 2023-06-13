@@ -131,6 +131,11 @@ button {
   font-size: xx-large;
 }
 
+.notFoundText div {
+  font-weight: lighter;
+  opacity: 0.9;
+}
+
 .notFoundText a {
   color: var(--secondary)
 }
