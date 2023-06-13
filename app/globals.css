@@ -74,6 +74,15 @@ button {
   border: 0;
   border-radius: 10px;
   cursor: pointer;
+  transition: all 200ms ease;
+}
+
+button:hover {
+  scale: 0.97;
+}
+
+button:focus {
+  scale: 0.9;
 }
 
 .comment {
