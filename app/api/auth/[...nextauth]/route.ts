@@ -4,6 +4,8 @@ import Credentials from 'next-auth/providers/credentials'
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prismadb from '@/lib/prismadb'
 import { compare } from 'bcrypt';
+import redis from '@/lib/redis';
+import type { User } from '@prisma/client';
 
 // export this so we can use later for getServerSession or whatnot
 export const authOptions: NextAuthOptions = {
@@ -27,22 +29,36 @@ export const authOptions: NextAuthOptions = {
                 }
             },
             authorize: async (credentials) => {
+                const defaultTTL = 60 // caching since user could accidentally put the wrong pw
                 // Check for any missing properties
                 if (!credentials?.username || !credentials.password) {
                     return null;
                 }
 
-                // Check the db if user exists
-                const user = await prismadb.user.findUnique({
-                    where: {
-                        username: credentials.username
-                    }
-                })
-
-                if (!user) {
-                    return null
+                let user: User;
+                
+                // Check redis if it has it first
+                const cachedUser = await redis.get(credentials.username)
+                if (cachedUser) {
+                    user = JSON.parse(cachedUser)
+                    console.log("USER CACHE HIT")
                 }
 
+                // If not then check db
+                else {
+                    const userDB = await prismadb.user.findUnique({
+                        where: { username: credentials.username }
+                    })
+
+                    if (!userDB) return null
+
+                    // Cache it if exists
+                    await redis.setex(userDB.username, defaultTTL, JSON.stringify(userDB))
+                    user = userDB
+                    console.log("USER CACHE MISS")
+                }
+
+                
                 // Use compare from bcrypt since it'd be hashed
                 if (!await compare(credentials.password, user.hashedPassword)) {
                     return null;

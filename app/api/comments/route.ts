@@ -2,34 +2,42 @@ import prismadb from "@/lib/prismadb";
 import handleError from "@/lib/handleError";
 import validateRequest from "./validateRequest";
 import commentsToy from "@/lib/toyData/commentToy";
+import redis from "@/lib/redis";
 
 export async function GET(req: Request) {
-    return new Response(JSON.stringify(commentsToy))
+    const defaultTTL = 30
 
     try {
         const { searchParams } = new URL(req.url)
         const epId = searchParams.get('epId')
         const repliedTo = searchParams.get('repliedTo')
-        if (!epId && !repliedTo) {
+        const query = epId ? epId : repliedTo
+        if (!query) {
             return new Response(
                 `For Comments, you must either give: comment ID (repliedTo) or episode ID. None of those were given.`,
                 { status: 422 }
             )
         }
 
-        let toReturn;
-        if (epId) {
-            toReturn = await prismadb.comment.findMany({
-                where: { epId }
-            })
-        }
-        else {
-            toReturn = await prismadb.comment.findMany({
-                where: { repliedTo }
-            })
+        // Check redis first before db
+        const cachedCommments = await redis.get(query)
+        if (cachedCommments) {
+            console.log('COMMENT CACHE HIT')
+            return new Response(cachedCommments, { status: 200 })
         }
 
-        return new Response(JSON.stringify(toReturn), { status: 200 })
+        const comments = await prismadb.comment.findMany({
+            where: {
+                OR: [{ epId }, { repliedTo }]
+            }
+        })
+        
+        // Cache if not there
+        const stringifyComments = JSON.stringify(comments)
+        redis.setex(query, defaultTTL, stringifyComments)
+        console.log('COMMENT CACHE MISS')
+
+        return new Response(stringifyComments, { status: 200 })
     } catch (err) {
         return handleError(err)
     }
@@ -39,6 +47,7 @@ export async function POST(req: Request) {
     const res = await validateRequest(req)
     if (res instanceof Response) return res
 
+    // Not sure how im going to do this with redis. Figure out when possible
     try {
         switch (res.method) {
             case 'DELETE': {
