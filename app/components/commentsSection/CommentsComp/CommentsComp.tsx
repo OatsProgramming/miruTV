@@ -14,6 +14,7 @@ export default function CommentsComp({ epId }: {
     epId: string
 }) {
     const opRef = useRef<HTMLDivElement>(null)
+    const btnRef = useRef<HTMLButtonElement>(null)
     const containerRef = useRef<HTMLDivElement>(null)
 
     // If in replies
@@ -26,16 +27,30 @@ export default function CommentsComp({ epId }: {
     // To change the color of the opComment (when sticky)
     useEffect(() => {
         const container = containerRef.current
-        const op = opRef.current
-        if (!container || !currentComment || !op) return
+        if (!container) return
 
         function handleScroll(e: Event) {
-            if (!op) return
+            const btn = btnRef.current
+            const op = opRef.current
+
+            if (!btn) return
+
             const el = e.target as HTMLElement
-            const threshold = 50
+            const opThreshold = 50
+            const btnThreshold = 150
 
             // Doing '&&' to prevent it from adding it over and over
-            if (el.scrollTop > threshold) {
+
+            // For button
+            if (el.scrollTop > btnThreshold) {
+                !btn.classList.contains(styles['goUp']) && btn.classList.add(styles['goUp'])
+            } else {
+                btn.classList.contains(styles['goUp']) && btn.classList.remove(styles['goUp'])
+            }
+
+            // For opComment
+            if (!currentComment || !op) return
+            else if (el.scrollTop > opThreshold) {
                 !op.classList.contains(styles['sticky']) && op.classList.add(styles['sticky'])
             } else {
                 op.classList.contains(styles['sticky']) && op.classList.remove(styles['sticky'])
@@ -46,7 +61,13 @@ export default function CommentsComp({ epId }: {
         return () => {
             container.removeEventListener('scroll', handleScroll)
         }
-    }, [containerRef, currentComment, opRef])
+    }, [containerRef.current, currentComment, opRef.current, btnRef.current])
+
+    function scrollUp() {
+        const container = containerRef.current
+        if (!container) return
+        container.scrollTop = 0
+    }
 
     if (isLoading) return <CommentsSkeleton />
     else if (error) throw new Error(error)
@@ -79,6 +100,11 @@ export default function CommentsComp({ epId }: {
                         Be the first to comment!
                     </div>
                 )}
+            <button className={styles['btn']} ref={btnRef} onPointerDown={scrollUp}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z" />
+                </svg>
+            </button>
         </div>
     )
 }

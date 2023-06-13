@@ -6,6 +6,8 @@
     overflow: scroll;
     box-shadow: inset 0px 0px 7px 4px rgba(0,0,0,0.25);
     border-radius: 10px;
+    position: relative;
+    scroll-behavior: smooth;
  }
 
  .btns {
@@ -27,7 +29,7 @@
     gap: 1rem;
  }
 
-.stick {
+.sticky {
     filter: drop-shadow(0 0 10px black)
 }
 
@@ -37,4 +39,20 @@
 
  .sticky div:first-child {
     background-color: var(--primary);
+ }
+
+ .btn {
+   position: sticky;
+   transition: all 500ms ease;
+   bottom: 0;
+   z-index: 10;
+   opacity: 0;
+   width: 50px;
+   border-radius: 10px;
+   left: 1rem;
+ }
+
+ .goUp {
+   bottom: 25px;
+   opacity: 1;
  }
