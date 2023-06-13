@@ -30,13 +30,12 @@ export default async function Home() {
                   key={item.id}
                   info={{
                     animeId: item.anime.id,
-                    animeTitle: item.anime.title.english,
+                    animeTitle: item.anime.title.english ?? 'N/A',
                     coverImg: item.anime.coverImage,
                   }}
                   epInfo={{
                     title: item.title,
                     number: item.number,
-                    sources: item.sources
                   }}
                 />
               )
@@ -52,7 +51,7 @@ export default async function Home() {
                   key={item.id}
                   info={{
                     animeId: item.id,
-                    animeTitle: item.title.english,
+                    animeTitle: item.title.english ?? 'N/A',
                     coverImg: item.coverImage,
                   }}
                 />

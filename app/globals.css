@@ -84,14 +84,16 @@ button {
   justify-content: space-between;
 }
 
-
+.error,
 .notFound {
   width: 100%;
   height: 80vh;
-  /* border: 5px solid red; */
   position: relative;
   display: grid;
   place-items: center;
+}
+
+.notFound {
   grid-template-areas:
     "Four"
     "text"
@@ -102,31 +104,43 @@ button {
   position: absolute;
   bottom: 0;
   right: 0;
+  z-index: 2;
+}
+
+.notFound img {
   width: clamp(250px, 40%, 390px);
   aspect-ratio: 793 / 849;
-  z-index: 2;
+}
+
+.error h1,
+.notFound h1 {
+  position: absolute;
+  color: var(--darkSecondary);
+  z-index: -1;
 }
 
 .notFound h1 {
   grid-area: Four;
-  position: absolute;
-  color: var(--darkSecondary);
   scale: 9;
   bottom: 0;
-  z-index: -1;
 }
 
+.errorText,
 .notFoundText {
-  grid-area: text;
   position: absolute;
-  top: -25px;
   text-align: center;
   z-index: 2;
   filter: drop-shadow(0 0 10px #000000);
-  display: grid;
-  gap: 0.5rem;
 }
 
+.notFoundText {
+  display: grid;
+  grid-area: text;
+  gap: 0.5rem;
+  top: -25px;
+}
+
+.errorText h2,
 .notFoundText h2 {
   font-size: xx-large;
 }
@@ -140,6 +154,7 @@ button {
   color: var(--secondary)
 }
 
+.errorOverlay,
 .notFoundOverlay {
   position: absolute;
   background-color: hsla(0, 0%, 0%, 0.5);
@@ -148,6 +163,53 @@ button {
   height: 100%;
 }
 
+.error {
+  height: 100vh;
+}
+
+.error h1 {
+  scale: 3;
+  top: 45%;
+  z-index: 2;
+  filter: drop-shadow(0px 0px 40px var(--darkSecondary));
+  color: var(--secondary)
+}
+
+.errorText {
+  display: grid;
+  gap: 0.5rem;
+  top: 55%;
+}
+
+.errorBtns {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  scale: 1.2;
+}
+
+.errorBtns > button {
+  opacity: 0.5;
+  transition: all 200ms ease;
+  background-color: var(--darkSecondary);
+}
+
+.errorBtns > button:hover {
+  scale: 0.97;
+  opacity: 1;
+}
+
+.errorBtns > button:active {
+  scale: 0.9
+}
+
+.errorText h2 {
+  scale: 0.8;
+  opacity: 0.5;
+}
+
+
 @media (min-width: 720px) {
   .notFound h1 {
     scale: 15;
@@ -155,5 +217,13 @@ button {
 
   .notFoundText {
     scale: 1.5;
+  }
+
+  .error h1 {
+    scale: 5;
+  }
+
+  .errorText {
+    scale: 1
   }
 }
