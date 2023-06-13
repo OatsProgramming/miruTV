@@ -61,13 +61,12 @@ export default async function Page({ params: { animeId } }: {
                         key={ep.id}
                         info={{
                             animeId: anime.id,
-                            animeTitle: anime.title.english,
+                            animeTitle: anime.title.english ?? 'N/A',
                             coverImg: ep.image ?? anime.bannerImage
                         }}
                         epInfo={{
                             number: ep.number,
                             title: ep.title,
-                            sources: ep.sources
                         }}
                         isLandScape
                     />
