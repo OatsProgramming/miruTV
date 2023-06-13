@@ -20,7 +20,6 @@ const CommentContent = dynamic(() =>
 function commentComp({ refresh }: {
     refresh: () => Promise<any>
 }) {
-    const { setCurrentComment } = useCurrentComment()
     const [isEditing, setIsEditing] = useState(false)
     const dialogRef = useRef<HTMLDialogElement>(null)
     const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -55,7 +54,7 @@ function commentComp({ refresh }: {
         dialogRef.current?.close()
         isEditing && setIsEditing(false)
     }
-    
+
     return (
         <div className={styles['container']}>
             <div className='comment'>
@@ -68,16 +67,14 @@ function commentComp({ refresh }: {
                 ) : (
                     <CommentContent
                         inComments={{
+                            comment,
                             dialogRef,
                             setIsEditing,
-                            mutateComment
+                            mutateComment,
                         }}
                     />
                 )}
             </div>
-            <button onPointerDown={() => setCurrentComment(comment)}>
-                Go to Replies
-            </button>
         </div >
     )
 }

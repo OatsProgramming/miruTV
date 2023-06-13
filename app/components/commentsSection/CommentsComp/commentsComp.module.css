@@ -7,3 +7,34 @@
     box-shadow: inset 0px 0px 7px 4px rgba(0,0,0,0.25);
     border-radius: 10px;
  }
+
+ .btns {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: right;
+ }
+
+ .btns > button {
+    background-color: var(--darkSecondary);
+ }
+
+
+ .opComment {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: grid;
+    gap: 1rem;
+ }
+
+.stick {
+    filter: drop-shadow(0 0 10px black)
+}
+
+ .opComment div:first-child {
+    transition: all 1s ease;
+ }
+
+ .sticky div:first-child {
+    background-color: var(--primary);
+ }

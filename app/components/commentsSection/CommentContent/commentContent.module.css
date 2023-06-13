@@ -14,6 +14,14 @@
 
 .icon {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.icon > svg:hover {
+    cursor: pointer;
 }
 
 .menu[open] {
@@ -25,3 +33,4 @@
     top: -15px;
     left: -70px;
 }
+

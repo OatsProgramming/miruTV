@@ -16,6 +16,9 @@ export default function AddComment({ epId }: {
 }) {
     const textareaRef = useRef<HTMLTextAreaElement>(null)
     const { currentComment } = useCurrentComment()
+    const placeholder = currentComment 
+        ? "Join the thread..."
+        : "Join the conversation..."
     const { refresh } = currentComment
         ? useReplies(currentComment.id)
         : useComments(epId)
@@ -56,7 +59,7 @@ export default function AddComment({ epId }: {
             <textarea
                 ref={textareaRef}
                 className={styles['addComment']}
-                placeholder="Join the conversation..."
+                placeholder={placeholder}
                 maxLength={commentMaxChar}
                 spellCheck
             />
