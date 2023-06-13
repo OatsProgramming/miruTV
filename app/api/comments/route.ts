@@ -1,8 +1,11 @@
 import prismadb from "@/lib/prismadb";
 import handleError from "@/lib/handleError";
 import validateRequest from "./validateRequest";
+import commentsToy from "@/lib/toyData/commentToy";
 
 export async function GET(req: Request) {
+    return new Response(JSON.stringify(commentsToy))
+
     try {
         const { searchParams } = new URL(req.url)
         const epId = searchParams.get('epId')
