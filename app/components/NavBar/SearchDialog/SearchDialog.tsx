@@ -58,7 +58,7 @@ export default function SearchDialog() {
                                 key={anime.id}
                                 info={{
                                     animeId: anime.id,
-                                    animeTitle: anime.title.english,
+                                    animeTitle: anime.title.english ?? 'N/A',
                                     coverImg: anime.coverImage
                                 }}
                                 style={{
