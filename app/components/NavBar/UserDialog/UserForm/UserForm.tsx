@@ -39,15 +39,15 @@ export default function UserForm({ session, dialogRef }: {
 
             await update({ name: res })  
 
-            // reload the page to show current data
-            window.location.reload()
         }
+        // reload the page to show current data
+        window.location.reload()
     }
 
     return (
         <div className={styles['container']}>
             {isEditing ? (
-                <>
+                <div className={styles['formContainer']}>
                     <form onSubmit={handleMuate} className={styles2['form']}>
                         <div className={styles2['textField']}>
                             <input type="text" name='username' placeholder="" required />
@@ -76,7 +76,7 @@ export default function UserForm({ session, dialogRef }: {
                             {isUpdating ? 'Deleting Your Account?' : 'Updating Your Account?'}
                         </button>
                     </form>
-                </>
+                </div>
             ) : (
                 <>
                     <div className={styles['text']}>
@@ -110,7 +110,7 @@ export default function UserForm({ session, dialogRef }: {
                         </>
                     )}
                 </button>
-                <SignOut dialogRef={dialogRef} />
+                {!isEditing && <SignOut dialogRef={dialogRef} />}
                 <button onPointerDown={(e) => toggleDialog(e, dialogRef)}>
                     <div>Close</div>
                 </button>

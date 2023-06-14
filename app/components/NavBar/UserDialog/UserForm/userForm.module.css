@@ -48,3 +48,12 @@
     border: none;
 }
 
+.formContainer {
+    display: grid;
+    place-items: center;
+}
+
+.formContainer button:first-of-type {
+    background-color: var(--secondary);
+    opacity: 1;
+}

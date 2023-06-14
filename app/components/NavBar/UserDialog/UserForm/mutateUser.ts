@@ -37,7 +37,7 @@ export default async function mutateUser(e: FormEvent, isUpdating: boolean) {
 
         const message = action === 'DELETE'
             ? `${username} has been successfully deleted.`
-            : `${newInfo?.username ?? username} has been successfully updated.`
+            : `${newInfo?.username || username} has been successfully updated.`
         notify({ type: 'success', message })
 
 
@@ -56,7 +56,7 @@ export default async function mutateUser(e: FormEvent, isUpdating: boolean) {
             return
         }
         else if (newInfo?.username) {
-            // Other wise update session (update at designated area)
+            // Otherwise update session (update at designated area)
             return newInfo.username
         }
 
