@@ -1,0 +1,90 @@
+.container {
+  width: 100%;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.container h1 {
+  --duration: 5s;
+  position: absolute;
+  top: 30%;
+  animation: text var(--duration) ease-in calc(var(--delay) * var(--duration));
+  white-space: nowrap;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.loader {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 6rem;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
+  .loader:before,
+  .loader:after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    animation: pulsOut 1.8s ease-in-out infinite;
+    filter: drop-shadow(0 0 1rem var(--darkSecondary));
+    opacity: 0.75;
+  }
+  .loader:before {
+    width: 100%;
+    padding-bottom: 100%;
+    box-shadow: inset 0 0 0 1rem var(--secondary);
+    animation-name: pulsIn;
+  }
+  .loader:after {
+    width: calc(100% - 2rem);
+    padding-bottom: calc(100% - 2rem);
+    box-shadow: 0 0 0 0 var(--secondary);
+  }
+
+  @keyframes pulsIn {
+    0% {
+      box-shadow: inset 0 0 0 1rem var(--secondary);
+      opacity: 1;
+    }
+    50%, 100% {
+      box-shadow: inset 0 0 0 0 var(--secondary);
+      opacity: 0;
+    }
+  }
+
+  @keyframes pulsOut {
+    0%, 50% {
+      box-shadow: 0 0 0 0 var(--secondary);
+      opacity: 0;
+    }
+    100% {
+      box-shadow: 0 0 0 1rem var(--secondary);
+      opacity: 1;
+    }
+  }
+     
+  
+  @keyframes text {
+    0% {
+      opacity: 0;
+    }
+
+    25% {
+      opacity: 1;
+    }
+
+    90% {
+      opacity: 1
+    }
+
+    100% {
+      opacity: 0;
+    }
+  }
+  
