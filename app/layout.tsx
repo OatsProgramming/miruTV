@@ -8,7 +8,7 @@ import '@splidejs/react-splide/css';
 
 export const metadata = {
   title: 'Miru TV',
-  description: 'Just Anime. No pop ups. No VPN required.',
+  description: `Let's watch anime... Just Mi and Ru.`,
 }
 
 const nunito = Nunito({

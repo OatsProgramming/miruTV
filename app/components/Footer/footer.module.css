@@ -23,7 +23,7 @@
     font-size: xx-large;
 }
 
-.text div {
+.text div:first-of-type {
     opacity: 0.7;
     font-weight: lighter;
 }
@@ -78,6 +78,23 @@
     display: grid;
     place-items: center;
     border-radius: 20%;
+}
+
+.copyright {
+    text-align: center;
+    background-color: var(--primary);
+    padding-bottom: 2rem;
+}
+
+.copyright,
+.copyright * {
+    color: hsla(0, 0%, 100%, 0.7);
+    transition: all 200ms ease;
+}
+
+.copyright a:hover {
+    color: white;
+    filter: drop-shadow(0 0 1px white)
 }
 
 @media (min-width: 720px) {
