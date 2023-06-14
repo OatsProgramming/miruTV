@@ -26,18 +26,10 @@ export async function GET(req: Request) {
             return new Response(cachedCommments, { status: 200 })
         }
 
-        let comments: Comment[];
-        if (epId) {
-            comments = await prismadb.comment.findMany({
-                where: { epId }
-            })
-        }
-        else if (repliedTo) {
-            comments = await prismadb.comment.findMany({
-                where: { repliedTo }
-            })
-        }
-        console.log(comments)
+        const comments = await prismadb.comment.findMany({
+            where: { OR: [{ epId }, { repliedTo }]}
+        })
+        
         // Cache if not there
         const stringifyComments = JSON.stringify(comments)
         redis.setex(query, defaultTTL, stringifyComments)
