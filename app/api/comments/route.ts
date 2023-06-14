@@ -2,7 +2,6 @@ import prismadb from "@/lib/prismadb";
 import handleError from "@/lib/handleError";
 import validateRequest from "./validateRequest";
 import redis from "@/lib/redis";
-import type { Comment } from "@prisma/client";
 
 export async function GET(req: Request) {
     const defaultTTL = 10
@@ -11,7 +10,7 @@ export async function GET(req: Request) {
         const { searchParams } = new URL(req.url)
         const epId = searchParams.get('epId')
         const repliedTo = searchParams.get('repliedTo')
-        const query = epId ? epId : repliedTo
+        const query = epId ?? repliedTo
         if (!query) {
             return new Response(
                 `For Comments, you must either give: comment ID (repliedTo) or episode ID. None of those were given.`,
@@ -42,7 +41,7 @@ export async function GET(req: Request) {
     }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: Request) {    
     const res = await validateRequest(req)
     if (res instanceof Response) return res
 
