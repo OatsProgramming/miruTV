@@ -3,6 +3,7 @@ import mutatingFetcher from '@/lib/fetchers/mutatingFetcher'
 import styles from './favId.module.css'
 import { useState } from 'react'
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 export default function FavId({ animeId, favIds }: {
     animeId: string,
@@ -13,6 +14,7 @@ export default function FavId({ animeId, favIds }: {
 
     // Does not revalidate page; Dont use swr for this one
     const { update } = useSession()
+    const router = useRouter()
     const inFav = favIds.find(fav => fav.animeId === animeId)
     // Only interested if it is in list on INITIAL
     // After, just let it toggle like normal
@@ -23,7 +25,6 @@ export default function FavId({ animeId, favIds }: {
         let args;
         let newFavIds: FavId[];
         if (isFav) {
-            console.log(favIds)
             newFavIds = favIds!.filter(fav => fav.animeId !== animeId)
             action = 'DELETE'
             args = { newFavIds }
@@ -37,11 +38,14 @@ export default function FavId({ animeId, favIds }: {
         }
         // Update db
         mutatingFetcher<FavIdsRequest>('/api/favIds', action, args)
-            .then(res => console.log(res))
             .catch(err => console.log(err))
+
         // Update session (since it doesnt do that automatically)
         // This way it doesnt have to constantly refetch data from db
         update({ favIds: newFavIds })
+            // Seems like gotta call this to refresh the server components
+            .then(_ => router.refresh())
+
         // Toggle manually (since it wont revalidate pg)
         setIsFav(!isFav)
     }
