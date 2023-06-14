@@ -62,20 +62,45 @@ export async function POST(req: Request) {
                 }
 
                 else if (method === 'PATCH') {
+                    const { newInfo } = res
+                    let commentsPromise;
 
+                    // If new username, make sure that its not taken
+                    if (newInfo?.username) {
+                        const userExists = await prismadb.user.findUnique({
+                            where: { username: newInfo.username }
+                        })
+                        if (userExists) return new Response(
+                            `The username, ${userExists.username}, is already taken. Please enter a different username.`,
+                            { status: 409 }
+                        )
+
+                        // Otherwise, update not just user, but comments also
+                        commentsPromise = prismadb.comment.updateMany({ 
+                            where: { userId: targetUser.id },
+                            data: {
+                                createdBy: newInfo.username
+                            }
+                        })
+                    }
+
+                    // Hash the pw if new pw
                     let hashedPassword;
-                    if (res.newInfo?.password) {
+                    if (newInfo?.password) {
                         hashedPassword = await hash(password, 12)
                     }
 
-                    await prismadb.user.update({
+                    // Update the user with any new changes
+                    const userPromise = prismadb.user.update({
                         where: { id: targetUser.id },
                         data: {
-                            username: res.newInfo?.username ?? targetUser.username,
+                            username: newInfo?.username ?? targetUser.username,
                             hashedPassword: hashedPassword ?? targetUser.hashedPassword
                         }
                     })
-                    break;
+                    
+                    // Batch it all together
+                    await Promise.all([userPromise, commentsPromise])
                 }
                 break;
             }

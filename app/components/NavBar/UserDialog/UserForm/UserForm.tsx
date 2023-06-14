@@ -8,7 +8,6 @@ import type { RefObject, FormEvent, PointerEvent } from 'react'
 import styles2 from '../SigninForm/signinForm.module.css'
 import mutateUser from "./mutateUser"
 import { useSession } from 'next-auth/react'
-import { useRouter } from "next/router"
 
 {/* @ts-expect-error */ }
 const FavSect = dynamic(() =>
