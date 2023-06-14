@@ -316,8 +316,8 @@ type Email = {
 type EmailPartial = Partial<Email>
 
 type Action = {
+    e?: Event,
     type: 'sending' | 'updating' | 'deleting',
     newInfo?: EmailPartial,
     form?: HTMLFormElement | null,
-    isDark?: boolean
 }

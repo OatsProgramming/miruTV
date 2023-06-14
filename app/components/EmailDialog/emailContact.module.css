@@ -1,0 +1,74 @@
+.form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1.5rem;
+    /* border: 1px solid red; */
+    width: 100%;
+}
+
+.textField {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.textField label {
+    position: absolute;
+    opacity: 0.5;
+    padding-left: 10px;
+    z-index: 1;
+    transition: translate 200ms ease;
+}
+
+.textarea,
+.textField input {
+    background-color: transparent;
+    border: 0;
+    box-shadow: inset 0 0 10px 1px rgba(0, 0, 0, 0.5);
+    padding: 1rem;
+}
+
+.textarea {
+    resize: none;
+    aspect-ratio: 16 / 9;
+    width: 200px;
+    max-height: 15rem;
+    transition: all 500ms ease;
+}
+
+.textarea:focus,
+.textField input:focus {
+    outline: none;
+}
+
+.textarea:focus,
+.textarea:not(:placeholder-shown) {
+    width: 75%;
+}
+
+.textField input:focus+label,
+.textField input:not(:placeholder-shown)+label {
+    opacity: 1;
+    translate: 0 -1.5em;
+    z-index: 1;
+}
+
+
+.btns {
+    display: flex;
+    color: var(--darkSecondary);
+    gap: 1rem;
+}
+
+.btns > * {
+    font-size: large;
+    background-color: var(--darkSecondary);
+}
+
+@media screen and (max-width: 720px) {
+
+   
+}
