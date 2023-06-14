@@ -23,7 +23,11 @@ export default function Card({ info, epInfo, isLandScape, style }: {
     const { animeId, animeTitle, coverImg } = info
 
     const epTitle = epInfo?.title ?? '???'
-    const link = epInfo ? `/watch/${animeId}/${epInfo.number}` : `/info/${animeId}`
+    const link = epInfo
+        ? `/watch/${animeId}/${epInfo.number}` 
+            : animeId !== 777 
+                ? `/info/${animeId}`
+                : `/`
 
     return (
         <Link href={link}>
@@ -35,7 +39,7 @@ export default function Card({ info, epInfo, isLandScape, style }: {
                     ${dialogRef && styles['dialogCard']}
                 `}
                 style={{
-                    '--img': `url(${coverImg})`,
+                    '--img': `url(${animeId === 777 ? 'https://i.imgur.com/hTugjOM.jpg' : coverImg })`,
                     ...style
                 } as CSSProperties}>
                 <div

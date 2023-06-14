@@ -271,7 +271,10 @@ type ParamsArr = {
 }
 
 type InfoCard = {
-    animeId: string,
+    /**
+     * Use 777 (number) if planning to use an "Empty" Card
+     */
+    animeId: string | 777,
     animeTitle: string,
     coverImg: string,
 }

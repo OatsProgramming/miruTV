@@ -1,7 +1,10 @@
 import { CSSProperties } from 'react'
 import styles from './loader.module.css'
 
-export default function Loader() {
+export default function Loader({ style, isntChatty }: {
+    style?: CSSProperties,
+    isntChatty?: true
+}) {
     const chats = [
         ``,
         `So..`,
@@ -26,8 +29,8 @@ export default function Loader() {
         `* Heads out *`
     ]
     return (
-        <section className={styles['container']}>
-            {chats.map((chat, idx) => (
+        <section className={styles['container']} style={style}>
+            {!isntChatty && chats.map((chat, idx) => (
                 <h1 key={idx} style={{ '--delay': idx } as CSSProperties}>
                     {chat}
                 </h1>
