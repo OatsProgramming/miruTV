@@ -10,7 +10,7 @@ export async function GET(req: Request) {
         const { searchParams } = new URL(req.url)
         const epId = searchParams.get('epId')
         const repliedTo = searchParams.get('repliedTo')
-        const query = epId ?? repliedTo
+        const query = epId || repliedTo
         if (!query) {
             return new Response(
                 `For Comments, you must either give: comment ID (repliedTo) or episode ID. None of those were given.`,
