@@ -5,8 +5,12 @@ import { getServerSession } from 'next-auth/next'
 import { authOptions } from './api/auth/[...nextauth]/route'
 import FavSect from './components/FavSect/FavSect'
 import Hero from './components/Hero/Hero'
+import EmailContact from './components/EmailDialog/EmailContact'
+
+export const revalidate = 3600
 
 export default async function Home() {
+  // return <EmailContact />
   const sessionRes = getServerSession(authOptions)
   const recentRes = enimeFetcher({ route: 'recent' })
   const popularRes = enimeFetcher({ route: 'popular' })

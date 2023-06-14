@@ -1,11 +1,10 @@
 import prismadb from "@/lib/prismadb";
 import handleError from "@/lib/handleError";
 import validateRequest from "./validateRequest";
-import commentsToy from "@/lib/toyData/commentToy";
 import redis from "@/lib/redis";
 
 export async function GET(req: Request) {
-    const defaultTTL = 30
+    const defaultTTL = 10
 
     try {
         const { searchParams } = new URL(req.url)
