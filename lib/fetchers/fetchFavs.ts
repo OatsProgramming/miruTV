@@ -5,8 +5,7 @@ export default async function fetchFavs(favIds: FavId[]) {
     const responsesPromises: Promise<Response>[] = []
     for (let i = 0; i < favIds.length; i++) {
         responsesPromises.push(
-            // fetch(`${thisUrl}/api/enime/anime/${favIds[i].animeId}`)
-            fetch(`${thisUrl}/api/test`)
+            fetch(`${thisUrl}/api/enime/anime/${favIds[i].animeId}`)
         )
     }
 

@@ -2,7 +2,7 @@ import Link from 'next/link'
 import styles from './footer.module.css'
 import github from '@/public/github.svg'
 import Image from 'next/image'
-import EmailContact from '../EmailDialog/EmailContact'
+import EmailContact from '../EmailContact/EmailContact'
 import discord from '@/public/discord.svg'
 
 

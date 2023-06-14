@@ -21,7 +21,6 @@ export async function GET(req: Request, { params: { slug } }: ParamsArr) {
         const res = await fetch(url)
         if (!res.ok) {
             const result = await res.text()
-            console.log(result)
             return new Response(result, { status: 500 })
         }
         // Make sure that its a valid json object first to store in cache

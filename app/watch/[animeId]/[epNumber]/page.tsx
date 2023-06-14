@@ -35,11 +35,6 @@ export default async function Page({ params: { animeId, epNumber } }: {
     const { anime } = episode
     const { episodes } = anime
 
-    // return <HLSPlayer
-    //     sources={episode.sources}
-    //     poster={episode.image}
-    // />
-    // return <CommentsSection epId={episode.id} />
     return (
         <div className={styles['container']}>
             <div className={styles['content']}>

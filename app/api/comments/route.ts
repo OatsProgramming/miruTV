@@ -2,6 +2,7 @@ import prismadb from "@/lib/prismadb";
 import handleError from "@/lib/handleError";
 import validateRequest from "./validateRequest";
 import redis from "@/lib/redis";
+import type { Comment } from "@prisma/client";
 
 export async function GET(req: Request) {
     const defaultTTL = 10
@@ -25,12 +26,18 @@ export async function GET(req: Request) {
             return new Response(cachedCommments, { status: 200 })
         }
 
-        const comments = await prismadb.comment.findMany({
-            where: {
-                OR: [{ epId }, { repliedTo }]
-            }
-        })
-        
+        let comments: Comment[];
+        if (epId) {
+            comments = await prismadb.comment.findMany({
+                where: { epId }
+            })
+        }
+        else if (repliedTo) {
+            comments = await prismadb.comment.findMany({
+                where: { repliedTo }
+            })
+        }
+        console.log(comments)
         // Cache if not there
         const stringifyComments = JSON.stringify(comments)
         redis.setex(query, defaultTTL, stringifyComments)
@@ -38,6 +45,7 @@ export async function GET(req: Request) {
 
         return new Response(stringifyComments, { status: 200 })
     } catch (err) {
+        console.log(err)
         return handleError(err)
     }
 }

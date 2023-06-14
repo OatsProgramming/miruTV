@@ -86,7 +86,6 @@ export const authOptions: NextAuthOptions = {
         },
         jwt: ({ token, user, trigger, session }) => {
             if (trigger === 'update') {
-                console.log(session)
                 // Validate the data
                 if (session.favIds) {
                     token.favIds = session.favIds
@@ -97,7 +96,6 @@ export const authOptions: NextAuthOptions = {
             }
             // Exec on sign in
             if (user) {
-                console.log(user.favIds)
                 return {
                     ...token,
                     id: user.id,

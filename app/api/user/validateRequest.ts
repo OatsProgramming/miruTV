@@ -18,7 +18,6 @@ type DELETE = POST
 export default async function validateRequest<T extends PATCH | POST | DELETE>(req: Request) {
     try {
         const { data, method } = await req.json() as RequestBody<UserRequest>
-        console.log(data, method)
         switch(method) {
             case 'DELETE':
             case "POST": {

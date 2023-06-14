@@ -70,7 +70,16 @@ export default function CommentsComp({ epId }: {
     }
 
     if (isLoading) return <CommentsSkeleton />
-    else if (error) throw new Error(error)
+    else if (error) {
+        console.log(error)
+        return (
+            <div className={styles['comments']}>
+                <div className='comment'>
+                    Comments couldn't be loaded...
+                </div>
+            </div>
+        )
+    }
 
     return (
         <div className={styles['comments']} ref={containerRef}>

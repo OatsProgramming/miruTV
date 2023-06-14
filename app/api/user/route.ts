@@ -11,7 +11,6 @@ export async function POST(req: Request) {
     if (res instanceof Response) return res
 
     const { username, password, method } = res
-    console.log(res)
     try {
         switch (method) {
             case 'DELETE':
@@ -28,13 +27,10 @@ export async function POST(req: Request) {
                 const targetUserPromise = prismadb.user.findUnique({
                     where: { username }
                 })
-                console.log('asd')
 
                 const [currentUser, targetUser] = await Promise.all([currentUserPromise, targetUserPromise])
-                console.log('asd')
 
                 if (!currentUser || !targetUser) {
-                    console.log('asd')
                     return new Response(
                         `The following could not be found in the database:
                         Current User?       ${!currentUser}
@@ -44,7 +40,6 @@ export async function POST(req: Request) {
                 }
 
                 else if (!isEqual(currentUser, targetUser)) {
-                    console.log('asd')
 
                     return new Response(
                         `If planning to make changes to ${username}, please sign in as ${username}`,
@@ -54,14 +49,12 @@ export async function POST(req: Request) {
                 
                 // Check pw
                 else if (!await compare(password, targetUser.hashedPassword)) {
-                    console.log('asd')
 
                     return new Response("Password mismatch.", { status: 401 })
                 }
 
                 // Now get to actual business
                 if (method === 'DELETE') {
-                    console.log(targetUser.id)
                     await prismadb.user.delete({
                         where: { id: targetUser.id }
                     })
