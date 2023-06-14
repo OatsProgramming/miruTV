@@ -306,3 +306,18 @@ type NotifyReturnType = Record<ToastType, string | number> & {
 type CommentsSectionParam = {
     param: { epId: string } | { commentId: string }
 }
+
+type Email = {
+    email: string,
+    name: string,
+    message: string,
+}
+
+type EmailPartial = Partial<Email>
+
+type Action = {
+    type: 'sending' | 'updating' | 'deleting',
+    newInfo?: EmailPartial,
+    form?: HTMLFormElement | null,
+    isDark?: boolean
+}
