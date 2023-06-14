@@ -29,16 +29,17 @@ export const authOptions: NextAuthOptions = {
                 }
             },
             authorize: async (credentials) => {
-                const defaultTTL = 60 // caching since user could accidentally put the wrong pw
+                const defaultTTL = 120 // caching since user could accidentally put the wrong pw
+                const username = credentials?.username.trim()
+                const password = credentials?.password.trim()
+
                 // Check for any missing properties
-                if (!credentials?.username || !credentials.password) {
-                    return null;
-                }
+                if (!username || !password) return null
+
 
                 let user: User;
-                
                 // Check redis if it has it first
-                const cachedUser = await redis.get(credentials.username)
+                const cachedUser = await redis.get(username)
                 if (cachedUser) {
                     user = JSON.parse(cachedUser)
                     console.log("USER CACHE HIT")
@@ -47,7 +48,7 @@ export const authOptions: NextAuthOptions = {
                 // If not then check db
                 else {
                     const userDB = await prismadb.user.findUnique({
-                        where: { username: credentials.username }
+                        where: { username }
                     })
 
                     if (!userDB) return null
@@ -58,9 +59,8 @@ export const authOptions: NextAuthOptions = {
                     console.log("USER CACHE MISS")
                 }
 
-                
                 // Use compare from bcrypt since it'd be hashed
-                if (!await compare(credentials.password, user.hashedPassword)) {
+                if (!await compare(password, user.hashedPassword)) {
                     return null;
                 }
 

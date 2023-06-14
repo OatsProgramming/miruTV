@@ -10,7 +10,13 @@ export async function POST(req: Request) {
     const res = await validateRequest(req)
     if (res instanceof Response) return res
 
-    const { username, password, method } = res
+    let username, password;
+    const { username: name, password: pw, method } = res
+
+    username = name.trim()
+    password = pw.trim()
+    console.log(username)
+    console.log(password)
     try {
         switch (method) {
             case 'DELETE':
@@ -63,12 +69,14 @@ export async function POST(req: Request) {
 
                 else if (method === 'PATCH') {
                     const { newInfo } = res
+                    const newName = newInfo?.username?.trim()
+                    const newPW = newInfo?.password?.trim()
+                    
                     let commentsPromise;
-
                     // If new username, make sure that its not taken
-                    if (newInfo?.username) {
+                    if (newName) {
                         const userExists = await prismadb.user.findUnique({
-                            where: { username: newInfo.username }
+                            where: { username: newName }
                         })
                         if (userExists) return new Response(
                             `The username, ${userExists.username}, is already taken. Please enter a different username.`,
@@ -79,23 +87,23 @@ export async function POST(req: Request) {
                         commentsPromise = prismadb.comment.updateMany({ 
                             where: { userId: targetUser.id },
                             data: {
-                                createdBy: newInfo.username
+                                createdBy: newName
                             }
                         })
                     }
 
                     // Hash the pw if new pw
                     let hashedPassword;
-                    if (newInfo?.password) {
-                        hashedPassword = await hash(password, 12)
+                    if (newPW) {
+                        hashedPassword = await hash(newPW, 12)
                     }
 
                     // Update the user with any new changes
                     const userPromise = prismadb.user.update({
                         where: { id: targetUser.id },
                         data: {
-                            username: newInfo?.username ?? targetUser.username,
-                            hashedPassword: hashedPassword ?? targetUser.hashedPassword
+                            username: newName || targetUser.username,
+                            hashedPassword: hashedPassword || targetUser.hashedPassword
                         }
                     })
                     
