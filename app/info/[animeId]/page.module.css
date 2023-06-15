@@ -65,7 +65,5 @@
     .episodes {
         min-width: 100%;
         gap: 2rem;
-        flex-wrap: nowrap;
-        justify-content: stretch;
     }
 }
