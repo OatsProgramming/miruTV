@@ -10,13 +10,12 @@ body:
       placeholder: Boku No Pico? Yeah, no.
     validations:
       required: true
-  items:
+  type: checkbox
     attributes: 
       label: By submitting, you'd agree to the following...
-  - text: 'Checked the Issue tab that might relate to the suggested feature'
-    checked: false
-  - text: 'Checked the PR tab that might relate to the suggested feature'
-    checked: false
+      options: 
+        - label: 'Checked the Issue tab that might relate to the suggested feature'
+        - label: 'Checked the PR tab that might relate to the suggested feature'
   - type: markdown
     id: code
     attributes: 
