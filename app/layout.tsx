@@ -7,8 +7,8 @@ import Footer from './components/Footer/Footer'
 import '@splidejs/react-splide/css';
 
 export const metadata = {
-  title: 'Miru TV',
-  description: `Let's watch anime... Just Mi and Ru.`,
+  title: 'MiruTV',
+  description: `Let's watch anime... Just Mi and Ru. MiruTV: an anime streaming site. No VPN or weird H-Anime ads.`,
 }
 
 const nunito = Nunito({
