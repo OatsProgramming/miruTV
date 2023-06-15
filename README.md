@@ -17,4 +17,4 @@ Got suggestions? See bugs? You can start a [discussion](https://github.com/OatsP
 ## Acknowledgements
 This was made possible thanks to the [Enime API](https://docs.enime.moe/). If you're curious about the nit and grit details, you can check out the project [here](https://github.com/Enime-Project).
 
-This was also made with possible with [OPlayer](https://oplayer.vercel.app/): a beautiful, modern HTML5 video player that makes development a whole lot easier. You can check out their project [here](https://github.com/shiyiya/oplayer).
+This was also made possible with [OPlayer](https://oplayer.vercel.app/): a beautiful, modern HTML5 video player that makes development a whole lot easier. You can check out their project [here](https://github.com/shiyiya/oplayer).
