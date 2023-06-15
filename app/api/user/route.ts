@@ -15,8 +15,6 @@ export async function POST(req: Request) {
 
     username = name.trim()
     password = pw.trim()
-    console.log(username)
-    console.log(password)
     try {
         switch (method) {
             case 'DELETE':
