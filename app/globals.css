@@ -9,6 +9,8 @@
   margin: 0;
   /* For some reason some texts arent inheriting */
   font-family: inherit;
+  font-size: medium;
+  font-weight: bold;
 }
 
 :root {
