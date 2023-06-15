@@ -12,11 +12,16 @@
 
 .text div {
     opacity: 0.65;
-    font-weight: lighter;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     gap: 1ch;
+    font-weight: lighter;
+}
+
+/* ?????? */
+.text div span {
+    font-weight: lighter;
 }
 
 .icon {
