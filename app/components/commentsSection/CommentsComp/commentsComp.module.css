@@ -5,50 +5,67 @@
 }
 
 .comments {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    height: 50vh;
-    overflow: scroll;
-    box-shadow: inset 0px 0px 7px 4px rgba(0,0,0,0.25);
-    border-radius: 10px;
-    position: relative;
-    scroll-behavior: smooth;
- }
-
- .btns {
-    display: flex;
-    gap: 0.5rem;
-    justify-content: right;
- }
-
- .btns > button {
-    background-color: var(--darkSecondary);
- }
-
-
- .opComment {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    display: grid;
-    gap: 1rem;
- }
-
-.sticky {
-    filter: drop-shadow(0 0 10px black)
+   display: -webkit-box;
+   display: -ms-flexbox;
+   display: flex;
+   -webkit-box-orient: vertical;
+   -webkit-box-direction: normal;
+   -ms-flex-direction: column;
+   flex-direction: column;
+   gap: 1rem;
+   height: 50vh;
+   overflow: scroll;
+   -webkit-box-shadow: inset 0px 0px 7px 4px rgba(0, 0, 0, 0.25);
+   box-shadow: inset 0px 0px 7px 4px rgba(0, 0, 0, 0.25);
+   border-radius: 10px;
+   position: relative;
+   scroll-behavior: smooth;
 }
 
- .opComment div:first-child {
-    transition: all 1s ease;
- }
+.btns {
+   display: -webkit-box;
+   display: -ms-flexbox;
+   display: flex;
+   gap: 0.5rem;
+   -webkit-box-pack: right;
+   -ms-flex-pack: right;
+   justify-content: right;
+}
 
- .sticky div:first-child {
-    background-color: var(--primary);
- }
+.btns > button {
+   background-color: var(--darkSecondary);
+}
 
- .btn {
+
+.opComment {
+   position: -webkit-sticky;
    position: sticky;
+   top: 0;
+   z-index: 10;
+   display: grid;
+   gap: 1rem;
+}
+
+.sticky {
+   -webkit-filter: drop-shadow(0 0 10px black);
+   filter: drop-shadow(0 0 10px black)
+}
+
+.opComment div:first-child {
+   -webkit-transition: all 1s ease;
+   -o-transition: all 1s ease;
+   transition: all 1s ease;
+}
+
+.sticky div:first-child {
+   background-color: var(--primary);
+}
+
+.btn {
+   position: -webkit-sticky;
+   position: sticky;
+   -webkit-transition: all 500ms ease;
+   -o-transition: all 500ms ease;
    transition: all 500ms ease;
    bottom: 0;
    z-index: 10;
@@ -56,9 +73,9 @@
    width: 50px;
    border-radius: 10px;
    left: 1rem;
- }
+}
 
- .goUp {
+.goUp {
    bottom: 25px;
    opacity: 1;
- }
+}

@@ -20,30 +20,47 @@
 }
 
 .animes {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     overflow: scroll;
     gap: 1rem;
     width: 100%;
     /* border: 1px solid red; */
     scroll-snap-align: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
 }
 
 .btnContainer {
     width: 70%;
     /* border: 1px solid red; */
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     margin: 0 auto;
     gap: 0.5rem;
 }
 
 .btnContainer button {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     width: 100px;
+    -webkit-box-pack: space-evenly;
+    -ms-flex-pack: space-evenly;
     justify-content: space-evenly;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     border: none;
 }

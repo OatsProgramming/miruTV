@@ -5,9 +5,11 @@
     gap: 1rem;
 }
 
-.onEdit textarea{
+.onEdit textarea {
     background-color: transparent;
     width: 100%;
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
     height: fit-content;
     resize: none;
     border: none;
@@ -20,6 +22,8 @@
 }
 
 .btnContainer {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     gap: 0.5rem;
 }

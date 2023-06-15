@@ -4,8 +4,14 @@
     background-color: var(--lightPrimary);
     padding: 0.25rem 0.5rem;
     border-radius: 10px;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
 }
 
@@ -16,19 +22,28 @@
 }
 
 .container[open] {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
 }
 
 .container {
-   width: 80vw;
-   gap: 1rem;
-   max-width: 720px;
-   background-color: var(--primary);
-   padding: 2rem 0;
-   padding: 2rem;
+    width: 80vw;
+    gap: 1rem;
+    max-width: 720px;
+    background-color: var(--primary);
+    padding: 2rem 0;
+    padding: 2rem;
 }
 
 .searchBar {
@@ -39,15 +54,21 @@
 }
 
 .searchResults {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     overflow: scroll;
     width: 100%;
     gap: 2rem;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
 }
 
 .container button {
     opacity: 0.5;
+    -webkit-transition: all 200ms ease;
+    -o-transition: all 200ms ease;
     transition: all 200ms ease;
 }
 
@@ -58,6 +79,8 @@
 @media (min-width: 720px) {
     .btn {
         width: 15rem;
+        -webkit-box-pack: space-evenly;
+        -ms-flex-pack: space-evenly;
         justify-content: space-evenly;
         padding-left: 0;
         padding-right: 0;

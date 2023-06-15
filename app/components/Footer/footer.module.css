@@ -1,8 +1,15 @@
 .container {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     gap: 5rem;
     padding: 1rem;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
     background-color: var(--primary);
 }
@@ -10,21 +17,30 @@
 .text {
     width: 80%;
     margin: 0 auto;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     gap: 1rem;
-    flex-direction: column;   
-    text-align: center; 
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    text-align: center;
     max-width: 500px;
 }
 
 .text h1 {
     color: var(--secondary);
+    -webkit-filter: drop-shadow(0 0 5px var(--darkSecondary));
     filter: drop-shadow(0 0 5px var(--darkSecondary));
     font-size: xx-large;
+    -webkit-transition: all 500ms ease;
+    -o-transition: all 500ms ease;
     transition: all 500ms ease;
 }
 
 .text h1:hover {
+    -webkit-filter: drop-shadow(0 0 10px var(--darkSecondary));
     filter: drop-shadow(0 0 10px var(--darkSecondary));
 }
 
@@ -56,17 +72,24 @@
 
 .iconsContainer {
     /* border: 1px solid red; */
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     gap: 1rem;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
 }
 
 .iconsContainer img {
     /* border: 1px solid yellow; */
+    -webkit-filter: invert(1);
     filter: invert(1);
     width: 100%;
     height: 100%;
     opacity: 0.7;
+    -webkit-transition: all 500ms ease;
+    -o-transition: all 500ms ease;
     transition: all 500ms ease;
 }
 
@@ -94,16 +117,22 @@
 .copyright,
 .copyright * {
     color: hsla(0, 0%, 100%, 0.7);
+    -webkit-transition: all 200ms ease;
+    -o-transition: all 200ms ease;
     transition: all 200ms ease;
 }
 
 .copyright a:hover {
     color: white;
+    -webkit-filter: drop-shadow(0 0 1px white);
     filter: drop-shadow(0 0 1px white)
 }
 
 @media (min-width: 720px) {
     .container {
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: row;
         flex-direction: row;
         padding-left: 5rem;
         padding-top: 2rem;
@@ -117,7 +146,8 @@
     }
 
     .iconsContainer {
+        -webkit-box-pack: left;
+        -ms-flex-pack: left;
         justify-content: left;
     }
 }
-

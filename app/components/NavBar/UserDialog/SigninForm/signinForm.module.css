@@ -1,7 +1,13 @@
 .details {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
     padding: 2rem;
+    -ms-flex-pack: distribute;
     justify-content: space-around;
     gap: 2rem;
 }
@@ -31,10 +37,20 @@
 }
 
 .form {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
     gap: 1.5rem;
 }
@@ -45,12 +61,16 @@
 }
 
 .btns {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     gap: 1rem;
 }
 
 .form > button {
     opacity: 0.5;
+    -webkit-transition: all 200ms ease;
+    -o-transition: all 200ms ease;
     transition: all 200ms ease;
     background-color: transparent;
 }
@@ -61,7 +81,11 @@
 
 .textField {
     position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
 }
 
@@ -70,12 +94,15 @@
     opacity: 0.5;
     padding-left: 10px;
     z-index: -1;
+    -webkit-transition: translate 200ms ease;
+    -o-transition: translate 200ms ease;
     transition: translate 200ms ease;
 }
 
 .textField input {
     background-color: transparent;
     border: 0;
+    -webkit-box-shadow: inset 0 0 10px 1px rgba(0, 0, 0, 0.5);
     box-shadow: inset 0 0 10px 1px rgba(0, 0, 0, 0.5);
     padding: 1rem;
 }
@@ -85,14 +112,15 @@
 }
 
 
-.textField input:focus+label,
-.textField input:not(:placeholder-shown)+label {
+.textField input:focus + label,
+.textField input:not(:placeholder-shown) + label {
     opacity: 1;
     translate: 0 -1.5em;
     z-index: 1;
 }
 
 @media screen and (max-width: 720px) {
+
     .form > img,
     .details > span:first-child {
         display: none;
@@ -100,6 +128,7 @@
 
     .details {
         text-align: center;
+        -ms-flex-pack: distribute;
         justify-content: space-around;
     }
 

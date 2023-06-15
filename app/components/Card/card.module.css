@@ -1,5 +1,10 @@
 .card {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
     width: clamp(50px, 50vw, 250px);
     aspect-ratio: 98 / 138;
@@ -8,6 +13,8 @@
     background-size: cover;
     background-repeat: no-repeat;
     border-radius: 10px;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
     justify-content: flex-end;
 }
 
@@ -15,7 +22,10 @@
     background-color: hsla(0, 0%, 8%, 0.75);
     border-bottom-left-radius: inherit;
     border-bottom-right-radius: inherit;
-    backdrop-filter: blur(4px) ;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    height: -webkit-min-content;
+    height: -moz-min-content;
     height: min-content;
     color: white;
     padding: 0.5rem;
@@ -26,6 +36,7 @@
 .text h3,
 .text h2 {
     overflow: hidden;
+    -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
@@ -35,6 +46,7 @@
     aspect-ratio: 3 / 2;
     margin: 1rem 0;
     background-blend-mode: soft-light;
+    -webkit-box-shadow: inset 0px 0px 5px 5px rgba(24, 24, 24, 0.5);
     box-shadow: inset 0px 0px 5px 5px rgba(24, 24, 24, 0.5);
 }
 
@@ -54,7 +66,7 @@
     }
 
     .text {
-       gap: 0.25rem;
+        gap: 0.25rem;
     }
 }
 
@@ -64,4 +76,3 @@
         font-size: xx-small;
     }
 }
-

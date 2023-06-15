@@ -1,10 +1,16 @@
 .nav {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-pack: distribute;
     justify-content: space-around;
     background-color: var(--primary);
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     width: 100vw;
     padding: 1rem;
+    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 999;
@@ -12,11 +18,15 @@
 
 .nav > a > h1 {
     color: var(--secondary);
+    -webkit-filter: drop-shadow(0 0 7px var(--darkSecondary));
     filter: drop-shadow(0 0 7px var(--darkSecondary));
+    -webkit-transition: all 200ms ease;
+    -o-transition: all 200ms ease;
     transition: all 200ms ease;
 }
 
 .nav > a > h1:hover {
+    -webkit-filter: drop-shadow(0 0 10px var(--darkSecondary));
     filter: drop-shadow(0 0 10px var(--darkSecondary))
 }
 

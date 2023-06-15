@@ -10,6 +10,7 @@
   --duration: 5s;
   position: absolute;
   top: 30%;
+  -webkit-animation: text var(--duration) ease-in calc(var(--delay) * var(--duration));
   animation: text var(--duration) ease-in calc(var(--delay) * var(--duration));
   white-space: nowrap;
   overflow: hidden;
@@ -17,74 +18,146 @@
 }
 
 .loader {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    max-width: 6rem;
-    margin-top: 3rem;
-    margin-bottom: 3rem;
-  }
-  .loader:before,
-  .loader:after {
-    content: "";
-    position: absolute;
-    border-radius: 50%;
-    animation: pulsOut 1.8s ease-in-out infinite;
-    filter: drop-shadow(0 0 1rem var(--darkSecondary));
-    opacity: 0.75;
-  }
-  .loader:before {
-    width: 100%;
-    padding-bottom: 100%;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 6rem;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+.loader:before,
+.loader:after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  -webkit-animation: pulsOut 1.8s ease-in-out infinite;
+  animation: pulsOut 1.8s ease-in-out infinite;
+  -webkit-filter: drop-shadow(0 0 1rem var(--darkSecondary));
+  filter: drop-shadow(0 0 1rem var(--darkSecondary));
+  opacity: 0.75;
+}
+
+.loader:before {
+  width: 100%;
+  padding-bottom: 100%;
+  -webkit-box-shadow: inset 0 0 0 1rem var(--secondary);
+  box-shadow: inset 0 0 0 1rem var(--secondary);
+  -webkit-animation-name: pulsIn;
+  animation-name: pulsIn;
+}
+
+.loader:after {
+  width: calc(100% - 2rem);
+  padding-bottom: calc(100% - 2rem);
+  -webkit-box-shadow: 0 0 0 0 var(--secondary);
+  box-shadow: 0 0 0 0 var(--secondary);
+}
+
+@-webkit-keyframes pulsIn {
+  0% {
+    -webkit-box-shadow: inset 0 0 0 1rem var(--secondary);
     box-shadow: inset 0 0 0 1rem var(--secondary);
-    animation-name: pulsIn;
+    opacity: 1;
   }
-  .loader:after {
-    width: calc(100% - 2rem);
-    padding-bottom: calc(100% - 2rem);
+
+  50%,
+  100% {
+    -webkit-box-shadow: inset 0 0 0 0 var(--secondary);
+    box-shadow: inset 0 0 0 0 var(--secondary);
+    opacity: 0;
+  }
+}
+
+@keyframes pulsIn {
+  0% {
+    -webkit-box-shadow: inset 0 0 0 1rem var(--secondary);
+    box-shadow: inset 0 0 0 1rem var(--secondary);
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    -webkit-box-shadow: inset 0 0 0 0 var(--secondary);
+    box-shadow: inset 0 0 0 0 var(--secondary);
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes pulsOut {
+
+  0%,
+  50% {
+    -webkit-box-shadow: 0 0 0 0 var(--secondary);
     box-shadow: 0 0 0 0 var(--secondary);
+    opacity: 0;
   }
 
-  @keyframes pulsIn {
-    0% {
-      box-shadow: inset 0 0 0 1rem var(--secondary);
-      opacity: 1;
-    }
-    50%, 100% {
-      box-shadow: inset 0 0 0 0 var(--secondary);
-      opacity: 0;
-    }
+  100% {
+    -webkit-box-shadow: 0 0 0 1rem var(--secondary);
+    box-shadow: 0 0 0 1rem var(--secondary);
+    opacity: 1;
+  }
+}
+
+@keyframes pulsOut {
+
+  0%,
+  50% {
+    -webkit-box-shadow: 0 0 0 0 var(--secondary);
+    box-shadow: 0 0 0 0 var(--secondary);
+    opacity: 0;
   }
 
-  @keyframes pulsOut {
-    0%, 50% {
-      box-shadow: 0 0 0 0 var(--secondary);
-      opacity: 0;
-    }
-    100% {
-      box-shadow: 0 0 0 1rem var(--secondary);
-      opacity: 1;
-    }
+  100% {
+    -webkit-box-shadow: 0 0 0 1rem var(--secondary);
+    box-shadow: 0 0 0 1rem var(--secondary);
+    opacity: 1;
   }
-     
-  
-  @keyframes text {
-    0% {
-      opacity: 0;
-    }
+}
 
-    25% {
-      opacity: 1;
-    }
 
-    90% {
-      opacity: 1
-    }
-
-    100% {
-      opacity: 0;
-    }
+@-webkit-keyframes text {
+  0% {
+    opacity: 0;
   }
-  
+
+  25% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+
+@keyframes text {
+  0% {
+    opacity: 0;
+  }
+
+  25% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

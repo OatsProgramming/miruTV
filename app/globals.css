@@ -3,6 +3,7 @@
   otherwise it will break
 */
 * {
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   padding: 0;
   margin: 0;
@@ -24,11 +25,13 @@ html {
 html,
 body {
   max-width: 100vw;
+  background-color: hsl(281, 5%, 7%);
 }
 
 a {
   text-decoration: none;
   color-scheme: dark;
+  color: white;
 }
 
 a:visited {
@@ -58,8 +61,15 @@ dialog {
   padding: 2rem 0;
 }
 
+dialog::-webkit-backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-backdrop-filter: blur(1.5px);
+  backdrop-filter: blur(1.5px);
+}
+
 dialog::backdrop {
   background-color: rgba(0, 0, 0, 0.5);
+  -webkit-backdrop-filter: blur(1.5px);
   backdrop-filter: blur(1.5px);
 }
 
@@ -74,7 +84,10 @@ button {
   border: 0;
   border-radius: 10px;
   cursor: pointer;
+  -webkit-transition: all 200ms ease;
+  -o-transition: all 200ms ease;
   transition: all 200ms ease;
+  color: white;
 }
 
 button:hover {
@@ -88,8 +101,13 @@ button:active {
 .comment {
   padding: 1rem;
   border-radius: 10px;
+  -webkit-box-shadow: 0px 0px 17px 0px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 0px 17px 0px rgba(0, 0, 0, 0.75);
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
 }
 
@@ -139,6 +157,7 @@ button:active {
   position: absolute;
   text-align: center;
   z-index: 2;
+  -webkit-filter: drop-shadow(0 0 10px #000000);
   filter: drop-shadow(0 0 10px #000000);
 }
 
@@ -180,6 +199,7 @@ button:active {
   scale: 3;
   top: 45%;
   z-index: 2;
+  -webkit-filter: drop-shadow(0px 0px 40px var(--darkSecondary));
   filter: drop-shadow(0px 0px 40px var(--darkSecondary));
   color: var(--secondary)
 }
@@ -191,15 +211,23 @@ button:active {
 }
 
 .errorBtns {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   gap: 0.5rem;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   scale: 1.2;
 }
 
 .errorBtns > button {
   opacity: 0.5;
+  -webkit-transition: all 200ms ease;
+  -o-transition: all 200ms ease;
   transition: all 200ms ease;
   background-color: var(--darkSecondary);
 }
