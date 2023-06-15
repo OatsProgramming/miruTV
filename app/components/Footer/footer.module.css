@@ -21,6 +21,11 @@
     color: var(--secondary);
     filter: drop-shadow(0 0 5px var(--darkSecondary));
     font-size: xx-large;
+    transition: all 500ms ease;
+}
+
+.text h1:hover {
+    filter: drop-shadow(0 0 10px var(--darkSecondary));
 }
 
 .text div:first-of-type {

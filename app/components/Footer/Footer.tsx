@@ -12,7 +12,7 @@ export default function Footer() {
         <>
             <section className={styles['container']}>
                 <div className={styles['text']}>
-                    <h1>MiruTV</h1>
+                    <Link href="/"><h1>MiruTV</h1></Link>
                     <div className={styles['disclaimer']}>
                         MiruTV is not affiliated with or endorsed by any of the anime studios behind the creation of the anime presented on this site. This website is only an user interface presenting/linking various self-hosted files across the internet by other third-party providers for easy access. MiruTV never downloads the video from any source provider, link will be returned from the response hence it is completely not subjected to DMCA compliant.
                     </div>
