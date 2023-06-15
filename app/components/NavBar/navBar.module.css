@@ -1,6 +1,5 @@
 .nav {
     display: flex;
-    /* border: 1px solid red; */
     justify-content: space-around;
     background-color: var(--primary);
     align-items: center;
@@ -8,16 +7,21 @@
     padding: 1rem;
     position: sticky;
     top: 0;
-    z-index: 99999;
+    z-index: 999;
 }
 
-.nav > a {
-    font-size: larger;
-    font-weight: 900;
+.nav > a > h1 {
+    color: var(--secondary);
+    filter: drop-shadow(0 0 7px var(--darkSecondary));
+    transition: all 200ms ease;
+}
+
+.nav > a > h1:hover {
+    filter: drop-shadow(0 0 10px var(--darkSecondary))
 }
 
 @media (max-width: 640px) {
-    .nav > a {
-        font-size: medium;
+    .nav > a > h1 {
+        font-size: larger;
     }
 }

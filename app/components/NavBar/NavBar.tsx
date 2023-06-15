@@ -13,8 +13,10 @@ export default async function NavBar() {
     const session = await getServerSession(authOptions)
     return (
         <nav className={styles['nav']}>
+            <Link href='/'>
+                <h1>MiruTV</h1>
+            </Link>
             <SearchDialog />
-            <Link href='/'>HOME</Link>
             <UserDialog session={session ?? undefined} />
         </nav>
     )

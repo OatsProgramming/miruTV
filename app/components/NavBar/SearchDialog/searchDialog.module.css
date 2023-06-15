@@ -55,3 +55,11 @@
     opacity: 1;
 }
 
+@media (min-width: 720px) {
+    .btn {
+        width: 15rem;
+        justify-content: space-evenly;
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
