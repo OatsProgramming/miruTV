@@ -1,9 +1,8 @@
 import toggleDialog from '@/lib/toggleDialog';
 import styles from './signinForm.module.css'
-import type { RefObject, FormEvent } from "react";
+import type { RefObject } from "react";
 import { useState } from 'react'
 import signInUser from './signInUser'
-import { useRouter } from 'next/navigation'
 
 export default function SigninForm({ dialogRef }: {
     dialogRef: RefObject<HTMLDialogElement>
@@ -11,7 +10,7 @@ export default function SigninForm({ dialogRef }: {
     const [isNew, setIsNew] = useState(false)
 
     return (
-        <>
+        <div className={styles['container']}>
             <div className={styles['details']}>
                 <span className={styles['textOne']}>
                     <h1>What's stored?</h1>
@@ -30,7 +29,7 @@ export default function SigninForm({ dialogRef }: {
                 <img
                     loading='lazy'
                     src='https://i.imgur.com/8afeTcs.png'
-                    alt=''
+                    alt='Suika (Dr. Stone) eating a watermelon (Fanart)'
                 />
                 <div className={styles['textField']}>
                     <input type="text" name='username' placeholder="" required />
@@ -47,7 +46,9 @@ export default function SigninForm({ dialogRef }: {
                     </div>
                 )}
                 <div className={styles['btns']}>
-                    <button onPointerDown={(e) => toggleDialog(e, dialogRef)}>
+                    {/* Mouse event to prevent premature clicks on other elements (for mobile) */}
+                    {/* @ts-expect-error */}
+                    <button onClick={(e) => toggleDialog(e, dialogRef)}>
                         Cancel
                     </button>
                     <button>
@@ -58,6 +59,6 @@ export default function SigninForm({ dialogRef }: {
                     {isNew ? 'Have an acccount?' : 'New here?'}
                 </button>
             </form>
-        </>
+        </div>
     )
 }

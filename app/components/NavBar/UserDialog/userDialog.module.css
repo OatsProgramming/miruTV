@@ -51,5 +51,6 @@
 
     .btn {
         font-size: medium;
+        scale: 0.9;
     }
 }

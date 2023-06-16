@@ -1,3 +1,12 @@
+/* ???????? */
+.container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding: 0 2rem;
+    min-height: 50vh;
+}
+
 .details {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -6,7 +15,6 @@
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
     flex-direction: column;
-    padding: 2rem;
     -ms-flex-pack: distribute;
     justify-content: space-around;
     gap: 2rem;
@@ -28,8 +36,18 @@
     height: 100%;
 }
 
+.details {
+    margin: auto 0;
+}
+
+.details h1 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
 .details i {
     opacity: 0.5;
+    font-weight: 300;
 }
 
 .textTwo > div:first-child {
@@ -120,7 +138,14 @@
 }
 
 @media screen and (max-width: 720px) {
-
+    .container {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+                flex-direction: column;
+                gap: 3rem;
+    }
+    
     .form > img,
     .details > span:first-child {
         display: none;
@@ -143,5 +168,15 @@
     .form,
     .details {
         width: 100%;
+    }
+}
+
+@media only screen and (max-device-width: 480px) and (orientation: landscape) {
+    .details {
+        scale: 0.9
+    }
+
+    .form {
+        scale: 0.8
     }
 }
