@@ -61,6 +61,7 @@ dialog {
   border: 0;
   background-color: var(--primary);
   padding: 2rem 0;
+  position: fixed !important;
 }
 
 dialog::-webkit-backdrop {
@@ -90,6 +91,8 @@ button {
   -o-transition: all 200ms ease;
   transition: all 200ms ease;
   color: white;
+  font-weight: lighter;
+  font-size: medium;
 }
 
 button:hover {
@@ -264,5 +267,24 @@ button:active {
 
   .errorText {
     scale: 1
+  }
+}
+
+@media only screen and (max-device-width: 480px){
+  input,
+  textarea {
+      border: 2px solid var(--darkSecondary) !important;
+      border-radius: 20px !important;
+      caret-color: var(--darkSecondary);
+  }
+
+  label {
+      top: 0;
+  }
+}
+
+@media only screen and (max-device-width: 480px) and (orientation: landscape) {
+  dialog {
+    min-height: 100dvh;
   }
 }
