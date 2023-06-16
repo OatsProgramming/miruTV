@@ -5,7 +5,7 @@ import type { ChangeEvent } from 'react'
 import styles from './searchDialog.module.css'
 import toggleDialog from '@/lib/toggleDialog'
 import enimeFetcher from '@/lib/fetchers/enimeFetcher'
-import Card from '../../Card/Card'
+import AnimeInfo from '../../AnimeInfo/AnimeInfo'
 
 export default function SearchDialog() {
     const dialogRef = useRef<HTMLDialogElement>(null)
@@ -26,7 +26,7 @@ export default function SearchDialog() {
     async function handleSearch(e: ChangeEvent) {
         const input = e.target as HTMLInputElement
         const query = input.value
-        if (!query) return setSearchResults(undefined) 
+        if (!query) return setSearchResults(undefined)
 
         // If user is still typing, stop the fetch request
         const timerId = timerRef.current
@@ -53,25 +53,14 @@ export default function SearchDialog() {
                 />
                 <div className={styles['searchResults']}>
                     {animes.length > 0 && animes.map(anime => (
-                        <div onPointerDown={(e) => toggleDialog(e, dialogRef)}>
-                            <Card
-                                key={anime.id}
-                                info={{
-                                    animeId: anime.id,
-                                    animeTitle: anime.title.english ?? 'N/A',
-                                    coverImg: anime.coverImage
-                                }}
-                                style={{
-                                    width: 200,
-                                    fontSize: 'x-small'
-                                }}
-                            />
-                        </div>
+                        <AnimeInfo key={anime.id} anime={anime} dialogRef={dialogRef} />
                     ))}
                 </div>
-                <button onPointerDown={(e) => toggleDialog(e, dialogRef)}>
-                    <div>Close</div>
-                </button>
+                <div>
+                    <button onPointerDown={(e) => toggleDialog(e, dialogRef)}>
+                        Close
+                    </button>
+                </div>
             </dialog>
         </>
     )
