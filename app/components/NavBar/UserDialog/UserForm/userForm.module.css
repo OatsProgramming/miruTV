@@ -5,14 +5,19 @@
     gap: 2rem;
 }
 
-.text {
-    font-size: x-large;
+.animes {
+    margin-top: 1rem;
+}
+
+.text * {
+    font-size: 3rem !important;
 }
 
 .text p {
     margin-top: 0.5rem;
-    font-size: medium;
+    font-size: medium !important;
     opacity: 0.7;
+    font-weight: lighter;
 }
 
 .username {
@@ -34,7 +39,7 @@
 }
 
 .btnContainer {
-    width: 70%;
+    width: 100%;
     /* border: 1px solid red; */
     display: -webkit-box;
     display: -ms-flexbox;
@@ -55,7 +60,7 @@
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    width: 100px;
+    width: 125px;
     -webkit-box-pack: space-evenly;
     -ms-flex-pack: space-evenly;
     justify-content: space-evenly;
@@ -63,6 +68,10 @@
     -ms-flex-align: center;
     align-items: center;
     border: none;
+}
+
+.btnContainer button * {
+    font-size: medium;
 }
 
 .formContainer {
@@ -73,4 +82,33 @@
 .formContainer button:first-of-type {
     background-color: var(--secondary);
     opacity: 1;
+}
+
+@media (max-width: 640px) {
+    .text * {
+        font-size: 2rem !important;
+    }
+
+    .btnContainer button {
+        width: 100px;
+    }
+    
+    .btnContainer button * {
+        font-size: small;
+    }
+}
+
+@media only screen and (max-device-width: 480px) and (orientation: landscape) {
+    .container {
+        padding: 1rem;
+        gap: 0;
+    }
+
+    .saves {
+        scale: 0.8;
+    }
+
+    .btnContainer {
+        padding-bottom: 2.5rem;
+    }
 }

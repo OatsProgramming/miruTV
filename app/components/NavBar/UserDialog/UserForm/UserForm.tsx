@@ -78,7 +78,7 @@ export default function UserForm({ session, dialogRef }: {
                     </form>
                 </div>
             ) : (
-                <>
+                <div className={styles['saves']}>
                     <div className={styles['text']}>
                         <h1>
                             Sup, <span className={styles['username']}>
@@ -88,9 +88,9 @@ export default function UserForm({ session, dialogRef }: {
                         <p>We got your favs saved for you:</p>
                     </div>
                     <div className={styles['animes']}>
-                        <FavSect session={session} />
+                        <FavSect session={session} dialogRef={dialogRef}/>
                     </div>
-                </>
+                </div>
             )}
             <div className={styles['btnContainer']}>
                 <button onPointerDown={() => setIsEditing(!isEditing)}>
