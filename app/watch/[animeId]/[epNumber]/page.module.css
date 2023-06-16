@@ -80,3 +80,13 @@
         padding: 1rem;
     }
 }
+
+@media only screen and (max-device-width: 480px) {
+    .container {
+        display: block;
+    }
+    
+    .episodes {
+        flex-direction: row;
+    }
+}
