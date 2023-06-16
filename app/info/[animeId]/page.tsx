@@ -5,6 +5,7 @@ import FavId from "@/app/components/FavId/FavId"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import enimeFetcher from "@/lib/fetchers/enimeFetcher"
+import Image from "next/image"
 
 export async function generateMetadata({ params: { animeId } }: {
     params: {
@@ -34,11 +35,14 @@ export default async function Page({ params: { animeId } }: {
     const episodes = anime.episodes
     return (
         <div className={styles['container']}>
-            <img
-                className={styles['banner']}
-                loading='lazy'
-                src={anime.bannerImage}
-            />
+            <div className={styles['banner']}>
+                <Image
+                    src={anime.bannerImage}
+                    alt={anime.title.english ?? '???'}
+                    width={950}
+                    height={200}
+                />
+            </div>
             <section className={styles['info']}>
                 <Card
                     info={{
