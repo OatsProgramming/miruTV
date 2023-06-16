@@ -15,7 +15,6 @@
     -ms-flex-direction: column;
     flex-direction: column;
     gap: 1.5rem;
-    /* border: 1px solid red; */
     width: 100%;
 }
 
@@ -88,5 +87,3 @@
     font-size: large;
     background-color: var(--darkSecondary);
 }
-
-@media screen and (max-width: 720px) {}
