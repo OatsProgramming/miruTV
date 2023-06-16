@@ -6,10 +6,7 @@ import type { CSSProperties } from 'react'
 import { getDialogContext } from '../DialogProvider.tsx/DialogProvider'
 import toggleDialog from '@/lib/toggleDialog'
 import Image from 'next/image'
-
-function ImageLoader() {
-    return ""
-}
+import tempImgs from '@/lib/tempImgs'
 
 /**
  * 
@@ -33,6 +30,13 @@ export default function Card({ info, epInfo, isLandScape, style }: {
             : animeId !== 777 
                 ? `/info/${animeId}`
                 : `/`
+
+    const imgSrc = animeId === 777 
+        ? tempImgs.noSaves
+        : coverImg 
+            ? coverImg
+            : tempImgs.noEpImg
+    
     return (
         <Link href={link}>
             <div
@@ -44,7 +48,7 @@ export default function Card({ info, epInfo, isLandScape, style }: {
                 `}
                 style={style}>
                 <Image 
-                    src={animeId === 777 ? 'https://i.imgur.com/hTugjOM.jpg' : coverImg}
+                    src={imgSrc}
                     alt={animeTitle}
                     width={100}
                     height={100}

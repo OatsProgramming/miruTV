@@ -276,7 +276,7 @@ type InfoCard = {
      */
     animeId: string | 777,
     animeTitle: string,
-    coverImg: string,
+    coverImg?: string | null,
 }
 
 type EpCardRequirments = {

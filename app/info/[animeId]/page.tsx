@@ -66,7 +66,7 @@ export default async function Page({ params: { animeId } }: {
                         info={{
                             animeId: anime.id,
                             animeTitle: anime.title.english ?? 'N/A',
-                            coverImg: ep.image ?? anime.bannerImage
+                            coverImg: ep.image
                         }}
                         epInfo={{
                             number: ep.number,

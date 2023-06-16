@@ -5,6 +5,7 @@ import styles from './page.module.css'
 import CommentsSection from "@/app/components/CommentsSection/CommentsSection";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import tempImgs from "@/lib/tempImgs";
 
 export async function generateMetadata({ params: { animeId, epNumber } }: {
     params: {
@@ -42,10 +43,10 @@ export default async function Page({ params: { animeId, epNumber } }: {
                 <Link href={`/info/${anime.id}`}>
                     <h3>{anime.title.english}</h3>
                 </Link>
-                <HLSPlayer
+                {/* <HLSPlayer
                     sources={episode.sources}
                     poster={episode.image}
-                />
+                /> */}
             </div>
             <div className={styles['episodes']}>
                 {episodes.length > 0 && (
@@ -61,7 +62,7 @@ export default async function Page({ params: { animeId, epNumber } }: {
                                 info={{
                                     animeId: anime.id,
                                     animeTitle: anime.title.english,
-                                    coverImg: ep.image ?? anime.bannerImage
+                                    coverImg: ep.image
                                 }}
                                 epInfo={{
                                     title: ep.title,
