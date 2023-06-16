@@ -53,7 +53,7 @@ export default async function enimeFetcher<EnimeRouteT extends EnimeRoute>(
       + '/api/enime/'
       + joinedRoute
 
-    const res = await fetch(url, { next: { revalidate: 60 }})
+    const res = await fetch(url)
 
     if (!res.ok) {
       const result = await res.text()
