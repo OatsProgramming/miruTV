@@ -5,6 +5,11 @@ import styles from './card.module.css'
 import type { CSSProperties } from 'react'
 import { getDialogContext } from '../DialogProvider.tsx/DialogProvider'
 import toggleDialog from '@/lib/toggleDialog'
+import Image from 'next/image'
+
+function ImageLoader() {
+    return ""
+}
 
 /**
  * 
@@ -28,7 +33,6 @@ export default function Card({ info, epInfo, isLandScape, style }: {
             : animeId !== 777 
                 ? `/info/${animeId}`
                 : `/`
-
     return (
         <Link href={link}>
             <div
@@ -38,10 +42,13 @@ export default function Card({ info, epInfo, isLandScape, style }: {
                     ${isLandScape && styles['epCard']}
                     ${dialogRef && styles['dialogCard']}
                 `}
-                style={{
-                    '--img': `url(${animeId === 777 ? 'https://i.imgur.com/hTugjOM.jpg' : coverImg })`,
-                    ...style
-                } as CSSProperties}>
+                style={style}>
+                <Image 
+                    src={animeId === 777 ? 'https://i.imgur.com/hTugjOM.jpg' : coverImg}
+                    alt={animeTitle}
+                    width={100}
+                    height={100}
+                />
                 <div
                     className={styles['text']}
                     style={{
