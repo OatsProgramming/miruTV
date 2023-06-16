@@ -50,7 +50,7 @@
     background-color: var(--primary);
     gap: 1rem;
     padding: 1rem;
-    position: absolute;
     top: -15px;
     left: -70px;
+    position: absolute !important;
 }

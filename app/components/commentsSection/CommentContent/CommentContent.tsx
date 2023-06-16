@@ -23,7 +23,7 @@ type CommentContentParam = {
 
 export default function CommentContent(param: CommentContentParam) {
     const { data } = useSession()
-    const { setCurrentComment } = useCurrentComment()
+    const { setCurrentComment, currentComment } = useCurrentComment()
     const menuBtnRef = useRef<HTMLDivElement>(null)
 
     const comment = 'asOP' in param 
@@ -130,7 +130,7 @@ export default function CommentContent(param: CommentContentParam) {
 
     return (
         <>
-            <div className={styles['text']}>
+            <div className={styles['text']} onPointerDown={() => currentComment?.id !== comment.id && setCurrentComment(comment)}>
                 <div>
                     <span>{comment.createdBy}</span>
                     <span>::</span>
@@ -143,7 +143,7 @@ export default function CommentContent(param: CommentContentParam) {
                     <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
                 </svg>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"
-                    onClick={() => setCurrentComment(comment)}
+                    onClick={() => currentComment?.id !== comment.id && setCurrentComment(comment)}
                     data-dont-toggle={true}
                 >
                     <path d="M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h9.586a1 1 0 0 1 .707.293l2.853 2.853a.5.5 0 0 0 .854-.353V2zM5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />

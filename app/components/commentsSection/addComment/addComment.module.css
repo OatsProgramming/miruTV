@@ -19,12 +19,16 @@
     z-index: 2;
     position: relative;
     padding: 1rem;
+    font-weight: lighter;
+    overflow: hidden;
+    border: none !important;
 }
 
 .addComment:focus,
 .addComment:not(:placeholder-shown) {
     height: 5rem;
     outline: none;
+    overflow: scroll;
 }
 
 
