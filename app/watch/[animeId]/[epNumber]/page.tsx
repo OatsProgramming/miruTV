@@ -43,10 +43,10 @@ export default async function Page({ params: { animeId, epNumber } }: {
                 <Link href={`/info/${anime.id}`}>
                     <h3>{anime.title.english}</h3>
                 </Link>
-                {/* <HLSPlayer
+                <HLSPlayer
                     sources={episode.sources}
                     poster={episode.image}
-                /> */}
+                />
             </div>
             <div className={styles['episodes']}>
                 {episodes.length > 0 && (
