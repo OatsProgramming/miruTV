@@ -18,7 +18,8 @@ export default async function enimeFetcher<EnimeRouteT extends EnimeRoute>(
       + '/api/enime/'
       + joinedRoute
 
-    const res = await fetch(url, { cache: 'no-store' })
+    // Its still using stale data????????
+    const res = await fetch(url, { next: { revalidate: 0 } })
 
     if (!res.ok) {
       const result = await res.text()

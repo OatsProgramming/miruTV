@@ -1,6 +1,9 @@
 import handleError from "@/lib/handleError";
 import redis from "@/lib/redis";
 
+// ??? Vercel still caching ??? Still using stale data?
+export const fetchCache = 'force-no-store'
+
 export async function GET(req: Request, { params: { slug } }: ParamsArr) {
     let defaultTTL = 3600 // 1 hr
     const toRedis = new Set(['source']) // Still debating what to cache for faster UX
