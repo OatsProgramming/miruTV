@@ -31,7 +31,7 @@ export default function EmailContact() {
                     <label htmlFor="email">Email</label>
                 </div>
                 <div className={styles['textField']}>
-                    <input type="text" name='name' placeholder=""
+                    <input type="text" id='name' name='name' placeholder=""
                         onChange={(e) => dispatch({
                             type: 'updating',
                             newInfo: { name: e.target.value }

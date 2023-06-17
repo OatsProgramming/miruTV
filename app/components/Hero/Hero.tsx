@@ -33,6 +33,7 @@ export default function Hero({ animes }: {
                     <SplideSlide key={anime.id} className={styles['content']}>
                         <Link href={`/info/${anime.id}`}>
                             <img
+                                loading='lazy'
                                 src={anime.bannerImage}
                                 alt={anime.title.english}
                             />
