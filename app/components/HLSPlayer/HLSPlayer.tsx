@@ -2,85 +2,87 @@
 
 import enimeFetcher from '@/lib/fetchers/enimeFetcher'
 import Player from '@oplayer/core'
-import type { PlayerPlugin } from '@oplayer/core'
-import ui from '@oplayer/ui'
-import type { UiConfig } from '@oplayer/ui'
-import { useEffect, useRef, useState } from 'react'
+import type { PlayerOptions } from '@oplayer/core'
+import type { MenuBar } from '@oplayer/ui'
+import { useEffect, useRef } from 'react'
 import styles from './hlsPlayer.module.css'
 import extractDomainName from '@/lib/extractWebName'
 import { notFound } from 'next/navigation'
+import OUI from '@oplayer/ui'
+import OHls from '@oplayer/hls'
 
-export default function HLSPlayer({ sources, poster }: {
-    sources: EnimeView['sources'],
-    poster?: string,
+// To deal with "any" type for context object
+type Ctx = {
+  ui: ReturnType<typeof OUI>
+  hls: ReturnType<typeof OHls>
+}
+
+// static， no-render, no-memo
+const plugins = [
+  OUI(),
+  // Don't worry, the default is lazy loading
+  OHls(),
+]
+
+export default function OPlayer({ sources, poster }: {
+  sources: EnimeView['sources'],
+  poster?: string,
 }) {
-    const divRef = useRef<HTMLDivElement>(null)
-    const [src, setSrc] = useState('')
-    const [hls, setHls] = useState<PlayerPlugin>()
-    const [player, setPlayer] = useState<Player>()
-    const [srcIdx, setSrcIdx] = useState(0)
-    const [isLoading, setIsLoading] = useState(true)
+  const playerRef = useRef<Player<Ctx>>()
 
-    const uiOptions: UiConfig = {
-        menu: [
-            {
-                name: 'Source',
-                children: sources.map((source, idx) => ({
-                    name: extractDomainName(source.url) ?? 'Unknown',
-                    default: idx === 0,
-                    value: source.id
-                })),
-                onChange: ({ value }) => {
-                    setSrcIdx(sources.findIndex(source => source.id === value))
-                }
-            }
-        ]
+  const menuBar: MenuBar = {
+    name: 'Source',
+    children: sources.map((source, idx) => ({
+      name: extractDomainName(source.url) || 'Unknown',
+      default: idx === 0,
+      value: source.id
+    })),
+    onChange: ({ value }) => {
+      if (!playerRef.current) return
+      playerRef.current
+        .changeSource(
+          enimeFetcher({ route: 'source', arg: value })
+            .then((res) => res 
+              ? ({ src: res.url, poster }) 
+              : notFound())
+        )
+        .catch((err) => console.log(err))
     }
+  }
 
-    // Set initial src && lazy load hls
-    useEffect(() => {
-        enimeFetcher({ route: 'source', arg: sources[0].id })
-            .then(res => setSrc(res?.url ?? ''))
-            .catch(err => console.error(err))
-        import('@/lib/hlsPlayer/hls')
-            .then(mod => setHls(mod.default))
-    }, [])
+  // #oplayer element has rendered, just create player
+  useEffect(() => {
+    playerRef.current =
+      Player.make('#oplayer', { poster } as PlayerOptions)
+        .use(plugins)
+        .create() as Player<Ctx>
 
-    // Create hlsPlayer (only)
-    useEffect(() => {
-        const div = divRef.current
-        if (!div || !hls) return
+    return () => {
+      playerRef.current?.destroy()
+    }
+  }, [])
 
-        // Make sure that it doesnt create more than one player
-        if (!player) {
-            // Also avoid infinite loop
-            setPlayer(_ =>
-                Player.make(div, { source: { src, poster } })
-                    .use([ui(uiOptions), hls])
-                    .create()
-            )
-        }
-    }, [divRef.current, hls, player])
+  useEffect(() => {
+    const oplayer = playerRef.current
+    if (!oplayer) return
+    const { menu } = oplayer.context.ui
 
-    // Fetch src onChange
-    useEffect(() => {
-        enimeFetcher({ route: 'source', arg: sources[srcIdx].id })
-            .then(res => res ? setSrc(res.url) : notFound())
-            .catch(err => console.log(err))
-    }, [srcIdx])
+    // Note: If sources has changed, we need to delete the old one before re-registering
+    menu.unregister('Source')
+    menu.register(menuBar)
 
-    useEffect(() => {
-        // Only care after player has loaded (dont add it as a dependency)
-        if (!player) return
-        player.changeSource({ src })
-            .catch(err => console.log(err))
-    }, [src])
-
-    return (
-        <div className={`${isLoading && styles['isLoading']}`}>
-            {/* Transition softly to actual video content */}
-            {/* To prevent 'flashing' event when video has loaded */}
-            <div ref={divRef} onLoadedData={() => isLoading && setIsLoading(false)}/>
-        </div>
+    //play default id
+    oplayer.changeSource(
+      enimeFetcher({ route: 'source', arg: sources[0].id })
+        .then((res) => res
+          ? ({ src: res.url, poster })
+          : notFound())
     )
+      .catch((err) => console.log(err))
+  }, [sources, playerRef.current])
+
+  return (
+    // No loading is required, it is also the default
+    <div id="oplayer" className={styles['oplayer']} />
+  )
 }
