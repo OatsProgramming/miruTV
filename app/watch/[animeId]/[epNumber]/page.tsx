@@ -1,5 +1,5 @@
 import Card from "@/app/components/Card/Card";
-import HLSPlayer from "@/app/components/HLSPlayer/HLSPlayer";
+import OPlayer from "@/app/components/OPlayer/OPlayer";
 import enimeFetcher from "@/lib/fetchers/enimeFetcher";
 import styles from './page.module.css'
 import CommentsSection from "@/app/components/CommentsSection/CommentsSection";
@@ -43,7 +43,7 @@ export default async function Page({ params: { animeId, epNumber } }: {
                 <Link href={`/info/${anime.id}`}>
                     <h3>{anime.title.english}</h3>
                 </Link>
-                <HLSPlayer
+                <OPlayer
                     sources={episode.sources}
                     poster={episode.image}
                 />
