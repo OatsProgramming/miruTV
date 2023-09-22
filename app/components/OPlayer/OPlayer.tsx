@@ -1,12 +1,9 @@
 'use client'
 
-import enimeFetcher from '@/lib/fetchers/enimeFetcher'
 import Player from '@oplayer/core'
-import type { PlayerOptions } from '@oplayer/core'
 import type { MenuBar } from '@oplayer/ui'
 import { useEffect, useRef } from 'react'
 import styles from './oPlayer.module.css'
-import extractDomainName from '@/lib/extractWebName'
 import { notFound } from 'next/navigation'
 import OUI from '@oplayer/ui'
 import OHls from '@oplayer/hls'
@@ -24,26 +21,37 @@ const plugins = [
   OHls(),
 ]
 
-export default function OPlayer({ sources, poster }: {
-  sources: EnimeView['sources'],
-  poster?: string,
+// TODO: add different provider menu btn
+
+export default function OPlayer({ sources }: {
+  sources: AnimeSourcesResult['sources']
 }) {
+  // Added this fn to handle promise related issue for OPlayer (required)
+  function getSelectedSrc(selectedQuality: string): Promise<Source> {
+    return new Promise((resolve, reject) => {
+      const selectedSrc = sources.find(src => src.quality === selectedQuality) as Source
+      if (!selectedSrc) reject("Selected quality source not found")
+      resolve(selectedSrc)
+    })
+  }
+
   const playerRef = useRef<Player<Ctx>>()
 
   const menuBar: MenuBar = {
-    name: 'Source',
-    children: sources.map((source, idx) => ({
-      name: extractDomainName(source.url) || 'Unknown',
-      default: idx === 0,
-      value: source.id
+    name: 'Quality',
+    children: sources.map((source) => ({
+      name: source.quality,
+      value: source.quality,
+      default: source.quality === 'default',
     })),
     onChange: ({ value }) => {
       if (!playerRef.current) return
+
       playerRef.current
         .changeSource(
-          enimeFetcher({ route: 'source', arg: value })
-            .then((res) => res 
-              ? ({ src: res.url, poster }) 
+          getSelectedSrc(value)
+            .then((res) => res
+              ? ({ src: res.url })
               : notFound())
         )
         .catch((err) => console.log(err))
@@ -53,7 +61,7 @@ export default function OPlayer({ sources, poster }: {
   // #oplayer element has rendered, just create player
   useEffect(() => {
     playerRef.current =
-      Player.make('#oplayer', { poster } as PlayerOptions)
+      Player.make('#oplayer')
         .use(plugins)
         .create() as Player<Ctx>
 
@@ -73,9 +81,9 @@ export default function OPlayer({ sources, poster }: {
 
     //play default id
     oplayer.changeSource(
-      enimeFetcher({ route: 'source', arg: sources[0].id })
+      getSelectedSrc('default')
         .then((res) => res
-          ? ({ src: res.url, poster })
+          ? ({ src: res.url })
           : notFound())
     )
       .catch((err) => console.log(err))
