@@ -1,60 +1,13 @@
-type AnimeCategory = 'search' | 'info' | 'source' | 'servers'
+type AnimeCategory = 'search' | 'info' | 'source' | 'recents' | 'popular' | 'trending'
 
-// Search
-type AnimeSearchResult = {
-	"currentPage": number,
-	"hasNextPage": boolean,
-	"results": AnimeInfoBasic[]
-}
-type AnimeInfoBasic = {
-    "id": string,
-    "title": string,
-    "url": string,
-    "image": string,
-    "releaseDate": string,
-    "subOrDub": string
-}
+// Using anilist
+type AnimeSearchResult = ISearch<IAnimeResult[]>
+type AnimeInfoResult = ISearch<IAnimeResult[]>
+type AnimeTrendingResult = ISearch<IAnimeResult[]>
+type AnimePopularResult = ISearch<IAnimeResult[]>
 
-
-// Info
-type AnimeInfoResult = {
-	"id": string,
-	"title": string
-	"url": string
-	"genres": string[]
-	"totalEpisodes": number,
-	"image": string
-	"releaseDate": string
-	"description": string
-	"subOrDub": string
-	"type": string
-	"status": string
-	"otherName": string
-	"episodes": Episode[]
-}
-type Episode = {
-    "id": string
-    "number": number
-    "url": string
-}
-
-
-// Source
-type AnimeSourcesResult = {
-	"headers": {
-		"Referer": string
-	},
-	"sources": Source[]
-	"download": string
-}
-type Source = {
-    "url": string
-    "isM3U8": boolean,
-    "quality": string
-}
-
-
-// Recents
+// Using gogo
+type AnimeSourcesResult = ISource
 type AnimeRecentsResult = {
 	"currentPage": number,
 	"hasNextPage": boolean,
@@ -67,19 +20,4 @@ type AnimeRecent = {
     "title": string
     "image": string
     "url": string
-}
-
-
-// Popular
-type AnimePopularResult = {
-    "currentPage": number,
-	"hasNextPage": boolean,
-	"results": Popular[]
-}
-type Popular = {
-    "id": string,
-    "title": string,
-    "image": string
-    "url": string
-    "genres": string[]
 }
