@@ -23,7 +23,7 @@ export default async function Home() {
 
   return (
     <>
-      {/* <Hero animes={trendingList}/> */}
+      <Hero animes={trendingList}/>
       <main className={styles['container']}>
         <section>
           <h1>Latest Releases:</h1>

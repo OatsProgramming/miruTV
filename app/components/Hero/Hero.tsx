@@ -6,9 +6,9 @@ import styles from './hero.module.css'
 import Link from 'next/link'
 
 export default function Hero({ animes }: {
-    animes: EnimePopular['data']
+    animes: AnimePopularResult['results']
 }) {
-    
+
     const splideOptions: Options = {
         autoplay: true,
         direction: 'ttb',
@@ -25,26 +25,30 @@ export default function Hero({ animes }: {
         pauseOnHover: true,
         pagination: false,
     }
-    
+
     return (
         <Splide options={splideOptions} className={styles['splide']}>
-            {animes.map(anime => (
-                anime.bannerImage && (
+            {animes.map(anime => {
+                const title = typeof anime.title === 'string'
+                    ? anime.title
+                    : anime.title.english ?? anime.title.native ?? 'N/A'
+                    
+                return (
                     <SplideSlide key={anime.id} className={styles['content']}>
                         <Link href={`/info/${anime.id}`}>
                             <img
                                 loading='lazy'
-                                src={anime.bannerImage}
-                                alt={anime.title.english}
+                                src={anime.cover}
+                                alt={title}
                             />
                             <div className={styles['text']}>
-                                <h1>{anime.title.english}</h1>
+                                <h1>{title}</h1>
                                 <button>Watch Now</button>
                             </div>
                         </Link>
                     </SplideSlide>
                 )
-            ))}
+            })}
         </Splide>
     )
 }
