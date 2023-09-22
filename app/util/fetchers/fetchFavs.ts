@@ -1,11 +1,11 @@
-import thisUrl from "../thisUrl"
+import baseUrl from "../baseUrl"
 
 export default async function fetchFavs(favIds: FavId[]) {
-    if (favIds.length === 0) return
+    if (!favIds || favIds.length === 0) return
     const responsesPromises: Promise<Response>[] = []
     for (let i = 0; i < favIds.length; i++) {
         responsesPromises.push(
-            fetch(`${thisUrl}/api/enime/anime/${favIds[i].animeId}`)
+            fetch(`${baseUrl}/api/anime/info/${favIds[i].animeId}`)
         )
     }
 
