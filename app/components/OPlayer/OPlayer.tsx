@@ -25,11 +25,11 @@ const plugins = [
 
 export default function OPlayer({ sources }: {
   sources: AnimeSourcesResult['sources']
-}) {
+}) {  
   // Added this fn to handle promise related issue for OPlayer (required)
-  function getSelectedSrc(selectedQuality: string): Promise<Source> {
+  function getSelectedSrc(selectedQuality: string): Promise<IVideo> {
     return new Promise((resolve, reject) => {
-      const selectedSrc = sources.find(src => src.quality === selectedQuality) as Source
+      const selectedSrc = sources.find(src => src.quality === selectedQuality) as IVideo
       if (!selectedSrc) reject("Selected quality source not found")
       resolve(selectedSrc)
     })
