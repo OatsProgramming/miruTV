@@ -1,10 +1,10 @@
 type AnimeCategory = 'search' | 'info' | 'source' | 'recents' | 'popular' | 'trending'
 
 // Using anilist
-type AnimeSearchResult = ISearch<IAnimeResult[]>
-type AnimeInfoResult = ISearch<IAnimeResult[]>
-type AnimeTrendingResult = ISearch<IAnimeResult[]>
-type AnimePopularResult = ISearch<IAnimeResult[]>
+type AnimeSearchResult = ISearch<IAnimeResult>
+type AnimeInfoResult = ISearch<IAnimeResult>
+type AnimeTrendingResult = ISearch<IAnimeResult>
+type AnimePopularResult = ISearch<IAnimeResult>
 
 // Using gogo
 type AnimeSourcesResult = ISource
