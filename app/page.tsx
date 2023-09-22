@@ -1,43 +1,63 @@
 import styles from './page.module.css'
 import Card from './components/Card/Card'
-import enimeFetcher from '@/lib/fetchers/enimeFetcher'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from './api/auth/[...nextauth]/route'
 import FavSect from './components/FavSect/FavSect'
 import Hero from './components/Hero/Hero'
+import animeFetcher from './util/animeFetcher/animeFetcher'
 
 export const revalidate = 3600
 
 export default async function Home() {
   const sessionRes = getServerSession(authOptions)
-  const recentRes = enimeFetcher({ route: 'recent' })
-  const popularRes = enimeFetcher({ route: 'popular' })
+  const recentRes = animeFetcher({ route: 'recents' })
+  const trendingRes = animeFetcher({ route: 'trending' })
+  const popularRes = animeFetcher({ route: 'popular' })
 
-  const [recents, popular, session] =
-    await Promise.all([recentRes, popularRes, sessionRes])
+  const [recents, trending, popular, session] =
+    await Promise.all([recentRes, trendingRes, popularRes, sessionRes])
 
-  const recentList = recents ? recents.data : []
-  const popularList = popular ? popular.data : []
+  const recentList = recents ? recents.results : []
+  const trendingList = trending ? trending.results : []
+  const popularList = popular ? popular.results : []
 
   return (
     <>
-      <Hero animes={popularList}/>
+      {/* <Hero animes={trendingList}/> */}
       <main className={styles['container']}>
         <section>
           <h1>Latest Releases:</h1>
           <div className={styles['animeList']}>
-            {recentList.map(item => (
-              item.anime.title.english !== null && (
+            {recentList.map(item =>
+              <Card
+                key={item.id}
+                info={{
+                  animeId: item.id,
+                  animeTitle: item.title ?? 'N/A',
+                  coverImg: item.image,
+                }}
+                epInfo={{
+                  title: item.title,
+                  number: item.episodeNumber,
+                  epId: item.episodeId
+                }}
+              />
+            )}
+          </div>
+        </section>
+        <section>
+          <h1>What We're Watching Right Now:</h1>
+          <div className={styles['animeList']}>
+            {trendingList.map(item => (
+              item !== null && (
                 <Card
                   key={item.id}
                   info={{
-                    animeId: item.anime.id,
-                    animeTitle: item.anime.title.english ?? 'N/A',
-                    coverImg: item.anime.coverImage,
-                  }}
-                  epInfo={{
-                    title: item.title,
-                    number: item.number,
+                    animeId: item.id,
+                    animeTitle: typeof item.title === 'string'
+                      ? item.title
+                      : item.title.english ?? item.title.native ?? 'N/A',
+                    coverImg: item.image,
                   }}
                 />
               )
@@ -45,16 +65,18 @@ export default async function Home() {
           </div>
         </section>
         <section>
-          <h1>What We're Watching Right Now:</h1>
+          <h1>Top Animes to Add to Your Watchlist:</h1>
           <div className={styles['animeList']}>
             {popularList.map(item => (
-              item.title.english !== null && (
+              item !== null && (
                 <Card
                   key={item.id}
                   info={{
                     animeId: item.id,
-                    animeTitle: item.title.english ?? 'N/A',
-                    coverImg: item.coverImage,
+                    animeTitle: typeof item.title === 'string'
+                      ? item.title
+                      : item.title.english ?? item.title.native ?? 'N/A',
+                    coverImg: item.image,
                   }}
                 />
               )
