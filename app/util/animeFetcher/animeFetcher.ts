@@ -1,4 +1,4 @@
-import thisUrl from "@/lib/thisUrl"
+import baseUrl from "@/app/util/baseUrl"
 
 /**
  * EnimeRouteT is basically just EnimeRoute. Just need it for EnimeReturnTypes mapping
@@ -14,7 +14,7 @@ export default async function animeFetcher<AnimeRouteT extends AnimeRoute>(
     const joinedRoute = routeArr.join('/')
     // For some reason, fetch sometimes need the domain and sometimes it doesnt...?
     const url =
-      thisUrl
+      baseUrl
       + '/api/anime/'
       + joinedRoute
 
