@@ -1,55 +1,49 @@
 import Card from "@/app/components/Card/Card";
 import OPlayer from "@/app/components/OPlayer/OPlayer";
-import enimeFetcher from "@/lib/fetchers/enimeFetcher";
+// import enimeFetcher from "@/app/util/fetchers/enimeFetcher";
 import styles from './page.module.css'
 import CommentsSection from "@/app/components/CommentsSection/CommentsSection";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import tempImgs from "@/lib/tempImgs";
+import tempImgs from "@/app/util/tempImgs";
+import animeFetcher from "@/app/util/animeFetcher/animeFetcher";
+import toTitle from "@/app/util/toTitle";
 
-export async function generateMetadata({ params: { animeId, epNumber } }: {
+export async function generateMetadata({ params: { epId } }: {
     params: {
-        animeId: string,
-        epNumber: string,
+        epId: string
     }
 }) {
-    const episode = await enimeFetcher({ route: 'view', arg1: animeId, arg2: epNumber })
-    if (!episode) notFound()
-
-    const { anime } = episode
+    const title = toTitle(epId)
 
     return {
-        title: `Watch now: ${anime.title.english} ${episode.title}`,
-        description: episode.description
+        title: `Watch now: ${title}`,
     }
 }
 
-export default async function Page({ params: { animeId, epNumber } }: {
+export default async function Page({ params: { epId } }: {
     params: {
-        animeId: string,
-        epNumber: string,
+        epId: string
     }
 }) {
-    const episode = await enimeFetcher({ route: 'view', arg1: animeId, arg2: epNumber })
-    if (!episode) notFound()
-
-    const { anime } = episode
-    const { episodes } = anime
+    const episode = await animeFetcher({ route: 'source', arg: epId })
+    const title = toTitle(epId)
 
     return (
         <div className={styles['container']}>
             <div className={styles['content']}>
-                <h1>EP {epNumber}: {episode.title}</h1>
-                <Link href={`/info/${anime.id}`}>
-                    <h3>{anime.title.english}</h3>
-                </Link>
-                <OPlayer
-                    sources={episode.sources}
-                    poster={episode.image}
-                />
+                <h1>{title}</h1>
+                {/* <Link href={`/info/${anime.id}`}>
+                    <h3>{title}</h3>
+                </Link> */}
+                {
+                    episode?.sources
+                        ? <OPlayer sources={episode?.sources} />
+                        : <div>Unable to load</div> // TODO: Change this
+                }
             </div>
             <div className={styles['episodes']}>
-                {episodes.length > 0 && (
+                {/* {episodes.length > 0 && (
                     episodes.map((ep, idx) => (
                         <div
                             key={ep.id}
@@ -72,9 +66,9 @@ export default async function Page({ params: { animeId, epNumber } }: {
                             />
                         </div>
                     ))
-                )}
+                )} */}
             </div>
-            <CommentsSection epId={episode.id} />
+            <CommentsSection epId={epId} />
         </div>
     )
 }
