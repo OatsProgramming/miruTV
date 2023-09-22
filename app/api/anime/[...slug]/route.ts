@@ -1,8 +1,6 @@
 import { gogo } from "@/lib/consumet/anime";
 import { NextResponse } from "next/server";
 
-type AnimeCategory = 'search' | 'info' | 'source'
-
 export async function GET(req: Request, { params: { slug } }: ParamsArr) {
     const category = slug[0]
     const param = slug[1]

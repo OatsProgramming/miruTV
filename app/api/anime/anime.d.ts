@@ -1,3 +1,5 @@
+type AnimeCategory = 'search' | 'info' | 'source' | 'servers'
+
 // Search
 type AnimeSearchResult = {
 	"currentPage": number,
