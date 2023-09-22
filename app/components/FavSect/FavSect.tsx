@@ -1,6 +1,6 @@
 import type { Session } from 'next-auth'
 import Card from '../Card/Card'
-import fetchFavs from '@/lib/fetchers/fetchFavs'
+import fetchFavs from '@/app/util/fetchers/fetchFavs'
 import type { CSSProperties, RefObject } from 'react'
 import { Suspense } from 'react'
 import Loader from '../Loader/Loader'
@@ -27,10 +27,10 @@ export default async function FavSect({ session, style, dialogRef }: {
         />
 
     const favIds = await fetchFavs(session.user.favIds) ?? []
-    const noSaves: Partial<AnimeXL> = {
+    const noSaves: Partial<AnimeInfoBasic> = {
         // @ts-expect-error (making custom anime object)
         id: 777,
-        title: { english: "No Saves?" },
+        title: "No Saves...?",
         description: "There's nothing saved here... Kinda' beats the purpose of having an account, huh?",
         coverImage: ""
     }
@@ -58,7 +58,6 @@ export default async function FavSect({ session, style, dialogRef }: {
             )) : (
                 <>
                     {dialogRef ? (
-                        // @ts-expect-error (its a custom anime object; no need to worry)
                         <AnimeInfo anime={noSaves} dialogRef={dialogRef} />
                     ) : (
                         <Card

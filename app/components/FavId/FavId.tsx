@@ -1,5 +1,5 @@
 'use client'
-import mutatingFetcher from '@/lib/fetchers/mutatingFetcher'
+import mutatingFetcher from '@/app/util/fetchers/mutatingFetcher'
 import styles from './favId.module.css'
 import { useState } from 'react'
 import { useSession } from 'next-auth/react'
@@ -49,7 +49,7 @@ export default function FavId({ animeId, favIds }: {
         // Toggle manually (since it wont revalidate pg)
         setIsFav(!isFav)
     }
-    
+
     return (
         <div onClick={toggleFav} className={styles['favId']}>
             {isFav ? (

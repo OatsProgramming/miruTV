@@ -1,4 +1,4 @@
-import handleError from "@/lib/handleError";
+import handleError from "@/app/util/handleError";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]/route";
 
@@ -38,29 +38,29 @@ export default async function validateRequest<T extends PATCH | POST | DELETE>(r
         const res = await req.json() as RequestBody<CommentRequest>
 
         // Essential ( compare w/ sesh user id to prevent unwanted tempering )
-        switch(res.method) {
+        switch (res.method) {
             case 'POST': {
-                const { epId, body, repliedTo } = res.data 
+                const { epId, body, repliedTo } = res.data
                 if ((!epId && !repliedTo) || !body) {
-                    message = 
-                    `Is missing...
+                    message =
+                        `Is missing...
                         Either Ep ID or Comment ID (for repliedTo)?     ${!epId && !repliedTo}
                         Comment Body?                                   ${!body}
                         (Method: ${res.method})
                     `
-                }  
+                }
                 break;
             }
             case 'PATCH': {
                 const { commentId, body } = res.data
                 if (!commentId || !body) {
-                    message = 
-                    `Is missing...
+                    message =
+                        `Is missing...
                         Comment ID?     ${!commentId}
                         Comment Body?   ${!body}
                         (Method: ${res.method})
                     `
-                }  
+                }
                 break;
             }
             case 'DELETE': {
@@ -70,11 +70,11 @@ export default async function validateRequest<T extends PATCH | POST | DELETE>(r
             }
         }
         if (message) return new Response(message, { status: 422 })
-        return { 
+        return {
             ...res.data,
             method: res.method,
-            userId: session.user.id, 
-            createdBy: session.user.name 
+            userId: session.user.id,
+            createdBy: session.user.name
         } as T
 
     } catch (err) {

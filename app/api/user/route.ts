@@ -3,7 +3,7 @@ import { hash, compare } from "bcrypt"
 import validateRequest from "./validateRequest"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "../auth/[...nextauth]/route"
-import handleError from "@/lib/handleError"
+import handleError from "@/app/util/handleError"
 import isEqual from 'lodash/isEqual'
 
 export async function POST(req: Request) {
@@ -24,7 +24,7 @@ export async function POST(req: Request) {
                 if (!session) return new Response("Sign in to make changes.", { status: 401 })
 
                 // Compare by session id instead of user name for added safety
-                const currentUserPromise =  prismadb.user.findUnique({
+                const currentUserPromise = prismadb.user.findUnique({
                     where: { id: session.user.id }
                 })
 
@@ -50,7 +50,7 @@ export async function POST(req: Request) {
                         { status: 401 }
                     )
                 }
-                
+
                 // Check pw
                 else if (!await compare(password, targetUser.hashedPassword)) {
 
@@ -69,7 +69,7 @@ export async function POST(req: Request) {
                     const { newInfo } = res
                     const newName = newInfo?.username?.trim()
                     const newPW = newInfo?.password?.trim()
-                    
+
                     let commentsPromise;
                     // If new username, make sure that its not taken
                     if (newName) {
@@ -82,7 +82,7 @@ export async function POST(req: Request) {
                         )
 
                         // Otherwise, update not just user, but comments also
-                        commentsPromise = prismadb.comment.updateMany({ 
+                        commentsPromise = prismadb.comment.updateMany({
                             where: { userId: targetUser.id },
                             data: {
                                 createdBy: newName
@@ -104,7 +104,7 @@ export async function POST(req: Request) {
                             hashedPassword: hashedPassword || targetUser.hashedPassword
                         }
                     })
-                    
+
                     // Batch it all together
                     await Promise.all([userPromise, commentsPromise])
                 }

@@ -1,5 +1,5 @@
 import prismadb from "@/lib/prismadb";
-import handleError from "@/lib/handleError";
+import handleError from "@/app/util/handleError";
 import validateRequest from "./validateRequest";
 import redis from "@/lib/redis";
 
@@ -26,9 +26,9 @@ export async function GET(req: Request) {
         }
 
         const comments = await prismadb.comment.findMany({
-            where: { OR: [{ epId }, { repliedTo }]}
+            where: { OR: [{ epId }, { repliedTo }] }
         })
-        
+
         // Cache if not there
         const stringifyComments = JSON.stringify(comments)
         redis.setex(query, defaultTTL, stringifyComments)
@@ -41,7 +41,7 @@ export async function GET(req: Request) {
     }
 }
 
-export async function POST(req: Request) {    
+export async function POST(req: Request) {
     const res = await validateRequest(req)
     if (res instanceof Response) return res
 

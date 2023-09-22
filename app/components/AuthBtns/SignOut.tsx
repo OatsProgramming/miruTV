@@ -1,6 +1,6 @@
 'use client'
 
-import toggleDialog from "@/lib/toggleDialog"
+import toggleDialog from "@/app/util/toggleDialog"
 import { signOut } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import type { RefObject, PointerEvent } from "react"
