@@ -2,7 +2,7 @@ type AnimeCategory = 'search' | 'info' | 'source' | 'recents' | 'popular' | 'tre
 
 // Using anilist
 type AnimeSearchResult = ISearch<IAnimeResult>
-type AnimeInfoResult = ISearch<IAnimeResult>
+type AnimeInfoResult = IAnimeInfo
 type AnimeTrendingResult = ISearch<IAnimeResult>
 type AnimePopularResult = ISearch<IAnimeResult>
 
