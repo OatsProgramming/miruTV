@@ -1,5 +1,6 @@
 import { gogo } from "@/lib/consumet/anime";
 import { NextResponse } from "next/server";
+import anilist from "@/lib/consumet/anilist";
 
 export async function GET(req: Request, { params: { slug } }: ParamsArr) {
     const category = slug[0]
@@ -17,14 +18,14 @@ export async function GET(req: Request, { params: { slug } }: ParamsArr) {
                 if (!param) return NextResponse.json("Missing query for /anime/search", { status: 422 })
 
                 // query
-                result = await gogo.search(param)
+                result = await anilist.search(param)
                 break;
             }
             case "info": {
                 if (!param) return NextResponse.json("Missing animeId for /anime/info", { status: 422 })
 
                 // animeId
-                result = await gogo.fetchAnimeInfo(param)
+                result = await anilist.fetchAnimeInfo(param)
                 break;
             }
             case "source": {

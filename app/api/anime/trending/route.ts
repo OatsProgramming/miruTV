@@ -1,13 +1,10 @@
+import anilist from "@/lib/consumet/anilist";
 import { NextResponse } from "next/server";
-import { gogo } from "@/lib/consumet/anime";
-
 
 export async function GET(req: Request) {
     try {
-        // TODO: add redis
-        const recents = await gogo.fetchRecentEpisodes()
-
-        return NextResponse.json(recents)
+        const trending = await anilist.fetchTrendingAnime()
+        return NextResponse.json(trending)
     } catch (err) {
         return NextResponse.json(err, { status: 500 })
     }
