@@ -26,7 +26,7 @@ export default function Card({ info, epInfo, isLandScape, style }: {
 
     const epTitle = epInfo?.title ?? '???'
     const link = epInfo
-        ? `/watch/${animeId}/${epInfo.number}`
+        ? `/watch/${epInfo.epId}`
         : animeId !== 777
             ? `/info/${animeId}`
             : `/`
