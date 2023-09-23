@@ -1,4 +1,4 @@
-type AnimeCategory = 'search' | 'info' | 'source' | 'recents' | 'popular' | 'trending'
+type AnimeCategory = 'search' | 'info' | 'source' | 'recents' | 'popular' | 'trending' | 'episodes'
 
 // Using anilist
 type AnimeSearchResult = ISearch<IAnimeResult>

@@ -1,6 +1,7 @@
 import { gogo } from "@/lib/consumet/anime";
 import { NextResponse } from "next/server";
 import anilist from "@/lib/consumet/anilist";
+import getAnimeTitle from "@/app/util/getAnimeTitle";
 
 export async function GET(req: Request, { params: { slug } }: ParamsArr) {
     const category = slug[0]
@@ -35,6 +36,15 @@ export async function GET(req: Request, { params: { slug } }: ParamsArr) {
                 result = await gogo.fetchEpisodeSources(param)
                 break;
             }
+            case "episodes" : {
+                if (!param) return NextResponse.json("Missing anime title (query) for /anime/episodes", { status: 422 })
+                const animeRes = await anilist.search(param)
+                if (!animeRes.results || animeRes.results.length === 0) throw new Error("Anime not found")
+
+                const anime = animeRes.results[0]
+                result = await anilist.fetchAnimeInfo(anime.id)
+                break;
+            }
         }
 
         return NextResponse.json(result)
@@ -44,6 +54,6 @@ export async function GET(req: Request, { params: { slug } }: ParamsArr) {
 }
 
 function isValidCategory(str: string): str is AnimeCategory {
-    const validSlug = new Set(['search', 'info', 'source'])
+    const validSlug = new Set(['search', 'info', 'source', 'episodes'])
     return validSlug.has(str)
 }

@@ -1,5 +1,4 @@
 import anilist from "@/lib/consumet/anilist";
-import { gogo } from "@/lib/consumet/anime";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {

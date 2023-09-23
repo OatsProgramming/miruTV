@@ -4,12 +4,13 @@ type AnimeReturnTypes = {
     info: AnimeInfoResult,
     search: AnimeSearchResult,
     source: AnimeSourcesResult,
-    trending: AnimeTrendingResult
+    trending: AnimeTrendingResult,
+    episodes: AnimeInfoResult
 }
 
 type AnimeRoute = {
     route: 'recents' | 'popular' | 'trending'
 } | {
-    route: 'info' | 'search' | 'source',
+    route: 'info' | 'search' | 'source' | 'episodes',
     arg: string
 }
