@@ -1,8 +1,9 @@
 import { gogo } from "@/lib/consumet/anime";
 import { NextResponse } from "next/server";
 import anilist from "@/lib/consumet/anilist";
-import getAnimeTitle from "@/app/util/getAnimeTitle";
+import lessenPayload from "../lessenPayload";
 
+// TODO: Incorporate redis for caching
 export async function GET(req: Request, { params: { slug } }: ParamsArr) {
     const category = slug[0]
     const param = slug[1]
@@ -45,7 +46,14 @@ export async function GET(req: Request, { params: { slug } }: ParamsArr) {
                 result = await anilist.fetchAnimeInfo(anime.id)
                 break;
             }
-        }
+            default: {
+                throw new Error("Invalid anime category given (/anime)")
+            }
+        }    
+
+        // dumb type err (missing AnimeRecent)
+        // @ts-expect-error
+        lessenPayload(result)
 
         return NextResponse.json(result)
     } catch (err) {
