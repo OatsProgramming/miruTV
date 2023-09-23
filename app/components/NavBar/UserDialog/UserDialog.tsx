@@ -5,7 +5,7 @@ import styles from './userDialog.module.css'
 import { ToastContainer } from "react-toastify";
 import { toastOptions } from "@/lib/toast/toast";
 import dynamic from "next/dynamic";
-import toggleDialog from "@/lib/toggleDialog";
+import toggleDialog from "@/app/util/toggleDialog";
 import type { Session } from "next-auth";
 import DialogProvider from "../../DialogProvider.tsx/DialogProvider";
 

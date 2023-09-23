@@ -1,5 +1,5 @@
 import SignOut from "@/app/components/AuthBtns/SignOut"
-import toggleDialog from "@/lib/toggleDialog"
+import toggleDialog from "@/app/util/toggleDialog"
 import { useState } from 'react'
 import styles from './userForm.module.css'
 import type { Session } from "next-auth"
@@ -29,7 +29,7 @@ export default function UserForm({ session, dialogRef }: {
     }
     async function handleMuate(e: FormEvent) {
         const res = await mutateUser(e, isUpdating)
-        
+
         // If anything returned, then the user has updated their username
         // -> update sesh
         if (typeof res === 'string') {
@@ -37,7 +37,7 @@ export default function UserForm({ session, dialogRef }: {
             // For some reason, getting a string number
             if (isFinite(+res)) return
 
-            await update({ name: res })  
+            await update({ name: res })
 
         }
         // reload the page to show current data
@@ -88,7 +88,7 @@ export default function UserForm({ session, dialogRef }: {
                         <p>We got your favs saved for you:</p>
                     </div>
                     <div className={styles['animes']}>
-                        <FavSect session={session} dialogRef={dialogRef}/>
+                        <FavSect session={session} dialogRef={dialogRef} />
                     </div>
                 </div>
             )}

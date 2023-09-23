@@ -2,7 +2,7 @@
 
 import styles from './comment.module.css'
 import { memo, useRef, useState } from "react"
-import mutatingFetcher from "@/lib/fetchers/mutatingFetcher"
+import mutatingFetcher from "@/app/util/fetchers/mutatingFetcher"
 import notify from "@/lib/toast/toast"
 import dynamic from "next/dynamic"
 import { getCommentContext } from '../CommentProvider/CommentProvider'

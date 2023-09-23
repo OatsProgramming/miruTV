@@ -2,7 +2,7 @@
 
 import useSWR, { useSWRConfig } from 'swr'
 import type { Comment } from '@prisma/client'
-import fetcher from '@/lib/fetchers/fetcher'
+import fetcher from '@/app/util/fetchers/fetcher'
 
 export default function useReplies(commentId: string) {
     const { data, error, isLoading } = useSWR(`/api/comments?repliedTo=${commentId}`, fetcher)

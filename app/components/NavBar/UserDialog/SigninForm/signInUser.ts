@@ -1,4 +1,4 @@
-import mutatingFetcher from "@/lib/fetchers/mutatingFetcher"
+import mutatingFetcher from "@/app/util/fetchers/mutatingFetcher"
 import notify from "@/lib/toast/toast"
 import { signIn } from "next-auth/react"
 import type { FormEvent } from "react"
@@ -46,7 +46,7 @@ export default async function signInUser(e: FormEvent, isNew: boolean) {
             return
         }
     }
-    
+
     // Let user know sign in executing
     notify({
         type: 'info',
@@ -62,7 +62,7 @@ export default async function signInUser(e: FormEvent, isNew: boolean) {
     // res.ok will always be true for next-auth
     if (res?.error) {
         console.log(res.error)
-        notify({ type: 'error', message: 'Incorrect username / password'})
+        notify({ type: 'error', message: 'Incorrect username / password' })
     }
 
     // Manually reload if successful

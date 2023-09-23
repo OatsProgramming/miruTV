@@ -2,7 +2,7 @@
 
 import { PointerEvent, useRef } from 'react'
 import styles from './addComment.module.css'
-import mutatingFetcher from '@/lib/fetchers/mutatingFetcher'
+import mutatingFetcher from '@/app/util/fetchers/mutatingFetcher'
 import notify, { toastOptions } from '@/lib/toast/toast'
 import { ToastContainer } from 'react-toastify'
 import useReplies from '../hooks/useReplies'
@@ -16,7 +16,7 @@ export default function AddComment({ epId }: {
 }) {
     const textareaRef = useRef<HTMLTextAreaElement>(null)
     const { currentComment } = useCurrentComment()
-    const placeholder = currentComment 
+    const placeholder = currentComment
         ? "Join the thread..."
         : "Join the conversation..."
     const { refresh } = currentComment
@@ -42,7 +42,7 @@ export default function AddComment({ epId }: {
                 : data.epId = epId
 
             mutatingFetcher('/api/comments', 'POST', data)
-                .then(res => 'message' in res 
+                .then(res => 'message' in res
                     ? notify({ type: 'error', message: "Sign in to comment" })
                     : refresh()
                 )

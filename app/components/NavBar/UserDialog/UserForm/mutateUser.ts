@@ -1,4 +1,4 @@
-import mutatingFetcher from "@/lib/fetchers/mutatingFetcher"
+import mutatingFetcher from "@/app/util/fetchers/mutatingFetcher"
 import notify from "@/lib/toast/toast"
 import type { FormEvent } from 'react'
 

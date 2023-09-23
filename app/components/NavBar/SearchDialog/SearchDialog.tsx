@@ -3,22 +3,23 @@
 import { useRef, useState } from 'react'
 import type { ChangeEvent } from 'react'
 import styles from './searchDialog.module.css'
-import toggleDialog from '@/lib/toggleDialog'
-import enimeFetcher from '@/lib/fetchers/enimeFetcher'
+import toggleDialog from '@/app/util/toggleDialog'
+// import enimeFetcher from '@/app/util/fetchers/enimeFetcher'
 import AnimeInfo from '../../AnimeInfo/AnimeInfo'
+import animeFetcher from '@/app/util/animeFetcher/animeFetcher'
 
 export default function SearchDialog() {
     const dialogRef = useRef<HTMLDialogElement>(null)
     const timerRef = useRef<NodeJS.Timeout | undefined>()
-    const [searchResults, setSearchResults] = useState<EnimeSearch>()
-    const animes = searchResults?.data || []
+    const [searchResults, setSearchResults] = useState<AnimeSearchResult['results']>()
+    const animes = searchResults || []
 
     function getResults(query: string) {
         // Make sure that it doesnt send too many request accidentally
         // Wait till user is finished typing
         timerRef.current = setTimeout(() => {
-            enimeFetcher({ route: 'search', arg: query })
-                .then(res => setSearchResults(res))
+            animeFetcher({ route: 'search', arg: query })
+                .then(res => setSearchResults(res?.results))
                 .catch(err => console.error(err))
         }, 1500)
     }
