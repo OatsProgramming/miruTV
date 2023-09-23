@@ -41,11 +41,7 @@ export default function Footer() {
                     <EmailContact />
                 </div>
             </section>
-            <div className={styles['copyright']}>MiruTV © 2023 | Made With&nbsp;
-                <Link href='https://docs.enime.moe/'>
-                    Enime API
-                </Link>
-            </div>
+            <div className={styles['copyright']}>MiruTV © 2023</div>
         </>
     )
 }
