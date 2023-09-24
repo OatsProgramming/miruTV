@@ -82,6 +82,11 @@
     width: 200px
 }
 
+.selected {
+    outline-offset: 0.5rem;
+    outline: 5px solid var(--secondary);
+}
+
 @media screen and (max-width: 720px) {
     .card {
         font-size: small;
@@ -105,5 +110,9 @@
     .dialogCard {
         width: 130px;
         font-size: xx-small;
+    }
+
+    .selected {
+        outline: 2.5px solid var(--darkSecondary);
     }
 }

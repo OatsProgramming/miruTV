@@ -88,5 +88,6 @@
     
     .episodes {
         flex-direction: row;
+        padding: 0 1rem;
     }
 }

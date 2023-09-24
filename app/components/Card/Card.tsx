@@ -2,10 +2,9 @@
 
 import Link from 'next/link'
 import styles from './card.module.css'
-import type { CSSProperties } from 'react'
+import { CSSProperties, useEffect, useRef } from 'react'
 import { getDialogContext } from '../DialogProvider.tsx/DialogProvider'
 import toggleDialog from '@/app/util/toggleDialog'
-// import Image from 'next/image'
 import tempImgs from '@/app/util/tempImgs'
 
 /**
@@ -13,14 +12,28 @@ import tempImgs from '@/app/util/tempImgs'
  * If given epInfo, Card type change as a whole
  * 
  */
-export default function Card({ info, epInfo, isLandScape, style }: {
+export default function Card({ info, epInfo, isLandScape, isSelected, style }: {
     info: InfoCard,
     epInfo?: EpCardRequirments,
     isLandScape?: true,
+    isSelected?: boolean,
     style?: CSSProperties,
 }) {
     // When card is in a dialog (UserDialog)
     const dialogRef = getDialogContext()
+    const divRef = useRef<HTMLDivElement>(null)
+
+    // if an epCard && in /watch, make sure selected card is in view
+    useEffect(() => {
+        const div = divRef.current
+        if (!div) return
+        if (isSelected) div.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'center',
+        })
+
+    }, [divRef.current, isSelected])
 
     const { animeId, animeTitle, coverImg } = info
 
@@ -39,11 +52,13 @@ export default function Card({ info, epInfo, isLandScape, style }: {
     return (
         <Link href={link}>
             <div
+                ref={divRef}
                 onPointerDown={(e) => dialogRef && setTimeout(() => toggleDialog(e, dialogRef), 300)}
                 className={`
                     ${styles['card']} 
                     ${isLandScape && styles['epCard']}
                     ${dialogRef && styles['dialogCard']}
+                    ${isSelected && styles['selected']}
                 `}
                 style={style}>
                 <img

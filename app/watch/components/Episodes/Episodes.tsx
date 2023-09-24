@@ -13,7 +13,6 @@ export default async function Episodes({ animeInfoPromise, epId }: {
         <div className={styles['episodes']}>
             {episodes.length > 0 && (
                 episodes.map((ep) => {
-                    console.log(ep)
                     return (
                         <div
                             key={ep.id}
@@ -33,6 +32,7 @@ export default async function Episodes({ animeInfoPromise, epId }: {
                                     number: ep.number,
                                     epId: ep.id
                                 }}
+                                isSelected={ep.id === epId}
                                 isLandScape
                             />
                         </div>
