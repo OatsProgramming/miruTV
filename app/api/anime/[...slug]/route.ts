@@ -2,11 +2,14 @@ import { gogo } from "@/lib/consumet/anime";
 import { NextResponse } from "next/server";
 import anilist from "@/lib/consumet/anilist";
 import lessenPayload from "../lessenPayload";
+import redis from "@/lib/redis";
 
 // TODO: Incorporate redis for caching
 export async function GET(req: Request, { params: { slug } }: ParamsArr) {
     const category = slug[0]
     const param = slug[1]
+    
+    const defaultTTL = 3600
 
     if (!isValidCategory(category)) {
         return NextResponse.json("Invalid anime category", { status: 400 })
@@ -14,6 +17,20 @@ export async function GET(req: Request, { params: { slug } }: ParamsArr) {
 
     try {
         let result;
+
+        // Too dynamic for search... Cant use it as a key
+        if (category !== 'search') {
+            
+            // Check cache
+            const cachedVal = await redis.get(param)
+            if (cachedVal) {
+                console.log("ANIME CACHE HIT")
+
+                // it should already be a json obj
+                // dont stringify it when returning response
+                return new Response(cachedVal)
+            }
+        }
 
         switch (category) {
             case 'search': {
@@ -54,6 +71,13 @@ export async function GET(req: Request, { params: { slug } }: ParamsArr) {
         // dumb type err (missing AnimeRecent)
         // @ts-expect-error
         lessenPayload(result)
+
+        // Cache the result after making the payload smaller
+        if (category !== 'search') {
+            const stringifyResult = JSON.stringify(result)
+            await redis.setex(param, defaultTTL, stringifyResult)
+            console.log("ANIME CACHE MISS")
+        }
 
         return NextResponse.json(result)
     } catch (err) {
