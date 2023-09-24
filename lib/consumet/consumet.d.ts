@@ -106,7 +106,7 @@ type IAnimeResult = {
 	rating?: number;
 	type?: string;
 	releaseDate?: string;
-	[x: string]: any; // other fields
+	// [x: string]: any; // other fields
 }
 
 type IAnimeEpisode = {
@@ -118,5 +118,5 @@ type IAnimeEpisode = {
 	url?: string;
 	image?: string;
 	releaseDate?: string;
-	[x: string]: unknown; // other fields
+	// [x: string]: unknown; // other fields
 }

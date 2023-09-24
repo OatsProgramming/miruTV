@@ -19,7 +19,8 @@ export default function lessenPayload(
                 'id',
                 'title',
                 'image',
-                'cover'
+                'cover',
+                'description'
             ]))
         })
 

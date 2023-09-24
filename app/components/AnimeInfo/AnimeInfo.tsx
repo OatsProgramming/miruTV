@@ -20,7 +20,7 @@ export default function AnimeInfo({ anime, dialogRef }: {
                 info={{
                     animeId: anime.id,
                     animeTitle: "",
-                    coverImg: anime.coverImage
+                    coverImg: anime.image
                 }}
                 style={{
                     width: 100,
