@@ -21,5 +21,5 @@ export default async function fetchFavs(favIds: FavId[]) {
         }
     }
 
-    return Promise.all(resultPromises) as Promise<EnimeAnime[]>
+    return Promise.all(resultPromises) as Promise<AnimeInfoResult[]>
 }
