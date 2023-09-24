@@ -27,8 +27,8 @@ export default async function FavSect({ session, style, dialogRef }: {
         />
 
     const favIds = await fetchFavs(session.user.favIds) ?? []
-    const noSaves: Partial<AnimeInfoBasic> = {
-        // @ts-expect-error (making custom anime object)
+    const noSaves: Partial<AnimeInfoResult> = {
+        // @ts-expect-error
         id: 777,
         title: "No Saves...?",
         description: "There's nothing saved here... Kinda' beats the purpose of having an account, huh?",
@@ -58,7 +58,7 @@ export default async function FavSect({ session, style, dialogRef }: {
             )) : (
                 <>
                     {dialogRef ? (
-                        <AnimeInfo anime={noSaves} dialogRef={dialogRef} />
+                        <AnimeInfo anime={noSaves as AnimeInfoResult} dialogRef={dialogRef} />
                     ) : (
                         <Card
                             info={{

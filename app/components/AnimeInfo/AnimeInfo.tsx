@@ -2,11 +2,13 @@ import Link from "next/link";
 import Card from "../Card/Card";
 import styles from './animeInfo.module.css'
 import type { RefObject } from "react";
+import getAnimeTitle from "@/app/util/getAnimeTitle";
 
 export default function AnimeInfo({ anime, dialogRef }: {
-    anime: AnimeXL,
+    anime: AnimeInfoResult,
     dialogRef: RefObject<HTMLDialogElement>
 }) {
+    const title = getAnimeTitle(anime.title)
     return (
         <div
             // @ts-expect-error
@@ -28,7 +30,7 @@ export default function AnimeInfo({ anime, dialogRef }: {
             <div className={styles['animeInfo']}>
                 <Link href={`/info/${anime.id}`}>
                     <h2 className={styles['animeTitle']}>
-                        {anime.title.english}
+                        {title}
                     </h2>
                 </Link>
                 <p>

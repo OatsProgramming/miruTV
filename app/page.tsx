@@ -8,6 +8,8 @@ import animeFetcher from './util/animeFetcher/animeFetcher'
 
 export const revalidate = 3600
 
+// TODO: consider loading the sections in parallel 
+// TODO: have a loader skeleton 
 export default async function Home() {
   const sessionRes = getServerSession(authOptions)
   const recentRes = animeFetcher({ route: 'recents' })

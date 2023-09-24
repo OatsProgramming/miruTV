@@ -1,10 +1,6 @@
 import baseUrl from "@/app/util/baseUrl"
 
-/**
- * EnimeRouteT is basically just EnimeRoute. Just need it for EnimeReturnTypes mapping
- * @param route 
- * @returns 
- */
+// TODO: Find a way to incorporate ISR w/o having issues w/ vercel's automatic caching
 export default async function animeFetcher<AnimeRouteT extends AnimeRoute>(
   route: AnimeRouteT
 ): Promise<AnimeReturnTypes[AnimeRouteT['route']] | undefined> {
