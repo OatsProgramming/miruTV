@@ -19,6 +19,6 @@ Want to save your favorite anime to your watchlist? Create an account and start 
 Got suggestions? See bugs? You can start a [discussion](https://github.com/OatsProgramming/miruTV/discussions) at the discussion bar or help [contributing](https://github.com/OatsProgramming/miruTV/pulls) to the project by creating a pull request. If there are any [issues](https://github.com/OatsProgramming/miruTV/issues/new/choose) that you'd like to report, just let me know! Anything helps :)
 
 ## Acknowledgements
-This was made possible thanks to the [Enime API](https://docs.enime.moe/). If you're curious about the nit and grit details, you can check out the project [here](https://github.com/Enime-Project).
+This was made possible thanks to the [consumet API](https://consumet.org/). If you're curious about the nit and grit details, you can check out the project [here](https://github.com/consumet).
 
-This was also made possible with [OPlayer](https://oplayer.vercel.app/): a beautiful, modern HTML5 video player that makes development a whole lot easier. You can check out their project [here](https://github.com/shiyiya/oplayer).
+This was made possible with [OPlayer](https://oplayer.vercel.app/): a beautiful, modern HTML5 video player that makes development a whole lot easier. You can check out their project [here](https://github.com/shiyiya/oplayer).
