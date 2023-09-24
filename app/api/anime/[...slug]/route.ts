@@ -4,7 +4,6 @@ import anilist from "@/lib/consumet/anilist";
 import lessenPayload from "../lessenPayload";
 import redis from "@/lib/redis";
 
-// TODO: Incorporate redis for caching
 export async function GET(req: Request, { params: { slug } }: ParamsArr) {
     const category = slug[0]
     const param = slug[1]
