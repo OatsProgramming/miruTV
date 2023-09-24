@@ -15,7 +15,7 @@ export default function lessenPayload(
 
     else if (isISearch(animeObj)) {
         animeObj.results.forEach((anime) => {
-            filterKeys<IAnimeResult>(anime, ([
+            filterKeys<IAnimeResultFiltered>(anime, ([
                 'id',
                 'title',
                 'image',

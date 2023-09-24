@@ -38,7 +38,7 @@ type IAnimeResult = {
 	rating?: number;
 	type?: MediaFormat;
 	releaseDate?: string;
-	[x: string]: any; // other fields
+	// [x: string]: any; // other fields
 }
 type ITitle = {
 	romaji?: string;
