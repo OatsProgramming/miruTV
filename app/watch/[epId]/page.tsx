@@ -6,7 +6,7 @@ import { Metadata } from "next";
 import Episodes from "../components/Episodes/Episodes";
 import getTitleXEpNumber from "@/app/util/getTitleXEpNumber";
 import Link from "next/link";
-import getAnimeId from "@/app/util/getAnimeId";
+import epIdtoAnimeId from "@/app/util/epIdtoAnimeId";
 
 export async function generateMetadata({ params: { epId } }: {
     params: {
@@ -25,7 +25,7 @@ export default async function Page({ params: { epId } }: {
         epId: string
     }
 }) {
-    const animeId = getAnimeId(epId)
+    const animeId = epIdtoAnimeId(epId)
     const { title, episode } = getTitleXEpNumber(epId)
 
     // Doing it like this so that it can load in parallel instead concurrently
