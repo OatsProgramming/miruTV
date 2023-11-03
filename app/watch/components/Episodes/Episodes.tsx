@@ -2,6 +2,8 @@ import getAnimeTitle from '@/app/util/getAnimeTitle'
 import Card from '@/app/components/Card/Card'
 import styles from '../../[epId]/page.module.css'
 
+// TODO: Instead of episode cards, itd be just a list of numbers
+
 export default async function Episodes({ animeInfoPromise, epId }: {
     animeInfoPromise: Promise<AnimeInfoResult>,
     epId: string,

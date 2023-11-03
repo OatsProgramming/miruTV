@@ -11,6 +11,6 @@ type AnimeReturnTypes = {
 type AnimeRoute = {
     route: 'recents' | 'popular' | 'trending'
 } | {
-    route: 'info' | 'search' | 'source' | 'episodes',
+    route: 'info' | 'search' | 'source',
     arg: string
 }
