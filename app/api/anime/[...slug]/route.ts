@@ -4,6 +4,7 @@ import anilist from "@/lib/consumet/anilist";
 import lessenPayload from "../lessenPayload";
 import redis from "@/lib/redis";
 
+// Switching to just gogo for the most part...
 export async function GET(req: Request, { params: { slug } }: ParamsArr) {
     const category = slug[0]
     const param = slug[1]
@@ -16,14 +17,13 @@ export async function GET(req: Request, { params: { slug } }: ParamsArr) {
 
     try {
         let result;
-
         // Too dynamic for search... Cant use it as a key
         if (category !== 'search') {
             
             // Check cache
-            const cachedVal = await redis.get(param)
+            const cachedVal = await redis.get(param || category)
             if (cachedVal) {
-                console.log("ANIME CACHE HIT")
+                console.log(`ANIME (${category.toUpperCase()}) CACHE HIT`)
 
                 // it should already be a json obj
                 // dont stringify it when returning response
@@ -31,19 +31,23 @@ export async function GET(req: Request, { params: { slug } }: ParamsArr) {
             }
         }
 
+
         switch (category) {
             case 'search': {
                 if (!param) return NextResponse.json("Missing query for /anime/search", { status: 422 })
-
                 // query
-                result = await anilist.search(param)
+                result = await gogo.search(param)
                 break;
             }
             case "info": {
-                if (!param) return NextResponse.json("Missing animeId for /anime/info", { status: 422 })
 
+                if (!param) return NextResponse.json("Missing animeId for /anime/info", { status: 422 })
                 // animeId
-                result = await anilist.fetchAnimeInfo(param)
+                // Note: This is no longer working
+                // result = await anilist.fetchAnimeInfo(param)
+
+                // Using gogo instead
+                result = await gogo.fetchAnimeInfo(param)
                 break;
             }
             case "source": {
@@ -53,28 +57,48 @@ export async function GET(req: Request, { params: { slug } }: ParamsArr) {
                 result = await gogo.fetchEpisodeSources(param)
                 break;
             }
-            case "episodes" : {
-                if (!param) return NextResponse.json("Missing anime title (query) for /anime/episodes", { status: 422 })
-                const animeRes = await anilist.search(param)
-                if (!animeRes.results || animeRes.results.length === 0) throw new Error("Anime not found")
+            // Note: If using gogo for "info", then theres no need for this.
+            // epId is literally TITLE-episode-NUMBER 
+            // id is literally the title (english) lowercase with "-"
+            // Just do numbers instead of imgs when showcasing episodes... ( gogo doesnt have ep images )
 
-                const anime = animeRes.results[0]
-                result = await anilist.fetchAnimeInfo(anime.id)
+            // case "episodes" : {
+            //     if (!param) return NextResponse.json("Missing anime title (query) for /anime/episodes", { status: 422 })
+            //     const animeRes = await anilist.search(param)
+            //     if (!animeRes.results || animeRes.results.length === 0) throw new Error("Anime not found")
+    
+            //     const anime = animeRes.results[0]
+            //     result = await anilist.fetchAnimeInfo(anime.id)
+            //     break;
+            // }
+
+            case 'popular': {
+                result = await anilist.fetchPopularAnime()
+                break;
+            } 
+            case 'recents': {
+                result = await gogo.fetchRecentEpisodes()
+                break;
+            }
+            case 'trending': {
+                result = await anilist.fetchTrendingAnime()
                 break;
             }
             default: {
                 throw new Error("Invalid anime category given (/anime)")
             }
         }    
-
         // dumb type err (missing AnimeRecent)
         // @ts-expect-error
         lessenPayload(result)
-
+        
         // Cache the result after making the payload smaller
         if (category !== 'search') {
             const stringifyResult = JSON.stringify(result)
-            await redis.setex(param, defaultTTL, stringifyResult)
+
+            // Check if param exist to use as key 
+            // ( otherwise itd be just the category name )
+            await redis.setex(param || category, defaultTTL, stringifyResult)
             console.log("ANIME CACHE MISS")
         }
 
@@ -85,6 +109,6 @@ export async function GET(req: Request, { params: { slug } }: ParamsArr) {
 }
 
 function isValidCategory(str: string): str is AnimeCategory {
-    const validSlug = new Set(['search', 'info', 'source', 'episodes'])
+    const validSlug = new Set<string>(['search', 'info', 'source', 'recents', 'trending', 'popular'] as AnimeCategory[])
     return validSlug.has(str)
 }
