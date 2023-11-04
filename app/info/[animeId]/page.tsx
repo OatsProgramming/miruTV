@@ -39,7 +39,8 @@ export default async function Page({ params: { animeId } }: {
 
     return (
         <div className={styles['container']}>
-            <div className={styles['banner']}>
+            {/* TODO: Bring this back once anilist is back online */}
+            {/* <div className={styles['banner']}>
                 <img
                     loading="lazy"
                     src={anime.cover}
@@ -47,7 +48,7 @@ export default async function Page({ params: { animeId } }: {
                     width={950}
                     height={200}
                 />
-            </div>
+            </div> */}
             <section className={styles['info']}>
                 <Card
                     info={{
