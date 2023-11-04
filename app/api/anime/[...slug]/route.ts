@@ -31,23 +31,26 @@ export async function GET(req: Request, { params: { slug } }: ParamsArr) {
             }
         }
 
-
         switch (category) {
             case 'search': {
                 if (!param) return NextResponse.json("Missing query for /anime/search", { status: 422 })
                 // query
                 result = await gogo.search(param)
+                // description is no longer available
                 break;
             }
             case "info": {
-
-                if (!param) return NextResponse.json("Missing animeId for /anime/info", { status: 422 })
+                if (!param) return NextResponse.json("Missing anime title for /anime/info", { status: 422 })
                 // animeId
                 // Note: This is no longer working
                 // result = await anilist.fetchAnimeInfo(param)
 
+                // Unfortunately, not all animeIds are made the same
+                // Gotta search it up beforehand ( preferably in romaji, english if unavailable )
+                const found = await gogo.search(param)
+
                 // Using gogo instead
-                result = await gogo.fetchAnimeInfo(param)
+                result = await gogo.fetchAnimeInfo(found.results[0].id)
                 break;
             }
             case "source": {
@@ -57,6 +60,7 @@ export async function GET(req: Request, { params: { slug } }: ParamsArr) {
                 result = await gogo.fetchEpisodeSources(param)
                 break;
             }
+
             // Note: If using gogo for "info", then theres no need for this.
             // epId is literally TITLE-episode-NUMBER 
             // id is literally the title (english) lowercase with "-"

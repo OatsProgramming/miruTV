@@ -5,6 +5,7 @@ import { authOptions } from './api/auth/[...nextauth]/route'
 import FavSect from './components/FavSect/FavSect'
 import Hero from './components/Hero/Hero'
 import animeFetcher from './util/animeFetcher/animeFetcher'
+import getAnimeTitle from './util/getAnimeTitle'
 
 export const revalidate = 3600
 
@@ -25,7 +26,7 @@ export default async function Home() {
 
   return (
     <>
-      <Hero animes={trendingList}/>
+      <Hero animes={trendingList} />
       <main className={styles['container']}>
         <section>
           <h1>Latest Releases:</h1>
@@ -55,10 +56,10 @@ export default async function Home() {
                 <Card
                   key={item.id}
                   info={{
-                    animeId: item.id,
-                    animeTitle: typeof item.title === 'string'
-                      ? item.title
-                      : item.title.english ?? item.title.native ?? 'N/A',
+                    // @ts-expect-error
+                    // Only romaji will work 100% of the time when searching for animeId
+                    animeId: item.title.romaji ?? item.title.english,
+                    animeTitle: getAnimeTitle(item.title),
                     coverImg: item.image,
                   }}
                 />
@@ -74,10 +75,9 @@ export default async function Home() {
                 <Card
                   key={item.id}
                   info={{
-                    animeId: item.id,
-                    animeTitle: typeof item.title === 'string'
-                      ? item.title
-                      : item.title.english ?? item.title.native ?? 'N/A',
+                    // @ts-expect-error
+                    animeId: item.title.romaji ?? item.title.english,
+                    animeTitle: getAnimeTitle(item.title),
                     coverImg: item.image,
                   }}
                 />
