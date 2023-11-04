@@ -54,7 +54,11 @@ export default function SearchDialog() {
                 />
                 <div className={styles['searchResults']}>
                     {animes.length > 0 && animes.map(anime => (
-                        <AnimeInfo key={anime.id} anime={anime} dialogRef={dialogRef} />
+                        <AnimeInfo
+                            key={anime.id}
+                            anime={anime as IAnimeInfoFiltered}
+                            dialogRef={dialogRef}
+                        />
                     ))}
                 </div>
                 <div>
