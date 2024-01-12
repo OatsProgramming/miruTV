@@ -2,7 +2,7 @@ import prismadb from "@/lib/prismadb"
 import { hash, compare } from "bcrypt"
 import validateRequest from "./validateRequest"
 import { getServerSession } from "next-auth/next"
-import { authOptions } from "../auth/[...nextauth]/route"
+import authOptions from "../auth/[...nextauth]/options"
 import handleError from "@/app/util/handleError"
 import isEqual from 'lodash/isEqual'
 

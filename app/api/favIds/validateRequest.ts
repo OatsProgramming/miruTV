@@ -1,6 +1,6 @@
 import handleError from "@/app/util/handleError"
 import { getServerSession } from "next-auth/next"
-import { authOptions } from "../auth/[...nextauth]/route"
+import authOptions from "../auth/[...nextauth]/options"
 
 type Essential = {
     userId: string,

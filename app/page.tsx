@@ -1,7 +1,7 @@
 import styles from './page.module.css'
 import Card from './components/Card/Card'
 import { getServerSession } from 'next-auth/next'
-import { authOptions } from './api/auth/[...nextauth]/route'
+import authOptions from './api/auth/[...nextauth]/options'
 import FavSect from './components/FavSect/FavSect'
 import Hero from './components/Hero/Hero'
 import animeFetcher from './util/animeFetcher/animeFetcher'

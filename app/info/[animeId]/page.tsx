@@ -3,7 +3,7 @@ import styles from './page.module.css'
 import Card from "@/app/components/Card/Card"
 import FavId from "@/app/components/FavId/FavId"
 import { getServerSession } from "next-auth/next"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import authOptions from "@/app/api/auth/[...nextauth]/options"
 import animeFetcher from "@/app/util/animeFetcher/animeFetcher"
 import getAnimeTitle from "@/app/util/getAnimeTitle"
 
