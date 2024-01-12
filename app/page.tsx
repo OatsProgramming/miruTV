@@ -56,9 +56,7 @@ export default async function Home() {
                 <Card
                   key={item.id}
                   info={{
-                    // @ts-expect-error
-                    // Only romaji will work 100% of the time when searching for animeId
-                    animeId: item.title.romaji ?? item.title.english,
+                    animeId: item.id,
                     animeTitle: getAnimeTitle(item.title),
                     coverImg: item.image,
                   }}
@@ -75,8 +73,7 @@ export default async function Home() {
                 <Card
                   key={item.id}
                   info={{
-                    // @ts-expect-error
-                    animeId: item.title.romaji ?? item.title.english,
+                    animeId: item.id,
                     animeTitle: getAnimeTitle(item.title),
                     coverImg: item.image,
                   }}

@@ -3,59 +3,69 @@ import lessenPayload from "../lessenPayload";
 import apiUrl from "@/app/util/apiUrl";
 import redis from "@/lib/redis";
 
-// Switching to just gogo for the most part...
 export async function GET(req: Request, { params: { slug } }: ParamsArr) {
     const category = slug[0]
-    const param = slug[1]
+    let param = slug[1]
     
-    const defaultTTL = 3600
+    const defaultTTL = 1800
+
+    const isValidSearch = param 
+        ? param.startsWith('SEARCH: ')
+        : 0
+        
 
     const apiRoutes = {
         recents: 'anime/gogoanime/recent-episodes',
         trending: 'meta/anilist/trending',
         popular: 'meta/anilist/popular',
-        search: 'anime/gogoanime/',         //query
-        info: 'meta/anilist/info/',         //animeId
-        source: 'anime/gogoanime/watch/'    //epId
+        search: 'meta/anilist/',             //query
+        info: 'meta/anilist/info/',          //animeId
+        source: 'anime/gogoanime/watch/'     //epId
     }
 
     if (!isValidCategory(category)) {
         return NextResponse.json("Invalid anime category", { status: 400 })
     }
 
-    const url = 
-            apiUrl 
-            + apiRoutes[category] 
-            + (param ? `/${param}` : '')
-
     try {
-        // Too dynamic for search... Cant use it as a key
-        // if (category !== 'search') {
+        // Too dynamic for just search... 
+        // Only cache a 'search' if its by developer
+        if (category !== 'search' || isValidSearch) {
             
-        //     // Check cache
-        //     const cachedVal = await redis.get(param || category)
-        //     if (cachedVal) {
-        //         console.log(`ANIME (${category.toUpperCase()}) CACHE HIT`)
+            // Check cache
+            const cachedVal = await redis.get(param || category)
+            if (cachedVal) {
+                console.log(`ANIME (${category.toUpperCase()}) CACHE HIT`)
 
-        //         // it should already be a json obj
-        //         // dont stringify it when returning response
-        //         return new Response(cachedVal)
-        //     }
-        // }
+                // it should already be a json obj
+                // dont stringify it when returning response
+                return new Response(cachedVal)
+            }
+        }
+
+        if (isValidSearch) {
+            const start = param.indexOf(': ')
+            param = param.slice(start + 2, -1)
+        }
 
         if (!param) {
             switch (category) {
                 case 'search': {
-                    return NextResponse.json(`Missing query for SEARCH: ${url}`)
+                    return NextResponse.json(`Missing query for SEARCH`)
                 }
                 case 'info': {
-                    return NextResponse.json(`Missing anime ID for INFO: ${url}`)
+                    return NextResponse.json(`Missing anime ID for INFO`)
                 }
                 case 'source': {
-                    return NextResponse.json(`Missing episode ID for SOURCE: ${url}`)
+                    return NextResponse.json(`Missing episode ID for SOURCE`)
                 }
             }
         }
+
+        const url = 
+            apiUrl 
+            + apiRoutes[category] 
+            + (param ? `/${param}` : '')
 
         const res = await fetch(url)
 
@@ -68,14 +78,20 @@ export async function GET(req: Request, { params: { slug } }: ParamsArr) {
         lessenPayload(result)
         
         // Cache the result after making the payload smaller
-        // if (category !== 'search') {
-        //     const stringifyResult = JSON.stringify(result)
+        if (
+            category !== 'search'  
+            || isValidSearch                                                // Cache if category === 'search' and its by developer
+            || !('episodes' in result && result.episodes.length > 100)      // Don't cache huge chunks of data. Might overload redis
+            ) {
+            
+                
+            const stringifyResult = JSON.stringify(result)
 
-        //     // Check if param exist to use as key 
-        //     // ( otherwise itd be just the category name )
-        //     await redis.setex(param || category, defaultTTL, stringifyResult)
-        //     console.log("ANIME CACHE MISS")
-        // }
+            // Check if param exist to use as key 
+            // ( otherwise itd be just the category name )
+            await redis.setex(param || category, defaultTTL, stringifyResult)
+            console.log("ANIME CACHE MISS")
+        }
 
         return NextResponse.json(result)
     } catch (err) {
