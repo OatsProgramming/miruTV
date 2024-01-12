@@ -6,7 +6,7 @@ import { Metadata } from "next";
 import Episodes from "../components/Episodes/Episodes";
 import getTitleXEpNumber from "@/app/util/getTitleXEpNumber";
 import Link from "next/link";
-import epIdtoAnimeId from "@/app/util/epIdtoAnimeId";
+import getAnimeInfo from "@/app/util/fetchers/getAnimeInfo";
 
 export async function generateMetadata({ params: { epId } }: {
     params: {
@@ -25,18 +25,18 @@ export default async function Page({ params: { epId } }: {
         epId: string
     }
 }) {
-    const animeId = epIdtoAnimeId(epId)
     const { title, episode } = getTitleXEpNumber(epId)
 
     // Doing it like this so that it can load in parallel instead concurrently
     const sourcesPromise = animeFetcher({ route: 'source', arg: epId })
-    const animeInfoPromise = animeFetcher({ route: 'info', arg: animeId })
+    const animeInfoPromise = getAnimeInfo(title)
 
     return (
         <div className={styles['container']}>
             <div className={styles['content']}>
                 <div>
-                    <Link href={`/info/${animeId}`}>
+                    {/* FIXME: add the animeId here... */}
+                    <Link href={`/info/${''}`}>
                         <h1>{title}</h1>
                     </Link>
                     <h3>EP: {episode}</h3>
