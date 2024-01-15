@@ -91,7 +91,7 @@ export async function GET(req: Request, { params: { slug } }: ParamsArr) {
             // Check if param exist to use as key 
             // ( otherwise itd be just the category name )
             await redis.setex(param || category, defaultTTL, stringifyResult)
-            console.log("ANIME CACHE MISS")
+            console.log(`ANIME ${category.toUpperCase()} CACHE MISS`)
         }
 
         return NextResponse.json(result)
