@@ -30,6 +30,11 @@ export async function GET(req: Request, { params: { slug } }: ParamsArr) {
     try {
         // Too dynamic for just search... 
         // Only cache a 'search' if its by developer
+        if (isValidSearch) {
+            const start = param.indexOf(': ')
+            param = param.slice(start + 2, -1)
+        }
+
         if (category !== 'search' || isValidSearch) {
             
             // Check cache
@@ -41,11 +46,6 @@ export async function GET(req: Request, { params: { slug } }: ParamsArr) {
                 // dont stringify it when returning response
                 return new Response(cachedVal)
             }
-        }
-
-        if (isValidSearch) {
-            const start = param.indexOf(': ')
-            param = param.slice(start + 2, -1)
         }
 
         if (!param) {
@@ -67,7 +67,7 @@ export async function GET(req: Request, { params: { slug } }: ParamsArr) {
             + apiRoutes[category] 
             + (param ? `/${param}` : '')
 
-        const res = await fetch(url)
+        const res = await fetch(url, { next: { revalidate: 0 }}) // dont forget to remove nextjs automatic caching feature...
 
         if (!res.ok) {
             throw new Error("Failed to fetch" + await res.text())
