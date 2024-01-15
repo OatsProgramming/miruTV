@@ -18,7 +18,7 @@ export default function SearchDialog() {
         // Make sure that it doesnt send too many request accidentally
         // Wait till user is finished typing
         timerRef.current = setTimeout(() => {
-            animeFetcher({ route: 'search', arg: query })
+            animeFetcher({ route: 'search', arg: `SEARCH: ${query}` })
                 .then(res => setSearchResults(res?.results))
                 .catch(err => console.error(err))
         }, 1500)
