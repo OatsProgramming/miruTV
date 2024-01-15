@@ -90,7 +90,20 @@ interface IAnimeInfo extends IAnimeResult {
 	endDate?: string;
 	recommendations?: IAnimeResult[];
 	relations?: IAnimeResult[];
+	"nextAiringEpisode": {
+		"airingTime": number,
+		"timeUntilAiring": number,
+		"episode": number
+	}
+	artwork: Artwork[]
 }
+
+type Artwork = {
+	"img": string
+	"type": "poster" | 'banner',
+	"providerId": string
+}
+
 type Trailer = {
 	id: string;
 	site?: string;

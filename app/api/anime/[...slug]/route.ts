@@ -48,6 +48,7 @@ export async function GET(req: Request, { params: { slug } }: ParamsArr) {
             }
         }
 
+        // Check for any missing requirments
         if (!param) {
             switch (category) {
                 case 'search': {

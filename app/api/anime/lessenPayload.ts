@@ -35,6 +35,20 @@ export default function lessenPayload(
     }
 
     else if (isInfo(animeObj)) {
+        filterKeys(animeObj, [
+            'id',
+            'title',
+            'episodes',
+            'cover',
+            'description',
+            'image',
+            'status',
+            'trailer',
+            'nextAiringEpisode',
+            'recommendations',
+            'artwork'
+        ])
+
         if (animeObj.episodes) {
             animeObj.episodes.forEach((ep) => {
                 filterKeys(ep, ([
@@ -46,16 +60,18 @@ export default function lessenPayload(
             })
         }
 
-        filterKeys(animeObj, [
-            'id',
-            'title',
-            'episodes',
-            'cover',
-            'description',
-            'image',
-            'status',
-            'trailer',
-        ])
+        if (animeObj.recommendations) {
+            animeObj.recommendations.forEach(anime => {
+                filterKeys(anime, [
+                    'id',
+                    'image',
+                    'title',
+                ])
+            })
+        }
+        
+        // too much unnecessary data... just get the first few objs for poster / banner img
+        animeObj.artwork.splice(5, animeObj.artwork.length)
     }
 }
 
