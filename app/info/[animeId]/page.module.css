@@ -36,6 +36,16 @@
     gap: 1rem;
 }
 
+.trailer {
+    width: 100%;
+}
+
+.trailer > iframe {
+    aspect-ratio: 2 / 1;
+    width: 50%;
+    border: 0;
+}
+
 .episodes {
     grid-area: episodes;
     display: flex;

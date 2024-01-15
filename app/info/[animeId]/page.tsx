@@ -6,6 +6,7 @@ import { getServerSession } from "next-auth/next"
 import authOptions from "@/app/api/auth/[...nextauth]/options"
 import animeFetcher from "@/app/util/animeFetcher/animeFetcher"
 import getAnimeTitle from "@/app/util/getAnimeTitle"
+import OPlayer from "@/app/watch/components/OPlayer/OPlayer"
 
 export async function generateMetadata({ params: { animeId } }: {
     params: {
@@ -39,8 +40,7 @@ export default async function Page({ params: { animeId } }: {
 
     return (
         <div className={styles['container']}>
-            {/* TODO: Bring this back once anilist is back online */}
-            {/* <div className={styles['banner']}>
+            <div className={styles['banner']}>
                 <img
                     loading="lazy"
                     src={anime.cover}
@@ -48,7 +48,7 @@ export default async function Page({ params: { animeId } }: {
                     width={950}
                     height={200}
                 />
-            </div> */}
+            </div>
             <section className={styles['info']}>
                 <Card
                     info={{
@@ -59,6 +59,10 @@ export default async function Page({ params: { animeId } }: {
                 />
                 <h1>{title}</h1>
                 <div>{anime.description}</div>
+                <div className={styles['trailer']}>
+                    <iframe src={`https://www.youtube.com/embed/${anime.trailer?.id}`} allowFullScreen />
+                </div>
+
                 <FavId animeId={animeId} favIds={session?.user.favIds} />
             </section>
             <section className={styles['episodes']}>
