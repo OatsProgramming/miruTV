@@ -95,7 +95,7 @@ interface IAnimeInfo extends IAnimeResult {
 		"timeUntilAiring": number,
 		"episode": number
 	}
-	artwork: Artwork[]
+	artwork?: Artwork[]
 }
 
 type Artwork = {

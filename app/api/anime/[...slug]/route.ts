@@ -75,7 +75,7 @@ export async function GET(req: Request, { params: { slug } }: ParamsArr) {
         }
 
         const result = await res.json()
-          
+
         lessenPayload(result)
         
         // Cache the result after making the payload smaller
@@ -96,6 +96,7 @@ export async function GET(req: Request, { params: { slug } }: ParamsArr) {
 
         return NextResponse.json(result)
     } catch (err) {
+        console.error(err)
         return NextResponse.json(err, { status: 500 })
     }
 }
