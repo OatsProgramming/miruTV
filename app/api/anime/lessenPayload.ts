@@ -70,8 +70,12 @@ export default function lessenPayload(
             })
         }
         
-        // too much unnecessary data... just get the first few objs for poster / banner img
-        animeObj.artwork.splice(5, animeObj.artwork.length)
+        // too much unnecessary data... dont want it too unnecessarily big when caching
+        // artwork
+        animeObj.artwork = animeObj.artwork.filter(art => art.type === 'banner')
+        animeObj.artwork.splice(3, animeObj.artwork.length)
+        // recommendations
+        animeObj.recommendations?.splice(5, animeObj.recommendations.length)
     }
 }
 
