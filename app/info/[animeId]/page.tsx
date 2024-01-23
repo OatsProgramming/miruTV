@@ -6,7 +6,8 @@ import { getServerSession } from "next-auth/next"
 import authOptions from "@/app/api/auth/[...nextauth]/options"
 import animeFetcher from "@/app/util/animeFetcher/animeFetcher"
 import getAnimeTitle from "@/app/util/getAnimeTitle"
-import OPlayer from "@/app/watch/components/OPlayer/OPlayer"
+import Countdown from "./components/Countdown"
+import { formatRFC } from "@/lib/formatRFC"
 
 export async function generateMetadata({ params: { animeId } }: {
     params: {
@@ -37,13 +38,21 @@ export default async function Page({ params: { animeId } }: {
 
     const episodes = anime.episodes
     const title = getAnimeTitle(anime.title)
+    const banner = anime.artwork?.filter(art => art.type === 'banner')[0] ?? {}
+
+    const { airingTime, timeUntilAiring } = anime.nextAiringEpisode
+
+    const airingDate = formatRFC(new Date(airingTime * 1000)) // convert unix timestamp to ms then make it human readable
 
     return (
         <div className={styles['container']}>
             <div className={styles['banner']}>
                 <img
                     loading="lazy"
-                    src={anime.cover}
+                    src={'img' in banner
+                        ? banner.img as string
+                        : anime.cover
+                    }
                     alt={title}
                     width={950}
                     height={200}
@@ -62,7 +71,6 @@ export default async function Page({ params: { animeId } }: {
                 <div className={styles['trailer']}>
                     <iframe src={`https://www.youtube.com/embed/${anime.trailer?.id}`} allowFullScreen />
                 </div>
-
                 <FavId animeId={animeId} favIds={session?.user.favIds} />
             </section>
             <section className={styles['episodes']}>
@@ -82,6 +90,13 @@ export default async function Page({ params: { animeId } }: {
                         isLandScape
                     />
                 ))}
+            </section>
+            <section className={styles['countdown']}>
+                <Countdown
+                    animeStatus={anime.status}
+                    airingDate={airingDate}
+                    timeUntilAiring={timeUntilAiring}
+                />
             </section>
         </div>
     )

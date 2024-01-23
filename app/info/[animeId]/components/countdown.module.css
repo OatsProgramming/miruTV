@@ -1,0 +1,40 @@
+.container {
+    text-align: center;
+    text-transform: uppercase;
+
+    display: grid;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.status {
+    color: var(--secondary)
+}
+
+.countdownContainer {
+    display: flex;
+    gap: 1rem;
+}
+
+.boxy {
+    text-align: center;
+    min-width: 100px;
+    padding: 0.75rem 0.5rem;
+
+    border: 2px solid var(--darkSecondary);
+    border-radius: 20px;
+}
+
+.boxy > div:first-child {
+    font-size: x-large;
+    color: color-mix(in srgb, var(--secondary) 50%, white)
+}
+
+.boxy > div:nth-child(2) {
+    font-size: smaller;
+}
+
+.airingDate {
+    text-align: center;
+    opacity: 0.7;
+}

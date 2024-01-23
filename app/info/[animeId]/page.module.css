@@ -3,6 +3,7 @@
     position: relative;
     grid-template-areas:
         "info episodes"
+        "countdown countdown"
     ;
     padding: 1.5rem;
     gap: 1rem;
@@ -54,7 +55,11 @@
     overflow: scroll;
     justify-content: center;
     align-items: center;
-    column-gap: 1rem
+    column-gap: 1rem;
+}
+
+.countdown {
+    grid-area: countdown;
 }
 
 @media (min-width: 1024px) {
@@ -68,6 +73,7 @@
         grid-template-areas:
             "info"
             "episodes"
+            "countdown"
         ;
         text-align: center;
     }
