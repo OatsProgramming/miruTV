@@ -1,3 +1,9 @@
+.na {
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin: 1rem 0;
+}
+
 .container {
     text-align: center;
     text-transform: uppercase;

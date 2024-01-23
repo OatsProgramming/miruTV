@@ -90,7 +90,7 @@ interface IAnimeInfo extends IAnimeResult {
 	endDate?: string;
 	recommendations?: IAnimeResult[];
 	relations?: IAnimeResult[];
-	"nextAiringEpisode": {
+	"nextAiringEpisode"?: {
 		"airingTime": number,
 		"timeUntilAiring": number,
 		"episode": number

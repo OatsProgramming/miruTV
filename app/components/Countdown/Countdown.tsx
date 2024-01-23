@@ -8,6 +8,15 @@ export default function Countdown({ animeStatus, nextAiringEpisode }: {
     animeStatus?: string,
     nextAiringEpisode: IAnimeInfoFiltered['nextAiringEpisode']
 }) {
+
+    if (!nextAiringEpisode) {
+        return (
+            <div className={styles['na']}>
+                ...COUNTDOWN UNAVAILABLE...
+            </div>
+        )
+    }
+
     const [time, setTime] = useState({
         days: 0,
         hours: 0,
