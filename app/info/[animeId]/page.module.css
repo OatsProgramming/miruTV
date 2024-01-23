@@ -92,4 +92,9 @@
         gap: 2rem;
         max-height: max-content;
     }
+
+    .trailer > iframe {
+        width: 100%;
+        height: 100%;
+    }
 }

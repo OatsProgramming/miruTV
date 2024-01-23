@@ -86,12 +86,12 @@ export default async function Page({ params: { animeId } }: {
                     />
                 ))}
             </section>
-            <section className={styles['countdown']}>
+            {/* <section className={styles['countdown']}>
                 <Countdown
                     animeStatus={anime.status}
                     nextAiringEpisode={anime.nextAiringEpisode}
                 />
-            </section>
+            </section> */}
         </div>
     )
 }
