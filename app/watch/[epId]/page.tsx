@@ -7,6 +7,8 @@ import Episodes from "../components/Episodes/Episodes";
 import getTitleXEpNumber from "@/app/util/getTitleXEpNumber";
 import Link from "next/link";
 import getAnimeInfo from "@/app/util/fetchers/getAnimeInfo";
+import Countdown from "@/app/components/Countdown/Countdown";
+import getAnimeTitle from "@/app/util/getAnimeTitle";
 
 export async function generateMetadata({ params: { epId } }: {
     params: {
@@ -29,24 +31,28 @@ export default async function Page({ params: { epId } }: {
 
     // Doing it like this so that it can load in parallel instead concurrently
     const sourcesPromise = animeFetcher({ route: 'source', arg: epId })
-    const animeInfoPromise = getAnimeInfo(title)
+    const animeInfo = await getAnimeInfo(title)
 
     return (
         <div className={styles['container']}>
             <div className={styles['content']}>
                 <div>
-                    {/* FIXME: add the animeId here... */}
-                    <Link href={`/info/${''}`}>
-                        <h1>{title}</h1>
+                    <Link href={`/info/${animeInfo?.id}`}>
+                        <h1>{getAnimeTitle(animeInfo?.title)}</h1>
                     </Link>
                     <h3>EP: {episode}</h3>
                 </div>
                 <OPlayer sourcesPromise={sourcesPromise} />
             </div>
             {/* TODO: Change this to mainly episode numbers */}
-            {/* @ts-expect-error */}
-            <Episodes epId={epId} animeInfoPromise={animeInfoPromise} />
+            <Episodes epId={epId} animeInfo={animeInfo!} />
             <CommentsSection epId={epId} />
+            <section className={styles['countdown']}>
+                <Countdown
+                    animeStatus={animeInfo?.status}
+                    nextAiringEpisode={animeInfo?.nextAiringEpisode!}
+                />
+            </section>
         </div>
     )
 }

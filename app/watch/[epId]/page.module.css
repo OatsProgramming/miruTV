@@ -35,11 +35,16 @@
 }
 
 .card:hover {
-    opacity: 1
+    opacity: 1;
 }
 
 .selected {
     opacity: 1;
+}
+
+.countdown {
+    grid-area: countdown;
+    margin-top: 2rem;
 }
 
 @media (min-width: 1024px) {
@@ -58,6 +63,7 @@
         grid-template-areas: 
             "content episodes"
             "commentsSection episodes"
+            "countdown countdown"
         ;
         gap: 1rem;
     }

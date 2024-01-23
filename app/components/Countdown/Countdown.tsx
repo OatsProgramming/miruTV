@@ -52,7 +52,7 @@ export default function Countdown({ animeStatus, nextAiringEpisode }: {
                     STATUS: <span className={styles['status']}>{animeStatus ?? "UNKNONW"}</span>
                 </div>
                 <div>
-                    TIME TILL NEXT EPISODE:
+                    TILL THE NEXT EPISODE:
                 </div>
             <div className={styles['countdownContainer']}>
                 <Box

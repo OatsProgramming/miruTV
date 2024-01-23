@@ -4,11 +4,10 @@ import styles from '../../[epId]/page.module.css'
 
 // TODO: Instead of episode cards, itd be just a list of numbers
 
-export default async function Episodes({ animeInfoPromise, epId }: {
-    animeInfoPromise: Promise<AnimeInfoResult>,
+export default function Episodes({ animeInfo, epId }: {
+    animeInfo: IAnimeInfoFiltered,
     epId: string,
 }) {
-    const animeInfo = await animeInfoPromise
     const episodes = animeInfo.episodes ?? []
 
     return (
