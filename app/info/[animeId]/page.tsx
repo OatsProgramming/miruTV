@@ -6,8 +6,7 @@ import { getServerSession } from "next-auth/next"
 import authOptions from "@/app/api/auth/[...nextauth]/options"
 import animeFetcher from "@/app/util/animeFetcher/animeFetcher"
 import getAnimeTitle from "@/app/util/getAnimeTitle"
-import Countdown from "./components/Countdown"
-import { formatRFC } from "@/lib/formatRFC"
+import Countdown from "../../components/Countdown/Countdown"
 
 export async function generateMetadata({ params: { animeId } }: {
     params: {
@@ -39,10 +38,6 @@ export default async function Page({ params: { animeId } }: {
     const episodes = anime.episodes
     const title = getAnimeTitle(anime.title)
     const banner = anime.artwork?.filter(art => art.type === 'banner')[0] ?? {}
-
-    const { airingTime, timeUntilAiring } = anime.nextAiringEpisode
-
-    const airingDate = formatRFC(new Date(airingTime * 1000)) // convert unix timestamp to ms then make it human readable
 
     return (
         <div className={styles['container']}>
@@ -94,8 +89,7 @@ export default async function Page({ params: { animeId } }: {
             <section className={styles['countdown']}>
                 <Countdown
                     animeStatus={anime.status}
-                    airingDate={airingDate}
-                    timeUntilAiring={timeUntilAiring}
+                    nextAiringEpisode={anime.nextAiringEpisode}
                 />
             </section>
         </div>

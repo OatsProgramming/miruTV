@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react"
 import styles from './countdown.module.css'
+import { formatRFC } from "@/lib/formatRFC"
 
-export default function Countdown({ animeStatus, airingDate, timeUntilAiring }: {
+export default function Countdown({ animeStatus, nextAiringEpisode }: {
     animeStatus?: string,
-    airingDate: string,
-    timeUntilAiring: number,
+    nextAiringEpisode: IAnimeInfoFiltered['nextAiringEpisode']
 }) {
     const [time, setTime] = useState({
         days: 0,
@@ -14,8 +14,13 @@ export default function Countdown({ animeStatus, airingDate, timeUntilAiring }: 
         minutes: 0,
         seconds: 0,
     })
-
+    
     const { days, hours, minutes, seconds } = time
+
+    let { airingTime, timeUntilAiring } = nextAiringEpisode
+
+    const airingDate = formatRFC(new Date(airingTime * 1000)) // convert unix timestamp to ms then make it human readable
+
 
     useEffect(() => {
         const timerId = setTimeout(function countdown() {
