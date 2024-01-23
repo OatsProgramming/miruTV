@@ -5,10 +5,12 @@
     display: grid;
     justify-content: center;
     gap: 1rem;
+
+    overflow-x: hidden;
 }
 
 .status {
-    color: var(--secondary)
+    color: var(--secondary);
 }
 
 .countdownContainer {
@@ -17,6 +19,8 @@
 }
 
 .boxy {
+    flex: 1;
+
     text-align: center;
     min-width: 100px;
     padding: 0.75rem 0.5rem;
@@ -37,4 +41,23 @@
 .airingDate {
     text-align: center;
     opacity: 0.7;
+}
+
+@media screen and (max-width: 800px) {
+    .container {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .boxy {
+        min-width: 50px;
+    }
+
+    .boxy > div:first-child {
+        font-size: medium;
+    }
+
+    .boxy > div:nth-child(2) {
+        font-size: x-small;
+    }
 }

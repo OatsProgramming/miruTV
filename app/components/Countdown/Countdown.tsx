@@ -60,15 +60,15 @@ export default function Countdown({ animeStatus, nextAiringEpisode }: {
                     number={days}
                 />
                 <Box
-                    unit="HOURS"
+                    unit="HRS"
                     number={hours}
                 />
                 <Box
-                    unit="MINUTES"
+                    unit="MINS"
                     number={minutes}
                 />
                 <Box
-                    unit="SECONDS"
+                    unit="SECS"
                     number={seconds}
                 />
             </div>
