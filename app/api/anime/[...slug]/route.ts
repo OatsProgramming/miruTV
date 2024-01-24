@@ -36,6 +36,7 @@ export async function GET(req: Request, { params: { slug } }: ParamsArr) {
         }
 
         if (category !== 'search' || isValidSearch) {
+            console.log(param)
             
             // Check cache
             const cachedVal = await redis.get(param || category)
