@@ -18,8 +18,9 @@ export async function GET(req: Request) {
             )
         }
 
+        const cacheKey = `COMMENT CACHE: ${query}`
         // Check redis first before db
-        const cachedCommments = await redis.get(query)
+        const cachedCommments = await redis.get(cacheKey)
         if (cachedCommments) {
             console.log('COMMENT CACHE HIT')
             return new Response(cachedCommments, { status: 200 })
@@ -31,7 +32,9 @@ export async function GET(req: Request) {
 
         // Cache if not there
         const stringifyComments = JSON.stringify(comments)
-        redis.setex(query, defaultTTL, stringifyComments)
+        console.log(stringifyComments)
+        // Make sure the key is unique
+        redis.setex(cacheKey, defaultTTL, stringifyComments)
         console.log('COMMENT CACHE MISS')
 
         return new Response(stringifyComments, { status: 200 })
