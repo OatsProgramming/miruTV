@@ -23,7 +23,8 @@ export async function GET(req: Request, { params: { slug } }: ParamsArr) {
         popular: 'meta/anilist/popular',
         search: 'meta/anilist/',             //query
         info: 'meta/anilist/info/',          //animeId
-        source: 'anime/gogoanime/watch/'     //epId
+        source: 'anime/gogoanime/watch/',     //epId
+        missingEpisodes: 'anime/gogoanime/info',
     }
 
     if (!isValidCategory(category)) {
@@ -46,7 +47,7 @@ export async function GET(req: Request, { params: { slug } }: ParamsArr) {
 
         // it should already be a json obj
         // dont stringify it when returning response
-        // if (cachedVal) return new Response(cachedVal)
+        if (cachedVal) return new Response(cachedVal)
 
 
         // Check for any missing requirments
@@ -99,7 +100,7 @@ export async function GET(req: Request, { params: { slug } }: ParamsArr) {
             key: param || category,
             ttl: defaultTTL,
             toCache: stringifyResult,
-            cacheCategory: `ANIME ${category}`
+            cacheCategory: `ANIME ${category.toUpperCase()}`
         })
 
         return new Response(stringifyResult)

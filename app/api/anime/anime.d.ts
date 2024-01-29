@@ -1,4 +1,4 @@
-type AnimeCategory = 'search' | 'info' | 'source' | 'recents' | 'popular' | 'trending' 
+type AnimeCategory = 'search' | 'info' | 'source' | 'recents' | 'popular' | 'trending' | 'missingEpisodes'
 
 // Anime info
 type IAnimeEpisodeFiltered = Pick<IAnimeEpisode, 'id' | 'image' | 'number' | 'title'>
