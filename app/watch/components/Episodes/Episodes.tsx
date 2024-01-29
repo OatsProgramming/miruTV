@@ -25,7 +25,7 @@ export default function Episodes({ animeInfo, epId }: {
                             <Card
                                 info={{
                                     animeId: animeInfo.id,
-                                    animeTitle: getAnimeTitle(animeInfo.title),
+                                    animeTitle: getAnimeTitle(animeInfo.title)!,
                                     coverImg: ep.image
                                 }}
                                 epInfo={{
