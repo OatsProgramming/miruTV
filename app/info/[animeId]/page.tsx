@@ -7,6 +7,9 @@ import authOptions from "@/app/api/auth/[...nextauth]/options"
 import animeFetcher from "@/app/util/animeFetcher/animeFetcher"
 import getAnimeTitle from "@/app/util/getAnimeTitle"
 import Countdown from "../../components/Countdown/Countdown"
+import Episodes from "@/app/watch/components/Episodes/Episodes"
+import EpisodesBackup from "@/app/watch/components/EpisodesBackup/EpisodesBackup"
+import toGogoId from "@/app/util/toGogoId"
 
 export async function generateMetadata({ params: { animeId } }: {
     params: {
@@ -35,9 +38,10 @@ export default async function Page({ params: { animeId } }: {
     const [session, anime] = await Promise.all([sessionPromise, animePromise])
     if (!anime) notFound()
 
-    const episodes = anime.episodes
-    const title = getAnimeTitle(anime.title)
+    const [title, forGogo] = [getAnimeTitle(anime.title)!, getAnimeTitle(anime.title, 'romaji')!]
     const banner = anime.artwork?.filter(art => art.type === 'banner')[0] ?? {}
+
+    const gogoId = toGogoId(forGogo)
 
     return (
         <div className={styles['container']}>
@@ -69,22 +73,10 @@ export default async function Page({ params: { animeId } }: {
                 <FavId animeId={animeId} favIds={session?.user.favIds} />
             </section>
             <section className={styles['episodes']}>
-                {episodes && episodes.map(ep => (
-                    <Card
-                        key={ep.id}
-                        info={{
-                            animeId: anime.id,
-                            animeTitle: title,
-                            coverImg: ep.image
-                        }}
-                        epInfo={{
-                            epId: ep.id,
-                            title: ep.title ?? 'N/A',
-                            number: ep.number
-                        }}
-                        isLandScape
-                    />
-                ))}
+                {anime.episodes.length > 0
+                    ? <Episodes epId={gogoId} animeInfo={anime}/>
+                    : <EpisodesBackup epId={gogoId} animeInfo={anime}/>
+                }
             </section>
             <section className={styles['countdown']}>
                 <Countdown
