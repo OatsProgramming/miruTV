@@ -74,6 +74,7 @@ export default async function Page({ params: { animeId } }: {
                 <FavId animeId={animeId} favIds={session?.user.favIds} />
             </section>
             <section className={`
+                ${styles['epSect']}
                 ${useBackUpUI
                     ? styles['epBackup']
                     : styles['episodes']}

@@ -21,30 +21,9 @@
     font-size: medium;
     font-weight: lighter;
 }
- 
-.episodes {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    overflow: scroll;
-    gap: 1rem;
-    justify-self: flex-end;
-    justify-content: center;
-}
 
-.card {
-    opacity: 0.5;
-    -webkit-transition: all 200ms ease;
-    -o-transition: all 200ms ease;
-    transition: all 200ms ease;
-}
-
-.card:hover {
-    opacity: 1;
-}
-
-.selected {
-    opacity: 1;
+.countdown {
+    text-align: center;
 }
 
 @media (min-width: 1024px) {
@@ -77,12 +56,6 @@
 
     .episodes {
         grid-area: episodes;
-        -webkit-box-orient: vertical;
-            -ms-flex-direction: column;
-                flex-direction: column;
-        height: 100vh;
-        padding: 1rem;
-        scroll-margin-top: 1000px;
     }
 }
 

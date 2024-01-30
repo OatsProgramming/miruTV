@@ -1,6 +1,6 @@
 import getAnimeTitle from '@/app/util/getAnimeTitle'
 import Card from '@/app/components/Card/Card'
-import styles from '@/app/watch/[epId]/page.module.css'
+import styles from './episodes.module.css'
 
 // TODO: Instead of episode cards, itd be just a list of numbers
 
