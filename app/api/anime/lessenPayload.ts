@@ -46,7 +46,9 @@ export default function lessenPayload(
             'trailer',
             'nextAiringEpisode',
             'recommendations',
-            'artwork'
+            'artwork',
+            'totalEpisodes',
+            'currentEpisode',
         ])
 
         if (animeObj.episodes) {

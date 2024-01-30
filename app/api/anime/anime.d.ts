@@ -2,7 +2,7 @@ type AnimeCategory = 'search' | 'info' | 'source' | 'recents' | 'popular' | 'tre
 
 // Anime info
 type IAnimeEpisodeFiltered = Pick<IAnimeEpisode, 'id' | 'image' | 'number' | 'title'>
-type IAnimeInfoFiltered = Pick<IAnimeInfo, 'id' | 'title' | 'episodes' | 'cover' | 'description' | 'image' | 'status' | 'trailer' | 'nextAiringEpisode' | 'artwork' | 'recommendations'> & { episodes: IAnimeEpisodeFiltered[] }
+type IAnimeInfoFiltered = Pick<IAnimeInfo, 'id' | 'title' | 'episodes' | 'cover' | 'description' | 'image' | 'status' | 'trailer' | 'nextAiringEpisode' | 'artwork' | 'recommendations' | 'totalEpisodes' | 'currentEpisode'> & { episodes: IAnimeEpisodeFiltered[] }
 
 // Anime source
 type ISourceFiltered = Pick<ISource, 'sources' | 'subtitles'>

@@ -11,5 +11,17 @@ export default async function getAnilistInfo(url: string) {
         else return res.json()
     })
 
-    return Promise.any(promiseArr)
+    // Changed this from Promise.any to Promise.allSettled
+    // Must guarantee that it does or doesnt have episodes
+    const results = await Promise.allSettled(promiseArr)
+    const re = results.find(src => {
+        if (src.status === 'rejected') return 0
+        else if ((src.value as IAnimeInfo).episodes?.length === 0) return 0
+
+        return true
+    }) as { status: 'fulfilled', value: IAnimeInfo } | undefined
+
+    return re 
+        ? re.value
+        : null
 }
