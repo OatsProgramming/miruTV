@@ -1,5 +1,8 @@
 .container {
     padding: 2rem;
+
+    display: grid;
+    gap: 2rem;
 }
 
 .content {
@@ -42,14 +45,6 @@
 
 .selected {
     opacity: 1;
-}
-
-.countdown {
-    margin-top: 2rem;
-}
-
-.recommendations {
-    margin: 2rem 0;
 }
 
 @media (min-width: 1024px) {

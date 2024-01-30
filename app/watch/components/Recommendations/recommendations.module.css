@@ -4,8 +4,12 @@
     gap: 1rem;
 }
 
-.container > h1 {
+.container > h1, .container > h1 > span {
     font-size: x-large;
+}
+
+.container > h1 > span {
+    color: var(--secondary);
 }
 
 .recommendations {

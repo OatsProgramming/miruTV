@@ -9,7 +9,7 @@ export default function Recommendations({ recommendations }: {
 
     return (
         <section className={styles['container']}>
-            <h1>Craving More? We Got You: </h1>
+            <h1>Craving <span> More?</span> We Got You: </h1>
             <div className={styles['recommendations']}>
                 {recommendations.map(anime => (
                     <Card
