@@ -45,8 +45,11 @@
 }
 
 .countdown {
-    grid-area: countdown;
     margin-top: 2rem;
+}
+
+.recommendations {
+    margin: 2rem 0;
 }
 
 @media (min-width: 1024px) {
@@ -60,12 +63,11 @@
 }
 
 @media screen and (min-width: 800px) {
-    .container {
+    .grid {
         display: grid;
         grid-template-areas: 
             "content episodes"
             "commentsSection episodes"
-            "countdown countdown"
         ;
         gap: 1rem;
     }

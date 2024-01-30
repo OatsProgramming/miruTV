@@ -10,6 +10,7 @@ import Countdown from "@/app/components/Countdown/Countdown";
 import getAnimeTitle from "@/app/util/getAnimeTitle";
 import Episodes from "@/app/components/Episodes/Episodes";
 import EpisodesBackup from "@/app/components/EpisodesBackup/EpisodesBackup";
+import Recommendations from "../components/Recommendations/Recommendations";
 
 export async function generateMetadata({ params: { epId } }: {
     params: {
@@ -36,28 +37,33 @@ export default async function Page({ params: { epId } }: {
 
     return (
         <div className={styles['container']}>
-            <div className={styles['content']}>
-                <div>
-                    <Link href={`/info/${animeInfo?.id}`}>
-                        <h1>{getAnimeTitle(animeInfo?.title)}</h1>
-                    </Link>
-                    <h3>EP: {episode}</h3>
+            <div className={styles['grid']}>
+                <div className={styles['content']}>
+                    <div>
+                        <Link href={`/info/${animeInfo?.id}`}>
+                            <h1>{getAnimeTitle(animeInfo?.title)}</h1>
+                        </Link>
+                        <h3>EP: {episode}</h3>
+                    </div>
+                    <OPlayer sourcesPromise={sourcesPromise} />
                 </div>
-                <OPlayer sourcesPromise={sourcesPromise} />
+                {/* TODO: Change this to mainly episode numbers */}
+                <section className={styles['episodes']}>
+                    {animeInfo?.episodes.length !== 0
+                        ? <Episodes epId={epId} animeInfo={animeInfo!} />
+                        : <EpisodesBackup epId={epId} animeInfo={animeInfo!} />
+                    }
+                </section>
+                <CommentsSection epId={epId} />
             </div>
-            {/* TODO: Change this to mainly episode numbers */}
-            <section className={styles['episodes']}>
-                {animeInfo?.episodes.length !== 0
-                    ? <Episodes epId={epId} animeInfo={animeInfo!} />
-                    : <EpisodesBackup epId={epId} animeInfo={animeInfo!} />
-                }
-            </section>
-            <CommentsSection epId={epId} />
             <section className={styles['countdown']}>
                 <Countdown
                     animeStatus={animeInfo?.status}
                     nextAiringEpisode={animeInfo?.nextAiringEpisode!}
                 />
+            </section>
+            <section className={styles['recommendations']}>
+                <Recommendations recommendations={animeInfo?.recommendations} />
             </section>
         </div>
     )
