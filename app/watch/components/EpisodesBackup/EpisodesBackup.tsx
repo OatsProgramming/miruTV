@@ -22,7 +22,7 @@ export default function EpisodesBackup({ animeInfo, epId }: {
     const totalEpisodes = getTotalEpisodes(epId, animeInfo)
 
     const elements = []
-    for (let i = 1; i < totalEpisodes; i++) {
+    for (let i = 1; i <= totalEpisodes; i++) {
         const newEpId = epId + i
         elements.push(
             <Link key={newEpId} className={styles['button']} href={`${baseUrl}/watch/${newEpId}`}>
