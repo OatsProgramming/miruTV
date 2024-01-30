@@ -3,13 +3,13 @@ import styles from './page.module.css'
 import CommentsSection from "@/app/components/CommentsSection/CommentsSection";
 import animeFetcher from "@/app/util/animeFetcher/animeFetcher";
 import { Metadata } from "next";
-import Episodes from "../../components/Episodes/Episodes";
 import getTitleXEpNumber from "@/app/util/getTitleXEpNumber";
 import Link from "next/link";
 import getAnimeInfo from "@/app/util/fetchers/getAnimeInfo";
 import Countdown from "@/app/components/Countdown/Countdown";
 import getAnimeTitle from "@/app/util/getAnimeTitle";
-import EpisodesBackup from "../../components/EpisodesBackup/EpisodesBackup";
+import Episodes from "@/app/components/Episodes/Episodes";
+import EpisodesBackup from "@/app/components/EpisodesBackup/EpisodesBackup";
 
 export async function generateMetadata({ params: { epId } }: {
     params: {

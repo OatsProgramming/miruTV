@@ -1,6 +1,6 @@
 import getAnimeTitle from '@/app/util/getAnimeTitle'
 import Card from '@/app/components/Card/Card'
-import styles from '../../[epId]/page.module.css'
+import styles from '@/app/watch/[epId]/page.module.css'
 
 // TODO: Instead of episode cards, itd be just a list of numbers
 
@@ -13,7 +13,7 @@ export default function Episodes({ animeInfo, epId }: {
     return (
         <div className={styles['episodes']}>
             {episodes.length > 0 && (
-                episodes.map((ep) => {
+                episodes.map((ep, i) => {
                     return (
                         <div
                             key={ep.id}

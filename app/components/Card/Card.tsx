@@ -75,7 +75,7 @@ export default function Card({ info, epInfo, isLandScape, isSelected, style }: {
                     }}
                 >
                     {epInfo && (
-                        <h3>{epTitle}</h3>
+                        <h3>EP {epInfo.number}: {epTitle}</h3>
                     )}
                     {!isLandScape && <h2>{animeTitle}</h2>}
                 </div>
