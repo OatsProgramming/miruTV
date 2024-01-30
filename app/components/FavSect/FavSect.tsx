@@ -44,7 +44,7 @@ export default async function FavSect({ session, style, dialogRef }: {
                             key={idx}
                             info={{
                                 animeId: fav.id,
-                                animeTitle: getAnimeTitle(fav.title),
+                                animeTitle: getAnimeTitle(fav.title)!,
                                 coverImg: fav.cover,
                             }}
                             style={style}
