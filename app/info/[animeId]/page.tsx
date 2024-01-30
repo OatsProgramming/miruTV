@@ -7,8 +7,8 @@ import authOptions from "@/app/api/auth/[...nextauth]/options"
 import animeFetcher from "@/app/util/animeFetcher/animeFetcher"
 import getAnimeTitle from "@/app/util/getAnimeTitle"
 import Countdown from "../../components/Countdown/Countdown"
-import Episodes from "@/app/watch/components/Episodes/Episodes"
-import EpisodesBackup from "@/app/watch/components/EpisodesBackup/EpisodesBackup"
+import Episodes from "@/app/components/Episodes/Episodes"
+import EpisodesBackup from "@/app/components/EpisodesBackup/EpisodesBackup"
 import toGogoId from "@/app/util/toGogoId"
 
 export async function generateMetadata({ params: { animeId } }: {
@@ -74,8 +74,8 @@ export default async function Page({ params: { animeId } }: {
             </section>
             <section className={styles['episodes']}>
                 {anime.episodes.length > 0
-                    ? <Episodes epId={gogoId} animeInfo={anime}/>
-                    : <EpisodesBackup epId={gogoId} animeInfo={anime}/>
+                    ? <Episodes epId={gogoId} animeInfo={anime} />
+                    : <EpisodesBackup epId={gogoId} animeInfo={anime} />
                 }
             </section>
             <section className={styles['countdown']}>

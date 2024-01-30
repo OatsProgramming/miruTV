@@ -3,13 +3,13 @@ import styles from './page.module.css'
 import CommentsSection from "@/app/components/CommentsSection/CommentsSection";
 import animeFetcher from "@/app/util/animeFetcher/animeFetcher";
 import { Metadata } from "next";
-import Episodes from "../components/Episodes/Episodes";
+import Episodes from "../../components/Episodes/Episodes";
 import getTitleXEpNumber from "@/app/util/getTitleXEpNumber";
 import Link from "next/link";
 import getAnimeInfo from "@/app/util/fetchers/getAnimeInfo";
 import Countdown from "@/app/components/Countdown/Countdown";
 import getAnimeTitle from "@/app/util/getAnimeTitle";
-import EpisodesBackup from "../components/EpisodesBackup/EpisodesBackup";
+import EpisodesBackup from "../../components/EpisodesBackup/EpisodesBackup";
 
 export async function generateMetadata({ params: { epId } }: {
     params: {
@@ -33,7 +33,7 @@ export default async function Page({ params: { epId } }: {
     // Doing it like this so that it can load in parallel instead concurrently
     const sourcesPromise = animeFetcher({ route: 'source', arg: epId })
     const animeInfo = await getAnimeInfo(title)
-    
+
     return (
         <div className={styles['container']}>
             <div className={styles['content']}>
@@ -46,9 +46,9 @@ export default async function Page({ params: { epId } }: {
                 <OPlayer sourcesPromise={sourcesPromise} />
             </div>
             {/* TODO: Change this to mainly episode numbers */}
-            {animeInfo?.episodes.length !== 0 
+            {animeInfo?.episodes.length !== 0
                 ? <Episodes epId={epId} animeInfo={animeInfo!} />
-                : <EpisodesBackup epId={epId} animeInfo={animeInfo!}/>
+                : <EpisodesBackup epId={epId} animeInfo={animeInfo!} />
             }
             <CommentsSection epId={epId} />
             <section className={styles['countdown']}>
