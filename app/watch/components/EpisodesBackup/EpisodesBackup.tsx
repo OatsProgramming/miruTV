@@ -9,12 +9,12 @@ export default function EpisodesBackup({ animeInfo, epId }: {
     animeInfo: IAnimeInfoFiltered,
     epId: string
 }) {
-    
+
     // ex: tsuki-ga-michibiku-isekai-douchuu-2nd-season
     if (!epId.includes('episode')) {
         epId += '-episode-'
     }
-    
+
     // ex: dosanko-gal-wa-namara-menkoi-episode-1 ---> dosanko-gal-wa-namara-menkoi-episode-
     const i = epId.lastIndexOf('-') + 1
     epId = epId.substring(0, i)
@@ -25,17 +25,20 @@ export default function EpisodesBackup({ animeInfo, epId }: {
     for (let i = 1; i < totalEpisodes; i++) {
         const newEpId = epId + i
         elements.push(
-          <div className={styles['button']} key={newEpId}>
-            <Link href={`${baseUrl}/watch/${newEpId}`}>
-                {i}
+            <Link key={newEpId} className={styles['button']} href={`${baseUrl}/watch/${newEpId}`}>
+               {i}
             </Link>
-          </div>
         )
-      }
+    }
 
     return (
         <div className={styles['container']}>
-            {elements}
+            <h1>
+                EPISODES
+            </h1>
+            <div className={styles['episodes']}>
+                {elements}
+            </div>
         </div>
     )
 }

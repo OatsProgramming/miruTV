@@ -1,13 +1,35 @@
 .container {
-    border: 1px solid red;
+    position: relative;
+    top: 10%;
+    
+    width: 50vw;
+    max-width: 400px;
+
+    border: 3px solid var(--darkSecondary);
+    border-radius: 10px;
+
+    display: grid;
+    gap: 2rem;
+
+    padding: 1rem;
+    text-align: center;
+
+}
+
+.episodes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+
+    justify-content: center;
 }
 
 .button {
-    border: 1px solid yellow;
-    width: 100%;
-}
+    border: 1px solid var(--secondary);
+    border-radius: 10px;
 
-.button > a {
-    border: 1px solid green;
-    width: 100%;
+    min-width: 25px;
+    text-align: center;
+
+    padding: 0.25rem;
 }
