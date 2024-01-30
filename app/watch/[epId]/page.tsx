@@ -46,10 +46,12 @@ export default async function Page({ params: { epId } }: {
                 <OPlayer sourcesPromise={sourcesPromise} />
             </div>
             {/* TODO: Change this to mainly episode numbers */}
-            {animeInfo?.episodes.length !== 0
-                ? <Episodes epId={epId} animeInfo={animeInfo!} />
-                : <EpisodesBackup epId={epId} animeInfo={animeInfo!} />
-            }
+            <section className={styles['episodes']}>
+                {animeInfo?.episodes.length !== 0
+                    ? <Episodes epId={epId} animeInfo={animeInfo!} />
+                    : <EpisodesBackup epId={epId} animeInfo={animeInfo!} />
+                }
+            </section>
             <CommentsSection epId={epId} />
             <section className={styles['countdown']}>
                 <Countdown

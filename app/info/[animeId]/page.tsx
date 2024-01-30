@@ -42,6 +42,7 @@ export default async function Page({ params: { animeId } }: {
     const banner = anime.artwork?.filter(art => art.type === 'banner')[0] ?? {}
 
     const gogoId = toGogoId(forGogo)
+    const useBackUpUI = anime.episodes.length === 0
 
     return (
         <div className={styles['container']}>
@@ -72,10 +73,14 @@ export default async function Page({ params: { animeId } }: {
                 </div>
                 <FavId animeId={animeId} favIds={session?.user.favIds} />
             </section>
-            <section className={styles['episodes']}>
-                {anime.episodes.length > 0
-                    ? <Episodes epId={gogoId} animeInfo={anime} />
-                    : <EpisodesBackup epId={gogoId} animeInfo={anime} />
+            <section className={`
+                ${useBackUpUI
+                    ? styles['epBackup']
+                    : styles['episodes']}
+            `}>
+                {useBackUpUI
+                    ? <EpisodesBackup epId={gogoId} animeInfo={anime} />
+                    : <Episodes epId={gogoId} animeInfo={anime} />
                 }
             </section>
             <section className={styles['countdown']}>

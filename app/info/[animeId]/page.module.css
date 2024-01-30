@@ -47,6 +47,11 @@
     border: 0;
 }
 
+.epBackup {
+    margin: 0 auto;
+    margin-bottom: 2rem;
+}
+
 .episodes {
     grid-area: episodes;
     display: flex;
@@ -65,6 +70,13 @@
 @media (min-width: 1024px) {
     .container {
         padding: 5rem;
+    }
+}
+
+@media screen and (min-width: 800px) {
+    .epBackup {
+        position: relative;
+        top: 30dvh;
     }
 }
 
