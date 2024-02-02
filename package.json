@@ -1,6 +1,6 @@
 {
   "name": "miru-tv",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -37,6 +37,7 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/lodash": "^4.14.195",
+    "@types/node-fetch": "^2.6.11",
     "prisma": "^4.13.0"
   }
 }
