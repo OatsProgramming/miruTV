@@ -1,2 +1,2 @@
-const apiUrl = 'https://consumet-apiv1.vercel.app/'
+const apiUrl = process.env.API_URL
 export default apiUrl
