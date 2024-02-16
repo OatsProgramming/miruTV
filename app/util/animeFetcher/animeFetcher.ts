@@ -2,8 +2,11 @@ import baseUrl from "@/app/util/baseUrl"
 
 // TODO: Find a way to incorporate ISR w/o having issues w/ vercel's automatic caching
 export default async function animeFetcher<AnimeRouteT extends AnimeRoute>(
-  route: AnimeRouteT
+  route: AnimeRouteT,
+  revalidate?: number
 ): Promise<AnimeReturnTypes[AnimeRouteT['route']] | undefined> {
+
+  revalidate = revalidate || 0
 
   try {
     const routeArr = Object.values(route)
@@ -15,7 +18,7 @@ export default async function animeFetcher<AnimeRouteT extends AnimeRoute>(
       + joinedRoute
 
     // Its still using stale data????????
-    const res = await fetch(url, { next: { revalidate: 0 } })
+    const res = await fetch(url, { next: { revalidate } })
 
     if (!res.ok) {
       const result = await res.text()

@@ -32,7 +32,7 @@ export default async function Page({ params: { animeId } }: {
         animeId: string
     }
 }) {
-    const animePromise = animeFetcher({ route: 'info', arg: animeId })
+    const animePromise = animeFetcher({ route: 'info', arg: animeId }, 60 * 60 * 24)
     const sessionPromise = getServerSession(authOptions)
 
     const [session, anime] = await Promise.all([sessionPromise, animePromise])

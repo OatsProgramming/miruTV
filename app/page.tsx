@@ -13,9 +13,9 @@ export const revalidate = 3600
 // TODO: have a loader skeleton 
 export default async function Home() {
   const sessionRes = getServerSession(authOptions)
-  const recentRes = animeFetcher({ route: 'recents' })
-  const trendingRes = animeFetcher({ route: 'trending' })
-  const popularRes = animeFetcher({ route: 'popular' })
+  const recentRes = animeFetcher({ route: 'recents' }, 60 * 60)
+  const trendingRes = animeFetcher({ route: 'trending' }, 60 * 60)
+  const popularRes = animeFetcher({ route: 'popular' }, 60 * 60)
 
   const [recents, trending, popular, session] =
     await Promise.all([recentRes, trendingRes, popularRes, sessionRes])
