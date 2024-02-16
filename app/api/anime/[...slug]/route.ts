@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import lessenPayload from "../lessenPayload";
 import apiUrl from "@/app/util/apiUrl";
 import redisGet from "@/app/util/redis/redisGet";
@@ -6,7 +6,7 @@ import redisSet from "@/app/util/redis/redisSet";
 import isValidCategory from "../util/isValidCategory";
 import getAnilistInfo from "../util/getAnilistInfo";
 
-export async function GET(req: Request, { params: { slug } }: ParamsArr) {
+export async function GET(req: NextRequest, { params: { slug } }: ParamsArr) {
     const category = slug[0]
     let param = slug[1]
 
@@ -27,6 +27,8 @@ export async function GET(req: Request, { params: { slug } }: ParamsArr) {
         missingEpisodes: 'anime/gogoanime/info',
     }
 
+    const ip = req.ip ?? req.headers.get('X-Forwarded-For')
+
     if (!isValidCategory(category)) {
         return NextResponse.json("Invalid anime category", { status: 400 })
     }
@@ -43,11 +45,13 @@ export async function GET(req: Request, { params: { slug } }: ParamsArr) {
             condition: (category !== 'search' || isValidSearch),
             cacheCategory: `ANIME ${category.toUpperCase()}`,
             key: param || category,
+            ip
         })
 
         // it should already be a json obj
         // dont stringify it when returning response
-        if (cachedVal) return new Response(cachedVal)
+        if (cachedVal instanceof Response) return cachedVal
+        else if (cachedVal instanceof Object) return NextResponse.json(cachedVal)
 
 
         // Check for any missing requirments
@@ -100,7 +104,8 @@ export async function GET(req: Request, { params: { slug } }: ParamsArr) {
             key: param || category,
             ttl: defaultTTL,
             toCache: stringifyResult,
-            cacheCategory: `ANIME ${category.toUpperCase()}`
+            cacheCategory: `ANIME ${category.toUpperCase()}`,
+            ip
         })
 
         return new Response(stringifyResult)
