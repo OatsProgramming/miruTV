@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@emailjs/browser": "^3.11.0",
+    "@fingerprintjs/botd": "^1.9.0",
     "@next-auth/prisma-adapter": "^1.0.6",
     "@oplayer/core": "^1.2.28",
     "@oplayer/hls": "^1.2.22",

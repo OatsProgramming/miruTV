@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import SessionProviderComp from './SessionProvider'
 import Footer from './components/Footer/Footer'
 import '@splidejs/react-splide/css';
+import BotDetection from './components/BotDetection'
 
 export const metadata = {
   title: 'MiruTV',
@@ -16,7 +17,7 @@ const nunito = Nunito({
   weight: ['700', '500', '300', '200']
 })
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
@@ -24,6 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={nunito.className}>
+        <BotDetection />
         <SessionProviderComp>
           {/* @ts-expect-error */}
           <NavBar />
