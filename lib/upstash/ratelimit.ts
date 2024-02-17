@@ -2,10 +2,10 @@ import { Ratelimit } from "@upstash/ratelimit"; // for deno: see above
 import redis from "../redis";
 
 export default async function ratelimit(ip: string | undefined | null) {
-    // Create a new ratelimiter, that allows 10 requests per 10 seconds
+    // Create a new ratelimiter, that allows 10 requests per 60 seconds
 const ratelimit = new Ratelimit({
     redis,
-    limiter: Ratelimit.slidingWindow(10, "10 s"),
+    limiter: Ratelimit.slidingWindow(10, "60 s"),
     analytics: true,
     /**
      * Optional prefix for the keys used in redis. This is useful if you want to share a redis
