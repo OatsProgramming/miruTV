@@ -1,10 +1,10 @@
 'use client'
 
 import useTurnstileStore from "./hooks/useTurnstileStore"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 import { Turnstile } from '@marsidev/react-turnstile'
 import type { TurnstileInstance } from '@marsidev/react-turnstile'
-
+import styles from './checkBot.module.css'
 
 export default function CheckBot({ children }: {
     children: React.ReactNode
@@ -43,34 +43,20 @@ export default function CheckBot({ children }: {
     return (
         <>
             {isSuccess && isValidToken
-                ?<div>
-                    <div>
-                        Response: {JSON.stringify(TSResponse)}
+                ? children
+                : <div className={styles['container']}>
+                    <div className={styles['text']}>
+                        Let's make sure you're human...
                     </div>
-                    <div>
-                        isValidToken: {JSON.stringify(isValidToken)}
+                    <div className={styles['text']}>
+                        ...and not an a**hole that's crashing my site with bots.
                     </div>
-                    <div>
-                        SHOW CHILDREN NODES?: {JSON.stringify(isValidToken && isSuccess)}
-                    </div>
-                    {children}
-                </div>
-                : <div>
                     <Turnstile
                         ref={turnstileRef}
                         siteKey={process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY!}
                         onError={() => setIsSuccess(false)}
                         onSuccess={() => setIsSuccess(true)}
                     />
-                    <div>
-                        Response: {JSON.stringify(TSResponse)}
-                    </div>
-                    <div>
-                        isValidToken: {JSON.stringify(isValidToken)}
-                    </div>
-                    <div>
-                        SHOW CHILDREN NODES?: {JSON.stringify(isValidToken && isSuccess)}
-                    </div>
                 </div>
             }
         </>
