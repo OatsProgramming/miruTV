@@ -2,6 +2,7 @@ import prismadb from "@/lib/prismadb";
 import handleError from "@/app/util/handleError";
 import validateRequest from "./validateRequest";
 import redis from "@/lib/redis";
+import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
     const defaultTTL = 10
@@ -23,7 +24,7 @@ export async function GET(req: Request) {
         const cachedCommments = await redis.get(cacheKey)
         if (cachedCommments) {
             console.log('COMMENT CACHE HIT')
-            return new Response(cachedCommments, { status: 200 })
+            return NextResponse.json(cachedCommments)
         }
 
         const comments = await prismadb.comment.findMany({

@@ -9,6 +9,18 @@ type FavIdsRequest = {
     newFavIds?: FavId[]
 }
 
+type WatchHistoryId = {
+    epId: string,
+    epTitle: string,
+    animeTitle: string,
+    img: string,
+    lastWatched: number
+}
+
+type WatchHistoryIdRequest = Partial<WatchHistoryId> | {
+    newWatchHistoryIds?: WatchHistoryId[],
+}
+
 type UserRequest = {
     username: string,
     password: string,

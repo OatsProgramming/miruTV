@@ -43,21 +43,22 @@ model VerificationToken {
 }
 
 model User {
-  id             String    @id @default(auto()) @map("_id") @db.ObjectId
-  username       String    @unique
-  hashedPassword String
-  favIds         Json[]
-  role           String    @default("readWrite")
-  accounts       Account[]
-  sessions       Session[]
-  comments       Comment[]
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  username        String    @unique
+  hashedPassword  String
+  favIds          Json[]
+  watchHistoryIds Json[]
+  role            String    @default("readWrite")
+  accounts        Account[]
+  sessions        Session[]
+  comments        Comment[]
 }
 
 // Must give either epId or repliedTo commentId; cant be neither
 model Comment {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   epId      String?
-  createdBy String   
+  createdBy String
   createdAt DateTime
   updatedAt DateTime
   body      String

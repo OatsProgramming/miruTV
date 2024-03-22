@@ -41,17 +41,17 @@ export async function GET(req: NextRequest, { params: { slug } }: ParamsArr) {
             param = param.slice(start + 2, -1)
         }
 
-        const cachedVal = await redisGet({
-            condition: (category !== 'search' || isValidSearch),
-            cacheCategory: `ANIME ${category.toUpperCase()}`,
-            key: param || category,
-            ip
-        })
+        // const cachedVal = await redisGet({
+        //     condition: (category !== 'search' || isValidSearch),
+        //     cacheCategory: `ANIME ${category.toUpperCase()}`,
+        //     key: param || category,
+        //     ip
+        // })
 
         // it should already be a json obj
         // dont stringify it when returning response
-        if (cachedVal instanceof Response) return cachedVal
-        else if (cachedVal instanceof Object) return NextResponse.json(cachedVal)
+        // if (cachedVal instanceof Response) return cachedVal
+        // else if (cachedVal instanceof Object) return NextResponse.json(cachedVal)
 
 
         // Check for any missing requirments
@@ -94,19 +94,19 @@ export async function GET(req: NextRequest, { params: { slug } }: ParamsArr) {
         const stringifyResult = JSON.stringify(result)
 
         // Cache the result after making the payload smaller
-        await redisSet({
-            condition:
-                (
-                    category !== 'search'
-                    || isValidSearch                                                // Cache if category === 'search' and its by developer
-                    || !('episodes' in result && result.episodes.length > 100)      // Don't cache huge chunks of data. Might overload redis
-                ),
-            key: param || category,
-            ttl: defaultTTL,
-            toCache: stringifyResult,
-            cacheCategory: `ANIME ${category.toUpperCase()}`,
-            ip
-        })
+        // await redisSet({
+        //     condition:
+        //         (
+        //             category !== 'search'
+        //             || isValidSearch                                                // Cache if category === 'search' and its by developer
+        //             || !('episodes' in result && result.episodes.length > 100)      // Don't cache huge chunks of data. Might overload redis
+        //         ),
+        //     key: param || category,
+        //     ttl: defaultTTL,
+        //     toCache: stringifyResult,
+        //     cacheCategory: `ANIME ${category.toUpperCase()}`,
+        //     ip
+        // })
 
         return new Response(stringifyResult)
     } catch (err) {

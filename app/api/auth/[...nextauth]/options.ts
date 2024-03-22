@@ -5,6 +5,7 @@ import prismadb from '@/lib/prismadb'
 import { compare } from 'bcrypt';
 import redis from '@/lib/redis';
 import type { User } from '@prisma/client';
+import redisGet from '@/app/util/redis/redisGet';
 
 // export this so we can use later for getServerSession or whatnot
 const authOptions: NextAuthOptions = {
@@ -40,7 +41,7 @@ const authOptions: NextAuthOptions = {
                 // Check redis if it has it first
                 const cachedUser = await redis.get(username)
                 if (cachedUser) {
-                    user = JSON.parse(cachedUser)
+                    user = cachedUser as User
                     console.log("USER CACHE HIT")
                 }
 

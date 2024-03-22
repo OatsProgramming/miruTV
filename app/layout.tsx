@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import SessionProviderComp from './SessionProvider'
 import Footer from './components/Footer/Footer'
 import '@splidejs/react-splide/css';
-import BotDetection from './components/BotDetection'
+import CheckBot from './components/CheckBot/CheckBot'
 
 export const metadata = {
   title: 'MiruTV',
@@ -25,13 +25,15 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={nunito.className}>
-        <BotDetection />
-        <SessionProviderComp>
-          {/* @ts-expect-error */}
-          <NavBar />
-          {children}
-          <Footer />
-        </SessionProviderComp>
+        {/* @ts-ignore */}
+        <CheckBot>
+          <SessionProviderComp>
+            {/* @ts-expect-error */}
+            <NavBar />
+            {children}
+            <Footer />
+          </SessionProviderComp>
+        </CheckBot>
         {/* Toast doesnt show unless set at the designated areas... */}
         {/* Even tho it was recommended to set it at the highest */}
         {/* <ToastContainer {...toastOptions} /> */}

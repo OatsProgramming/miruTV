@@ -68,3 +68,50 @@ export default async function Page({ params: { epId } }: {
         </div>
     )
 }
+
+function Box1({ animeInfo, episode }: {
+    animeInfo: IAnimeInfoFiltered,
+    episode: string
+}) {
+    return (
+        <div>
+            <Link href={`/info/${animeInfo?.id}`}>
+                <h1>{getAnimeTitle(animeInfo?.title)}</h1>
+            </Link>
+            <h3>EP: {episode}</h3>
+        </div>
+    )
+}
+
+function Box2({ animeInfo, epId }: {
+    animeInfo: IAnimeInfoFiltered,
+    epId: string
+}) {
+    return (
+        <section className={styles['episodes']}>
+            {animeInfo?.episodes.length !== 0
+                ? <Episodes epId={epId} animeInfo={animeInfo!} />
+                : <EpisodesBackup epId={epId} animeInfo={animeInfo!} />
+            }
+        </section>
+    )
+}
+
+function Box3({ animeInfo }: {
+    animeInfo: IAnimeInfoFiltered
+}) {
+    return (
+        <>
+            <section className={styles['countdown']}>
+                <Countdown
+                    animeStatus={animeInfo?.status}
+                    nextAiringEpisode={animeInfo?.nextAiringEpisode!}
+                />
+            </section>
+            <section className={styles['recommendations']}>
+                <Recommendations recommendations={animeInfo?.recommendations} />
+            </section>
+        </>
+    )
+}
+
